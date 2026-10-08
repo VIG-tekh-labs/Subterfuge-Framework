@@ -81,7 +81,22 @@ class EvidenceAccumulator:
         self.counts: Counter[str] = Counter()
 
     def observe(self, frame: bytes, linktype: int) -> bool:
-        result = inspect_udp_frame(frame, linktype)
+        return self._absorb(inspect_udp_frame(frame, linktype))
+
+    def observe_datagram(self, payload: bytes, source_port: int, destination_port: int) -> bool:
+        """Decode one live UDP payload without retaining it or sending traffic."""
+        try:
+            if {source_port, destination_port} & {67, 68}:
+                result = analyze_dhcp(payload)
+            elif source_port == 137 or destination_port == 137:
+                result = analyze_nbns_query(payload)
+            else:
+                return False
+        except AnalysisError:
+            return False
+        return self._absorb(result)
+
+    def _absorb(self, result: dict | None) -> bool:
         if result is None:
             return False
         kind = result["kind"]

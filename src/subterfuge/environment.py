@@ -181,3 +181,72 @@ def capture(interface: str, duration: float = 30, limit: int = 10_000) -> dict:
         raise AnalysisError("Capture could not be fully analyzed: " + errors[0])
     tracker.report["capture"] = {"interface": interface, "requested_duration_seconds": duration, "packet_limit": limit}
     return tracker.finish(packets)
+
+def capture_protocols(interface: str, duration: float = 30, limit: int = 10_000) -> dict:
+    """Passively observe ARP, DHCPv4 and NBNS metadata on a selected interface.
+
+    No packet is sent and no raw UDP payload is retained in the report.
+    Scapy live capture needs appropriate OS permissions and drivers.
+    """
+    if not math.isfinite(duration) or not 0 < duration <= 600:
+        raise AnalysisError("Capture duration must be greater than zero and at most 600 seconds.")
+    if not 1 <= limit <= MAX_PACKETS:
+        raise AnalysisError(f"Packet limit must be between 1 and {MAX_PACKETS}.")
+    if interface not in {item["name"] for item in interfaces()}:
+        raise AnalysisError("Unknown network interface. Run 'subterfuge interfaces' to list interfaces.")
+    try:
+        from scapy.all import ARP, IP, UDP, sniff
+    except ImportError as exc:
+        raise AnalysisError("Passive live capture requires the optional Scapy extra.") from exc
+    from .udp_evidence import EvidenceAccumulator
+
+    tracker = ArpTracker(interface, kind="live_passive")
+    passive = EvidenceAccumulator()
+    errors: list[str] = []
+    packets = ignored = 0
+
+    def select(packet) -> bool:
+        if packet.haslayer(ARP):
+            return True
+        if packet.haslayer(IP) and packet.haslayer(UDP):
+            udp = packet[UDP]
+            return {int(udp.sport), int(udp.dport)} & {67, 68, 137} != set()
+        return False
+
+    def observe(packet) -> None:
+        nonlocal packets, ignored
+        packets += 1
+        try:
+            if packet.haslayer(ARP):
+                arp = packet[ARP]
+                tracker.observe(str(arp.psrc), str(arp.hwsrc), int(arp.op), float(packet.time))
+            elif packet.haslayer(IP) and packet.haslayer(UDP):
+                ip, udp = packet[IP], packet[UDP]
+                if int(ip.frag) or int(ip.flags) & 1:
+                    ignored += 1
+                    return
+                data = bytes(udp.payload)
+                if len(data) > 65535 or not passive.observe_datagram(data, int(udp.sport), int(udp.dport)):
+                    ignored += 1
+            else:
+                ignored += 1
+        except (AnalysisError, ValueError, TypeError, KeyError, AttributeError) as exc:
+            if not errors:
+                errors.append(str(exc))
+
+    try:
+        sniff(iface=interface, timeout=duration, count=limit, store=False,
+              lfilter=select, prn=observe, stop_filter=lambda packet: bool(errors))
+    except PermissionError as exc:
+        raise AnalysisError("Packet-capture permission denied by the operating system.") from exc
+    except OSError as exc:
+        raise AnalysisError("Could not capture on the selected interface: " + str(exc)) from exc
+    if errors:
+        raise AnalysisError("Passive protocol capture could not be fully analyzed: " + errors[0])
+    report = tracker.finish(packets, ignored)
+    report["capture"] = {
+        "interface": interface, "requested_duration_seconds": duration,
+        "packet_limit": limit, "protocols": ["arp", "dhcpv4", "nbns"],
+        "passive_only": True,
+    }
+    return passive.extend(report)

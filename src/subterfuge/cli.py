@@ -9,7 +9,7 @@ import sys
 
 from . import __version__
 from .analysis import AnalysisError, analyze_nmap, analyze_pcap, read_input, write_report
-from .environment import capture, discover, doctor, interfaces, scan_services
+from .environment import capture, capture_protocols, discover, doctor, interfaces, scan_services
 
 
 def parser() -> argparse.ArgumentParser:
@@ -39,6 +39,11 @@ def parser() -> argparse.ArgumentParser:
     command.add_argument("--timeout", type=float, default=120)
     command.add_argument("--output", type=Path)
     command = commands.add_parser("capture", help="Passively observe ARP on an explicitly selected interface")
+    command.add_argument("--interface", required=True)
+    command.add_argument("--duration", type=float, default=30)
+    command.add_argument("--limit", type=int, default=10_000)
+    command.add_argument("--output", type=Path)
+    command = commands.add_parser("capture-protocols", help="Passive ARP/DHCPv4/NBNS metadata capture on one interface")
     command.add_argument("--interface", required=True)
     command.add_argument("--duration", type=float, default=30)
     command.add_argument("--limit", type=int, default=10_000)
@@ -74,6 +79,8 @@ def main(argv: list[str] | None = None) -> int:
             report = discover(args.target, args.timeout)
         elif args.command == "scan-services":
             report = scan_services(args.target, args.ports, args.timeout)
+        elif args.command == "capture-protocols":
+            report = capture_protocols(args.interface, args.duration, args.limit)
         elif args.command == "capture":
             report = capture(args.interface, args.duration, args.limit)
         else:

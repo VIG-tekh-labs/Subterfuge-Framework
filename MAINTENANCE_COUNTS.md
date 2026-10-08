@@ -1,5 +1,13 @@
 # Maintenance change counts
 
+## Passive live protocol observation checkpoint — 2026-10-08
+
+- Added an opt-in Scapy adapter, `capture-protocols`, for passive ARP,
+  DHCPv4 and NBNS observation, retaining only bounded metadata.
+- Added mocked capture tests; 86 total unit tests passed on Linux/Python
+  3.14. This does **not** validate real capture permissions or drivers.
+- Maintained the ARP-only `capture` command for compatibility.
+
 ## TLS dashboard alpha-2 checkpoint — 2026-10-08
 
 - Added authenticated, bounded JSON `/api/inspect-tls` endpoint to the

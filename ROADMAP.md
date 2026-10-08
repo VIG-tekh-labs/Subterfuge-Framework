@@ -213,3 +213,20 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Next: publish, verify clean checkout/wheel/sdist, inspect all six GitHub
   Actions matrix results, then validate optional adapters in a private
   authorized test network. Keep `master` unchanged.
+
+## Optional live passive ARP/DHCP/NBNS capture — 2026-10-08
+
+- Added `capture-protocols` CLI command for one explicitly selected network
+  interface, bounded duration and packet count, with private JSON export.
+- Its Scapy adapter passively analyzes ARP and selected UDP DHCP/NetBIOS
+  metadata without packet injection, firewall changes or raw UDP payload
+  retention. Existing ARP-only `capture` remains available.
+- Added `EvidenceAccumulator.observe_datagram` for bounded Scapy
+  datagrams and `tests/test_live_protocols.py` exercising synthetic
+  ARP/DHCPv4/NBNS packet callbacks and explicit CLI dispatch.
+- Local source test suite: **86/86 tests passed** on Linux/Python 3.14.
+- IMPORTANT: real live interface capture has NOT been verified in this
+  checkpoint; do not claim it is operational across operating systems.
+- Next: verify Scapy optional installation, publish this commit, rebuild
+  clean wheel/sdist, check all six GitHub CI runners and test real capture
+  only on an explicitly authorized isolated interface.

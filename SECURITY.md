@@ -25,3 +25,12 @@ at most 32 explicit ports and a bounded timeout, invokes Nmap in user-space
 TCP-connect mode and does not use shell interpolation. Its service probes
 generate real network traffic. Do not run this command without the network
 owner's authorization. Unit tests mock all such process execution.
+
+## Passive live packet observation
+
+The optional `capture-protocols` command is read-only with respect to
+network traffic: it does not inject, spoof, reconfigure firewall rules or
+retain raw UDP payloads in reports. It may still observe sensitive
+network metadata (e.g. hostnames) and requires appropriate authorization,
+OS packet-capture privileges and an explicit selected interface. Do not
+run it automatically during installation or unit tests.

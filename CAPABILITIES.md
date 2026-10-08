@@ -52,3 +52,11 @@ The offline core has no runtime dependencies and targets Python 3.11+. Linux/Pyt
 
 The detailed legacy-to-modern mapping and acceptance conditions are in
 [MIGRATION_MATRIX.md](MIGRATION_MATRIX.md).
+
+## Optional live passive adapter (not yet validated on real interfaces)
+
+`capture-protocols` supplements the ARP-only `capture` command with passive
+DHCPv4 and NBNS observations on an explicitly selected interface. The Scapy
+adapter uses packet filters, enforces time/packet limits and outputs only
+bounded metadata. Tests use synthetic Scapy packet objects; driver and
+privilege behavior in real environments remains unverified.

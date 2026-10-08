@@ -65,10 +65,11 @@ Optional live adapters, only on a network you are authorized to assess:
 ```sh
 python -m pip install '.[capture]'
 subterfuge capture --interface eth0 --duration 30 --output arp.json
+subterfuge capture-protocols --interface eth0 --duration 30 --output protocols.json
 subterfuge discover --target 192.0.2.0/24 --output hosts.json
 ```
 
-Nmap must be installed separately. Discovery performs host discovery. The optional `scan-services` command explicitly opens TCP connections and performs light service detection for one selected IP and at most 32 TCP ports; run it only against networks you are authorized to assess. The interface name above is an example: use `subterfuge interfaces`. Capture permissions and drivers depend on your OS. Live adapters remain unvalidated in this checkpoint.
+Nmap must be installed separately. Discovery performs host discovery. The optional `scan-services` command explicitly opens TCP connections and performs light service detection for one selected IP and at most 32 TCP ports; run it only against networks you are authorized to assess. The interface name above is an example: use `subterfuge interfaces`. Capture permissions and drivers depend on your OS. The new `capture-protocols` adapter observes ARP/DHCPv4/NetBIOS metadata passively when Scapy permissions are available. It has synthetic adapter tests but has **not** been validated on a real interface. It does not send packets or retain raw UDP payloads.
 
 ## Validation and continuity
 
