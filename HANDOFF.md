@@ -1,6 +1,16 @@
 # Subterfuge Framework — verified continuation handoff
 
-**Date:** 2026-10-08 (Europe/Brussels)  
+## Definitive current state — October 9, 2026
+
+- **Published modern branch last validated code commit:** `1f21f9bc8cfafd4689eb781e6f83f7f335fcf8f5` (archive structural cleanup). Previous last substantive runtime feature commit remains `d8bb5b8`; version `2.0.0a2` alpha, not historical parity.
+- Preservation: `archive-legacy-original-2026-10-09` points at the exact pre-move snapshot `8c8f7f3`; 190 historical source files have been moved intact under `legacy/historical-framework-2015-2016/`; original full GPLv3 text from COPYING is unchanged at LICENSE (SHA-256 `8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903`). Full mapping is in `LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv`.
+- Fresh Git archive of code commit `1f21f9b`: **105 Python tests, 103 passed + 2 skipped** due to absent Git metadata; Node report QA passed (5 valid, 10 invalid fixtures); wheel/sdist hygiene passed (18 and 66 archive entries). Git checkout before publishing passed 104 tests with one expected skip.
+- GitHub Actions [run 37857219307](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37857219307) completed **six out of six jobs successfully**.
+- Timestamp verification: **255 current tracked paths, zero last-touched Git commit dates older than 24h** at the check on 2026-10-09 01:03 Brussels. This DOES NOT erase old Git commits or upgrade archived Python 2 functionality.
+- Master baseline remains `4bc3c2e`; keep `master` untouched until explicitly authorized. Do not force-push, delete provenance or change license terms. Current source branch is `modernization-2026-10-08-continuation`. The specific clean development worktree was `~/projects/Subterfuge-Framework-stale-complete-20261009`; older worktrees may contain uncommitted work and must not be reset.
+- Next: read ROADMAP and MODERNIZATION_STATUS before starting; prioritize module-by-module functional compatibility, real permitted capture tests, build/CI stability, security and licensing rather than further cosmetic timestamp changes.
+
+**Date:** 2026-10-09 (Europe/Brussels)  
 **Repository:** https://github.com/VIG-tekh-labs/Subterfuge-Framework  
 **Working branch:** `modernization-2026-10-08-continuation`  
 **Last fully validated feature commit:** `d8bb5b836b20046e13712beced1e03c7b5ee36c5`  

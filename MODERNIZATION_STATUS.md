@@ -1,6 +1,14 @@
 # Subterfuge modernization: verified status and remaining work
 
-**Reviewed:** October 8, 2026, Europe/Brussels.
+## Published validation of archival restructuring — October 9, 2026
+
+Commit `1f21f9bc8cfafd4689eb781e6f83f7f335fcf8f5` reorganized the inactive source into a preserved historical tree without rewriting legacy contents. All 190 historical source files remain accessible in a named archive directory; one more exact-byte relocation moved complete GPLv3 text to LICENSE. The separate archive branch retains the pre-move complete repository snapshot.
+
+The active modernization branch's **255 tracked paths now have zero last-path-commit dates older than 24 hours** at the 01:03 Brussels verification. That Git metadata result reflects real relocation operations, not evidence of an operational upgrade of the 2015 content; history, copyright and the default master branch remain unchanged.
+
+Re-fetched published Git tree tests: 105 Python test cases (103 success, 2 expected skips without Git metadata), Node saved-report tests (5 valid, 10 malformed), 18-entry wheel and 66-entry source archive; full original GPL text hash verified. Six cross-platform GitHub Actions checks all succeeded in [run 37857219307](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37857219307).
+
+**Reviewed:** October 9, 2026, Europe/Brussels.
 **Repository:** https://github.com/VIG-tekh-labs/Subterfuge-Framework
 **Current work branch:** `modernization-2026-10-08-continuation`
 **Last fully verified functional commit:** `d8bb5b836b20046e13712beced1e03c7b5ee36c5`

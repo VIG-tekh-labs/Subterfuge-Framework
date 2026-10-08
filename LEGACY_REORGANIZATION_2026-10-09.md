@@ -49,3 +49,12 @@ is a real Git path relocation, **not a manipulation of commit dates**.
 4. Check the current branch again for any remaining last-commit dates older than
    24 hours, and do not conflate archival moves with real functionality updates.
 5. Record exact commit SHA and CI result in ROADMAP.md and HANDOFF.md.
+
+## Actual published verification
+
+- The complete archive and packaging tree was committed as `1f21f9bc8cfafd4689eb781e6f83f7f335fcf8f5`, tree `36793967e59cc7e2f153c20fc1f89d4b8c8695fd`, to the modernization branch only.
+- Zero of 255 current paths on that published branch had last-commit timestamps older than 24h at 2026-10-09 01:03 Brussels; original 2015 commit history remains intact and separately browsable.
+- A fresh export of the exact published tree passed 105 tests (103 successes and two expected skips because Git metadata is not included in archives), Node report validation (five valid, ten malformed), and wheel/sdist packaging audits (18/66 entries with byte-identical GPL).
+- [GitHub Actions run 37857219307](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37857219307) completed six successful jobs across Linux, Windows and macOS.
+- The default master and GPL terms are untouched. Historical code remains archived, not newly functional or secure.
+

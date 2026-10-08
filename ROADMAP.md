@@ -1,6 +1,17 @@
 # Maintenance roadmap
 
-## CURRENT VERIFIED HANDOFF — October 8, 2026
+## POST-PUBLICATION VERIFIED CHECKPOINT — October 9, 2026
+
+- Latest published archive/reorganization code commit: `1f21f9bc8cfafd4689eb781e6f83f7f335fcf8f5`, derived from baseline `8c8f7f3`. Complete historical tree remains preserved as branch `archive-legacy-original-2026-10-09`.
+- **At 2026-10-09 01:03 Europe/Brussels, independently checked all 255 tracked files on the published modernization branch:** exactly **zero** have a last path-commit older than 24 hours; no path lacked commit information. This is a genuine relocation timestamp, **not** proof the archived 2015 code has been made compatible.
+- A total of **190 historical framework files** moved byte-for-byte into `legacy/historical-framework-2015-2016/`; the separate GPLv3 COPYING text moved verbatim into root `LICENSE` with a new compatibility pointer at COPYING. The original GPL text SHA-256 remains `8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903`.
+- Fetched that precise **published Git tree** SHA `36793967e59cc7e2f153c20fc1f89d4b8c8695fd` into a fresh archive and ran 105 unittest cases (**103 passed, 2 skipped** without Git metadata); Node report-schema checks accepted 5 valid and rejected 10 malformed reports. In the development Git worktree, 105 unittest cases discovered (**104 passed, 1 expected skip**). 
+- Verified wheel and source distribution builds and packaging: 18 wheel entries, 66 sdist members; wheel contains byte-verified original GPLv3 license; archived historical directory excluded from both artifacts.
+- GitHub Actions [run 37857219307](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37857219307) for `1f21f9b` completed **all six matrix jobs successfully**: Linux/Python 3.11–3.14, Windows/Python 3.12 and macOS/Python 3.12.
+- **Default branch `master` is unchanged** at `4bc3c2ec439d6c978d5b51a3c9d310c39aed590e`. A user looking at GitHub's default master will still see old file history until they explicitly approve merging or changing the default branch. No public history rewriting or relicensing occurred.
+- Next development priority is **real modernization**, not artificial timestamp editing: reproduce genuine authorized PCAP/PCAPNG captures; test optional local Scapy interfaces in a permitted isolated network; strengthen browser keyboard accessibility and saved report validation; classify historical modules for safe replacement or retirement; continue GDPR/privacy and third-party license provenance review. Do not claim interception feature parity while the package remains alpha `2.0.0a2`.
+
+## CURRENT VERIFIED HANDOFF — October 9, 2026
 
 - **Start with HANDOFF.md and MODERNIZATION_STATUS.md** for the exact branch, proven feature state, outstanding tasks and licensing/security caveats.
 - Last fully verified functional commit: d8bb5b836b20046e13712beced1e03c7b5ee36c5, version 2.0.0a2 alpha.
