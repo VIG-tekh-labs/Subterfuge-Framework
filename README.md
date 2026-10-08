@@ -30,7 +30,7 @@ subterfuge inspect-tls --host example.com --output tls.json
 subterfuge interfaces
 ```
 
-The dashboard runs on `127.0.0.1` and imports PCAP/Nmap XML files locally. PCAP limits are 16 MiB for dashboard uploads and 64 MiB for CLI imports. PCAPNG requires conversion before import. Nmap service/version and OS data are retained as reported evidence. Transport review items require investigation; they do not establish exploitation or missing STARTTLS.
+The dashboard runs on `127.0.0.1` and imports PCAP/Nmap XML files locally. PCAP limits are 16 MiB for dashboard uploads and 64 MiB for CLI imports. PCAPNG enhanced-packet import is experimental on the modernization branch; only synthetic fixtures have been tested. Classic PCAP remains the validated format. Nmap service/version and OS data are retained as reported evidence. Transport review items require investigation; they do not establish exploitation or missing STARTTLS.
 
 TLS inspection opens one normal certificate-verified connection to the specified endpoint, records its negotiated protocol/cipher and reports certificate expiry or verification failure. It does not enumerate every server configuration or test HSTS.
 
