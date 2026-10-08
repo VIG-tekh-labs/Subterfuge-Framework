@@ -1,5 +1,17 @@
 # Subterfuge modernization: verified status and remaining work
 
+## Verified default-branch cleanup — October 9, 2026
+
+- **Final active code commit:** 9a986a148eb34cf74596df8b6d2adbfa34714ad8. The owner explicitly approved fast-forwarding modernization into master; the 79 earlier commits were applied without a force push.
+- **Removed from the active GitHub tree:** 193 historical files in legacy (Django, Twisted/SSLStrip, UI assets, old setup/updater). A fresh clone of master confirms **63 tracked files and zero legacy paths**.
+- **Preservation:** The original source and authorship are on the separate archive-legacy-original-2026-10-09 branch and in Git history. No history rewriting or relicensing occurred; 2015 code was not made functional.
+- **Fresh checkout tests:** 108 Python cases discovered; 106 passed, 2 expected skips for absent historical source. Node saved-report validation accepted 5 valid and rejected 10 malformed fixtures.
+- **Distribution:** wheel has 18 members, sdist has 67 members; both exclude the old legacy tree. The original GPLv3 license hash remains 8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903.
+- **GitHub Actions:** [run 37858737482](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37858737482) passed all six jobs on Linux (Python 3.11–3.14), Windows and macOS (Python 3.12).
+- **Still incomplete:** Version 2.0.0a2 alpha; old interception functionality remains unported. Further real-device capture, diverse PCAPNG, keyboard accessibility and provenance/legal review are needed.
+- **Continuation:** Work from master; the separate modernization branch is synchronized to the same latest revision. Read ROADMAP and HANDOFF before new changes. No pull request needed for this cleanup.
+
+
 ## Default master now modern; historical source no longer on main
 
 - The owner explicitly authorized applying modernization to the default branch master. Master fast-forwarded without force from 4bc3c2e to f50bd4a (79 commits).

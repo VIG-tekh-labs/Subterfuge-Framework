@@ -1,5 +1,8 @@
 # Subterfuge Framework
 
+**Verified on master (October 9, 2026):** [cleanup commit 9a986a1](https://github.com/VIG-tekh-labs/Subterfuge-Framework/commit/9a986a148eb34cf74596df8b6d2adbfa34714ad8) removed 193 historic files from the active tree. A fresh clone has 63 tracked files and no legacy directory. [All six cross-platform CI jobs passed](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37858737482).
+
+
 **Modernization in progress — version 2.0.0a2 (alpha).** The modern assessment core is installable; the complete historical framework is not yet restored or validated.
 
 ## Project status — current default master
