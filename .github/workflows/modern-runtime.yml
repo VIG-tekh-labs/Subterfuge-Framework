@@ -1,0 +1,35 @@
+name: Modern runtime checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-latest, python: "3.11"}
+          - {os: ubuntu-latest, python: "3.12"}
+          - {os: ubuntu-latest, python: "3.13"}
+          - {os: ubuntu-latest, python: "3.14"}
+          - {os: windows-latest, python: "3.12"}
+          - {os: macos-latest, python: "3.12"}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install isolated modern package
+        run: python -m pip install .
+      - name: Offline functional and HTTP boundary regressions
+        run: python -m unittest discover -s tests -v
+      - name: Installed CLI smoke checks
+        run: |
+          subterfuge --version
+          subterfuge doctor
+          subterfuge demo
+      - name: Build wheel
+        run: python -m pip wheel --no-deps . -w dist

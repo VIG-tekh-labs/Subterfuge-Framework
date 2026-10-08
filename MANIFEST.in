@@ -1,0 +1,6 @@
+include COPYING README.md ROADMAP.md MAINTENANCE.md
+recursive-include src/subterfuge/static *.html
+prune legacy
+recursive-include tests *.py *.xml
+global-exclude *.pyc
+

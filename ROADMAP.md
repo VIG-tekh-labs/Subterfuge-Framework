@@ -1,90 +1,68 @@
 # Maintenance roadmap
 
-Last checkpoint: 2026-10-08T15:45+02:00, Europe/Brussels.
+Last checkpoint: 2026-10-08, Europe/Brussels.
+Repository: https://github.com/VIG-tekh-labs/Subterfuge-Framework
+Reference branch: master.
+Publication parent: 634979fdb8cc71f309bb168706906be7a6817e61.
 
 ## Start here
 
-Repository: https://github.com/VIG-tekh-labs/Subterfuge-Framework
-Reference branch: `master`.
-Inspected baseline: `6c35097c202ee2c23fa68ab966711c9cf9300c95`.
-Development branch in the current working copy: `maintenance/python3-modernization`.
+The modern assessment runtime is 2.0.0a1. It is an installable alpha, not complete historical feature parity. Use README.md for installation and CAPABILITIES.md for the migration matrix. Historical source remains in the repository and is not imported by the modern package. No replacement repository was created.
 
-The goal is to make this fork usable on current environments, replace obsolete components and add supported features. Keep existing authorship and license information. Do not assume that a draft implementation restores every historical capability.
+## Owner requirements
 
-## Current owner requirements
+- Restore usability on current machines and review every historical capability, not ARP alone.
+- Keep documentation, instructions, comments and commit messages in English.
+- Preserve authorship and license; add no generated branding or signatures.
+- Automatically update this roadmap after development steps, checks, publication, failures and before interruption.
+- Keep checkpoint bookkeeping in the background. Report newly updated directories once.
+- Count functional modernization separately from cosmetic maintenance.
+- Do not claim full compatibility, released status or feature parity without checks.
 
-- Make development activity visible in the existing repository as soon as write access is restored.
-- Clearly mark the current development version as not yet functional and validated as a complete application.
-- Accept proposed contributions for review, record findings and relevant checks, and avoid presenting unvalidated changes as release-ready.
-- Automatically maintain this roadmap and the project requirements after each development step, check, publication, failure or blocker, and before interruption. Do not wait for an owner reminder.
-- Use English in repository documentation, instructions, code comments and commit messages; do not add generated branding or signatures.
+## Functional changes in this checkpoint
 
-## Verified facts
+- Publish src/subterfuge, CLI and a loopback-only dashboard.
+- Add pyproject.toml packaging for Python 3.11+, without core runtime dependencies.
+- Replace the root privileged Python 2 installer with a setuptools shim; preserve the previous installer in legacy/setup.py.
+- Import classic PCAP with Ethernet, VLAN and Linux cooked headers; consolidate ARP conflicts and bound input/resource sizes.
+- Import standard Nmap XML including the normal plain DOCTYPE; reject XML entities, external DTDs and excessive nesting.
+- Retain IPv4/IPv6 inventory, ports, service products/versions and OS evidence.
+- Add service transport review items with explicit uncertainty about STARTTLS, redirects and policy.
+- Add inspect-tls: normal certificate-verified TLS connection, negotiated cipher/protocol and expiry review.
+- Bound dashboard uploads; validate Host, Origin and session token; use CSP and local assets.
+- Add atomic private JSON exports, optional passive Scapy capture and explicit bounded Nmap host discovery.
+- Add 50 regression tests and a CI matrix requesting Linux/Python 3.11–3.14 plus Windows/macOS/Python 3.12.
 
-- The runtime source on `master` is still the historical implementation. This documentation checkpoint changes only `README.md`, `ROADMAP.md` and `MAINTENANCE.md`.
-- The initial audit found 26 Python 3 syntax or indentation failures among 59 historical Python files.
-- The historical installer uses system-wide file operations and Django 1.7.
-- The historical updater depends on obsolete SVN and custom update mechanisms.
-- Historical control scripts include broad firewall resets.
-- No new repository has been created.
+## Actual validation
 
-## Draft work — not a tested release
+- Linux, Python 3.12.14: all 50 tests passed from source and against an installed wheel.
+- Wheel built using setuptools 84.0.0 and installed into a fresh venv without package-index access.
+- Installed doctor and synthetic demo passed outside the source directory.
+- Local TLSv1.3 handshake passed using a temporary trusted localhost certificate; expiry finding observed.
+- The first additional TLS fixture encountered a server-side broken pipe from TLS session ticket timing. Disabling tickets in the fixture resolved the race; certificate verification was not disabled.
+- No external scan, live capture or historical interception script was executed.
+- Dashboard HTTP boundary tests passed; visual browser validation is still pending.
+- CI results, Windows/macOS behavior and Python versions other than 3.12 remain unverified.
 
-A separate working copy contains:
-- Historical files preserved under `legacy/`, with `COPYING` retained at the root.
-- A `src/subterfuge/` Python 3 package.
-- A command-line interface and a loopback-only local dashboard.
-- Classic PCAP ARP analysis, host inventory, conflict review and JSON reports.
-- Nmap XML import, optional bounded Nmap discovery and optional passive Scapy capture.
-- Packaging metadata targeting Python 3.11 or newer.
+## Historical capabilities
 
-The source draft passes initial syntax and synthetic demo smoke checks. It has not been installed from a wheel, committed or published; full functional and interface validation remains pending. Historical interception modules are preserved for reference and are not restored in the draft runtime. Review the capability migration before claiming feature parity.
+CAPABILITIES.md identifies ARP interception, DHCP race, WPAD/NetBIOS, wireless AP, SSLStrip/proxy, credential/session handling, HTTP injection and other plugins. These historical implementations are retained, not restored. POODLE, Heartbleed and SSLv3 downgrade were advertised as future roadmap items; dedicated modules were not found in inspected paths. New TLS inspection is a separate assessment function, not a replacement claiming interception parity.
 
-### Initial checks completed
+## Exact next actions
 
-On 2026-10-08, with Python 3.12:
-- Parsed all seven current Python modules under `src/subterfuge/`; no syntax failures.
-- Executed `PYTHONPATH=src python3 -m subterfuge demo`; exit code 0.
-- The synthetic capture contained two ARP replies claiming `192.0.2.10` from two different MAC addresses. The report recorded one host and one `arp_address_conflict` finding, as expected.
-- No external network scan or live packet capture was run. These checks do not establish clean installation, adapter compatibility or complete interface behavior.
+1. Verify published paths, branch head and CI results. If workflow publication is rejected, retain the prepared workflow and record the exact error.
+2. Perform dashboard browser QA and fix any usability problems.
+3. Add PCAPNG import with malformed-input and resource-limit regressions.
+4. Add passive DHCP and name-resolution evidence analysis with isolated fixtures.
+5. Review historical proxy/plugin contracts against modern TLS and browser protections before porting them.
+6. Validate Scapy/Nmap adapters in an isolated test network; they remain optional and unverified here.
 
-## Known issues and validation gaps
+## Previous checkpoints
 
-1. The Nmap XML parser currently rejects the harmless DOCTYPE in normal Nmap output. Accept the standard declaration while rejecting external/internal entity declarations and unsupported encodings.
-2. The packaging minimum setuptools version must match the license metadata syntax.
-3. Wheel installation, functional tests, documentation completeness and dashboard visual checks remain pending.
-4. The capability migration is incomplete. Historical interception modules have not been restored in the new runtime.
+Commit d917e53bfe46647495794c2c8897789c61c2e94e published the initial documentation.
+Commit 634979fdb8cc71f309bb168706906be7a6817e61 added 71 comment-only markers and 26 directory notes; no functional fixes or dependency upgrades were included. Filesystem touch is not tracked by Git.
+Earlier GitHub writes returned 403 Resource not accessible by integration; installation/reconnection subsequently restored publishing.
 
-## Documentation and access checkpoint
+## Continuation discipline
 
-This maintenance restart updates `README.md`, adds this roadmap and adds `MAINTENANCE.md`. All historical runtime source, history and the root `COPYING` file are preserved on `master`. The separately drafted Python 3 source is not part of this documentation change.
-
-Earlier publication attempts returned HTTP 403, `Resource not accessible by integration`, while the owner account already had administrator and push permissions. The connection listed no GitHub App installations. On 2026-10-08, the owner reconnected GitHub and completed the installation flow. The integration now returns an installation belonging to `VIG-tekh-labs`. The reference branch was refreshed before preparing this change.
-
-User repository permissions and integration authorization are separate. Always verify actual writes and the resulting branch head. Do not repeatedly retry a write when the authorization state has not changed.
-
-## Exact next action
-
-Fix the XML and packaging issues in the source draft, then validate a clean installation and meaningful functional behavior before a source release. Synchronize the development branch with this documentation checkpoint while preserving uncommitted work.
-
-1. Fix standard Nmap XML import and compatible packaging metadata.
-2. Review historical capabilities and record what is retained, replaced or still pending.
-3. Add meaningful parser, CLI, HTTP boundary and optional adapter checks.
-4. Validate a clean installation and the synthetic demo without scanning external systems.
-5. Update this roadmap with changed paths, validation results, unsupported features and the exact next action before publishing source changes.
-
-For every publication, refresh the target branch, preserve unrelated files, verify the resulting commit and read back the changed files. If publication is denied, record the exact response and retain the source checkpoint. Never describe the complete application as functional or validated before the necessary checks pass.
-
-## Checkpoint discipline
-
-Automatically update this file after each development step, check, publication, failed attempt or blocker, and before starting a long step or ending a session. Do not wait for an owner reminder. Record changed paths, actual validation, publication state, remaining issues and the exact next action. Keep routine checkpoint bookkeeping in the background; report newly updated directories once.
-
-Never mark implementation, tests or publication complete without corresponding evidence. Use English for repository documentation, instructions, comments and commit messages. Keep the repository free of generated branding or signatures.
-
-## Repository-wide maintenance checkpoint — 2026-10-08
-
-Owner requested visible activity across historical files and directories, with cosmetic maintenance counted separately from real modernization. Git does not record filesystem touch operations.
-
-This checkpoint adds comment-only markers to 71 historical Python, JavaScript and CSS files and a maintenance note in all 26 existing directories. It updates README.md and this roadmap and adds MAINTENANCE_COUNTS.md. It introduces no dependency upgrades or functional fixes. Binary assets, databases, compiled files, license text and unsupported text formats retain their original content. The large bundled jquery-ui.js is also unchanged. Directory activity does not imply every contained file was modified.
-
-The separate working copy contains unpublished development work. Preserve it and validate its latest state before publication. Next: reconcile this checkpoint with the development branch, verify packaging and functional tests, then publish actual runtime modernization with a separate change count. Do not treat comment-only maintenance as a modern release.
+Read the current remote head before writes. Preserve unrelated work and use an expected-head lease. Keep separately prepared working copies intact; one older draft exists at /workspace/scratch/977d15b140db/Subterfuge-Framework and may contain unpublished changes. The source used for this checkpoint was validated independently. Never overwrite another working copy as part of reconciliation. Record actual checks and remaining gaps; maintain an explicit alpha status.

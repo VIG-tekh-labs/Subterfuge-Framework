@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Subterfuge · Network workspace</title>
+<style nonce="__TOKEN__">
+:root{color-scheme:dark;--bg:#0b1016;--panel:#121b25;--line:#263442;--text:#eaf2fa;--muted:#98abbd;--accent:#4de2bb;--warn:#f4c26a}
+*{box-sizing:border-box}body{margin:0;font:15px/1.55 system-ui,sans-serif;background:var(--bg);color:var(--text)}button,input{font:inherit}button,a{touch-action:manipulation}button{border:1px solid var(--line);border-radius:9px;padding:10px 16px;background:#1b2937;color:var(--text);cursor:pointer}button:hover{border-color:var(--accent)}button:disabled{opacity:.5;cursor:wait}button.primary{background:var(--accent);border-color:var(--accent);color:#08241c;font-weight:700}a{color:var(--accent)}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.shell{max-width:1240px;margin:auto;padding:30px}header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:26px;border-bottom:1px solid var(--line)}.brand{font-size:25px;font-weight:800;letter-spacing:-1px}.mark{display:inline-grid;place-items:center;width:36px;height:36px;border:1px solid var(--accent);border-radius:9px;color:var(--accent);margin-right:12px;font-size:19px}.badge{font:11px/1.5 system-ui,sans-serif;letter-spacing:1.5px;color:var(--accent);border:1px solid #275343;border-radius:20px;padding:7px 12px}.intro{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin:35px 0 24px}h1{font-size:clamp(26px,4vw,38px);line-height:1.18;letter-spacing:-1px;margin:0 0 12px}h2{font-size:18px;margin:0 0 14px}p{margin:0;color:var(--muted)}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--accent);margin-bottom:12px}.actions{display:flex;gap:10px;flex-wrap:wrap}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}.metric,.panel{border:1px solid var(--line);background:var(--panel);border-radius:12px}.metric{padding:18px 22px}.metric span{color:var(--muted);font-size:12px}.metric strong{display:block;font-size:31px;line-height:1.5}.workspace{display:grid;grid-template-columns:1fr 310px;gap:18px}.panel{padding:22px}.stack{display:grid;gap:18px;align-content:start}.drop{border:1px dashed #3c5267;border-radius:9px;padding:20px;background:#0c141d;margin-top:16px}.drop input{max-width:100%;font-size:13px;margin:10px 0 15px}.note{font-size:12px;margin-top:12px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.section-head h2{margin:0}.source{font-size:12px;color:var(--muted);overflow-wrap:anywhere}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;text-align:left;font-size:13px}th{color:var(--muted);font-size:11px;letter-spacing:.7px;text-transform:uppercase;font-weight:500;border-bottom:1px solid var(--line);padding:12px 10px}td{border-bottom:1px solid #20303e;padding:14px 10px;vertical-align:top;overflow-wrap:anywhere}td:first-child{font-family:ui-monospace,monospace;color:var(--accent)}.empty{text-align:center;padding:48px 15px;color:var(--muted)}.finding{border-left:3px solid var(--warn);padding:12px 14px;background:#252419;border-radius:4px;margin-top:12px;font-size:13px}.finding p{margin-top:6px;font-size:12px}.health{font-size:13px;display:grid;gap:12px}.health div{display:flex;justify-content:space-between;gap:12px}.health span{color:var(--muted)}.health b{font-weight:500}.status{min-height:24px;font-size:13px;color:var(--accent);margin:14px 0}.status.error{color:#ff9b9b}.warning{font-size:12px;margin-top:10px;color:var(--warn)}footer{font-size:12px;color:var(--muted);margin:26px 0 5px;display:flex;justify-content:space-between;gap:15px}.hidden{display:none}.sub{font-size:12px;color:var(--muted)}
+@media(max-width:840px){.workspace{grid-template-columns:1fr}.stack{grid-template-columns:1fr 1fr}.intro{align-items:flex-start;flex-direction:column}.shell{padding:20px}}
+@media(max-width:540px){.stack{grid-template-columns:1fr}.metrics{gap:8px}.metric{padding:12px}.metric strong{font-size:25px}.badge{font-size:9px}.brand{font-size:21px}.mark{margin-right:7px}footer{flex-direction:column}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header><div class="brand"><span class="mark" aria-hidden="true">S</span>Subterfuge</div><span class="badge">LOCAL WORKSPACE</span></header>
+<section class="intro"><div><div class="eyebrow">NETWORK OBSERVATION · 2.0 ALPHA</div><h1>A clearer view of your network.</h1><p>Inspect captures, review address claims and export the evidence.</p></div><div class="actions"><button id="demo">Load demo</button><button id="download" class="primary" disabled>Export JSON</button></div></section>
+<div id="status" class="status" role="status" aria-live="polite">Ready. Import a capture or try the synthetic demo.</div>
+<section class="metrics" aria-label="Report summary"><div class="metric"><span>Observed hosts</span><strong id="hosts">—</strong></div><div class="metric"><span id="activity-label">ARP packets</span><strong id="activity">—</strong></div><div class="metric"><span>Review items</span><strong id="findings-count">—</strong></div></section>
+<div class="workspace">
+<div class="stack">
+<section class="panel"><div class="section-head"><h2>Host inventory</h2><span id="source" class="source">No report loaded</span></div><div class="table-wrap"><table id="inventory" class="hidden"><thead><tr><th>IP address</th><th>MAC address</th><th>Observation</th></tr></thead><tbody id="host-rows"></tbody></table></div><div id="empty" class="empty">Your inventory will appear here.<br><span class="sub">Classic PCAP and Nmap XML are supported.</span></div></section>
+<section class="panel"><h2>Findings &amp; context</h2><p id="finding-empty" class="sub">No report loaded yet.</p><div id="finding-list"></div><div id="warnings"></div></section>
+</div>
+<aside class="stack">
+<section class="panel"><h2>Import evidence</h2><p class="sub">Analyze an existing capture or inventory. No live scan is started here.</p><div class="drop"><label for="file">Choose a PCAP or Nmap XML file</label><input id="file" type="file" accept=".pcap,.cap,.xml"><button id="analyze" class="primary">Analyze file</button><p class="note">Up to 16 MiB in the dashboard. Use the CLI for files up to 64 MiB.</p></div><p class="note">PCAPNG captures must be converted to classic PCAP first.</p></section>
+<section class="panel"><h2>Environment</h2><div class="health" id="health"><span>Checking local runtime…</span></div><p class="note">Scapy and Nmap are optional. Offline analysis works without either.</p></section>
+<section class="panel"><h2>Working locally</h2><p class="sub">Uploads and results stay in this process until it stops. Reports are written to disk only when you download them.</p><p class="note">Address conflicts can indicate spoofing, failover or address reuse. They require investigation.</p></section>
+</aside>
+</div>
+<footer><span>Subterfuge Framework · Network observation and reporting</span><a href="https://github.com/VIG-tekh-labs/Subterfuge-Framework" target="_blank" rel="noopener noreferrer">Project &amp; documentation ↗</a></footer>
+</main>
+<script nonce="__TOKEN__">
+'use strict';
+const token='__TOKEN__';
+let currentReport=null;
+const byId=id=>document.getElementById(id);
+function status(message,error=false){byId('status').textContent=message;byId('status').classList.toggle('error',error)}
+function node(tag,text,className){const element=document.createElement(tag);element.textContent=text;if(className)element.className=className;return element}
+function render(report){
+  currentReport=report;const hosts=report.hosts||[];const findings=report.findings||[];const inventory=report.kind==='nmap'||report.kind==='discovery';
+  byId('hosts').textContent=hosts.length;byId('activity-label').textContent=inventory?'Open ports':'ARP packets';byId('activity').textContent=(inventory?report.stats.open_ports:report.stats.arp_packets)||0;byId('findings-count').textContent=findings.length;
+  byId('source').textContent=report.source||'Report';byId('host-rows').replaceChildren();
+  for(const host of hosts){const row=document.createElement('tr');const address=host.address||(host.addresses||[]).join(', ')||'Unknown';const ports=(host.ports||[]).filter(p=>p.state==='open').map(p=>`${p.port}/${p.protocol} ${p.service}`).join(', ');const observation=inventory?(ports||host.status):`${host.observations} ARP observations`;row.append(node('td',address),node('td',(host.mac_addresses||[]).join(', ')||'—'),node('td',observation||'—'));byId('host-rows').append(row)}
+  byId('inventory').classList.toggle('hidden',!hosts.length);byId('empty').classList.toggle('hidden',Boolean(hosts.length));byId('empty').textContent='No complete host records were observed in this input.';
+  byId('finding-list').replaceChildren();byId('finding-empty').textContent=findings.length?'Review the evidence and context below.':'No review items identified in this input. This does not prove the network is secure.';
+  for(const finding of findings){const item=node('div',`${finding.address||''} · ${finding.message}`,'finding');item.append(node('p',finding.interpretation||''));byId('finding-list').append(item)}
+  byId('warnings').replaceChildren();for(const warning of report.warnings||[])byId('warnings').append(node('p',warning,'warning'));
+  byId('download').disabled=false;
+}
+async function request(path,options={}){const response=await fetch(path,options);const result=await response.json();if(!response.ok)throw new Error(result.error||'The request failed.');return result}
+function busy(value){byId('demo').disabled=value;byId('analyze').disabled=value}
+byId('analyze').addEventListener('click',async()=>{const file=byId('file').files[0];if(!file){status('Choose a capture or inventory file first.',true);return}if(file.size>16*1024*1024){status('The file exceeds 16 MiB. Use the CLI for larger files.',true);return}busy(true);status('Analyzing '+file.name+'…');try{const path=file.name.toLowerCase().endsWith('.xml')?'/api/import-nmap':'/api/analyze-pcap';const report=await request(path,{method:'POST',headers:{'X-Subterfuge-Token':token,'Content-Type':'application/octet-stream'},body:file});report.source=file.name;render(report);status('Analysis complete. Review the findings before drawing conclusions.')}catch(error){status(error.message,true)}finally{busy(false)}});
+byId('demo').addEventListener('click',async()=>{busy(true);try{render(await request('/api/demo'));status('Synthetic demo loaded. No traffic was sent or captured.')}catch(error){status(error.message,true)}finally{busy(false)}});
+byId('download').addEventListener('click',()=>{if(!currentReport)return;const blob=new Blob([JSON.stringify(currentReport,null,2)+'\n'],{type:'application/json'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='subterfuge-report.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
+request('/api/doctor').then(info=>{byId('health').replaceChildren();for(const [label,value] of [['Python',info.python],['Interfaces',info.interfaces.length],['Scapy',info.scapy||'Not installed'],['Nmap',info.nmap?'Available':'Not installed']]){const row=document.createElement('div');row.append(node('span',label),node('b',String(value)));byId('health').append(row)}}).catch(error=>{byId('health').textContent=error.message});
+request('/api/report').then(report=>{if(report.kind!=='empty'&&!currentReport)render(report)}).catch(()=>{});
+</script>
+</body>
+</html>
+
