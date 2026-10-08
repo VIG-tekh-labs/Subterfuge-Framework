@@ -34,3 +34,18 @@ retain raw UDP payloads in reports. It may still observe sensitive
 network metadata (e.g. hostnames) and requires appropriate authorization,
 OS packet-capture privileges and an explicit selected interface. Do not
 run it automatically during installation or unit tests.
+## Local browser report import hardening — October 2026
+
+Saved report JSON is parsed entirely within the browser, with a 16 MiB file limit.
+Nested hosts, ports, addresses, timestamp fields (including null for untimed
+PCAPNG observations), finding messages, warnings and passive DHCP/NBNS evidence
+are validated for type, length and cardinality before replacing the displayed
+report. HTML is not constructed from imported values; the UI uses text nodes.
+The parser still runs in the operator's local browser and is not a substitute
+for host access controls or a secure user-profile boundary.
+
+Reproducible standalone checks:
+- node qa/browser_report_validation.mjs uses built-in Node.js APIs, no npm packages.
+- node qa/browser_report_smoke.cjs optionally drives sandboxed Chromium against
+  an ephemeral loopback-only dashboard; Puppeteer must be installed separately
+  for QA and is not a runtime dependency.
