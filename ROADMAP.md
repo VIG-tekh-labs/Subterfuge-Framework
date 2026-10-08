@@ -157,3 +157,12 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Next: rerun builds/tests after expanded source manifest, publish the branch
   atomically, verify the published content, investigate GitHub CI status,
   then extend PCAPNG fixtures and the Nmap/TLS report experience.
+## Published commit and cross-platform CI verification — 2026-10-08
+
+- **Published commit:** `b0027fb39b7cbd2877a798fcc2004d311deef5c6` on continuation branch; 58 generated/sensitive legacy artifacts removed from this branch without rewriting historical commits. `master` remains unchanged.
+- A fresh archive of the remote published commit passed **76/76** Python regression tests on Linux/Python 3.14.7.
+- The published commit built both a wheel and a source distribution; inspected archives held 18 and 52 entries respectively, with **no** historical module trees, tracked private PEM, credentials, SQLite databases, logs or compiled Python 2 cache artifacts.
+- The installed published wheel passed CLI `--version`, `doctor` and `demo` checks outside the source checkout in a fresh virtual environment.
+- **GitHub Actions run [37826972168](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37826972168) completed successfully.** Six jobs passed: Linux/Python 3.11, 3.12, 3.13 and 3.14; Windows/Python 3.12; macOS/Python 3.12. Live adapters and full historical plugin functionality were not part of these CI checks.
+- Security caveat: older public commits and the unchanged `master` still contain historical artifacts. Owners must rotate any real exposed secrets; coordinate explicitly before a disruptive history rewrite.
+- Next: perform interactive browser QA of import/export and report rendering, inspect historical modules and third-party assets, add isolated QA tests for report evidence, document and validate each further checkpoint, and keep alpha status until feature readiness is supported.
