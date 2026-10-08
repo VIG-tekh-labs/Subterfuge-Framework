@@ -8,9 +8,9 @@
 
 ## Verified results at this checkpoint
 
-- The published feature branch was fetched into a fresh archive and passed **89** Python unit tests, with **one test skipped** in the archive because Git metadata is absent. All 89 passed in a Git checkout with editcap installed.
+- The published feature branch was fetched into a clean archive and discovered **100** Python test cases: **99 passed and 1 was skipped** because Git metadata is absent from archives. In a Git checkout, all 100 passed.
 - Wheel build passed in the fresh archive; previously examined wheel and source archives exclude historical interception source, private PEM, secrets, logs and SQLite databases.
-- **GitHub Actions run 37830132711 passed all six jobs:** Linux/Python 3.11–3.14, Windows/Python 3.12 and macOS/Python 3.12.
+- **GitHub Actions run 37840748127 for the latest verified feature commit passed all six jobs:** Linux/Python 3.11–3.14, Windows/Python 3.12 and macOS/Python 3.12.
 - Chromium/Puppeteer interactive QA passed: demo loading, upload/report display and JSON export, TLS form invalid-input handling, local reopening of saved JSON reports and malformed-report rejection. No JavaScript page exceptions observed in these checks.
 - Wireshark `editcap` conversion to PCAPNG was successfully decoded, matching classic PCAP ARP observations.
 - Explicit Nmap service inventory passed against a temporary **127.0.0.1** listener only. No LAN or Internet target was scanned.
@@ -99,3 +99,12 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - GitHub Actions run [37840748127](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840748127) for latest fully verified **feature** commit `d8bb5b8` has now completed with **six out of six jobs successful** (Linux Python 3.11–3.14, macOS/Windows Python 3.12).
 - Earlier "pending" notes above are retained as chronological history and are superseded by this confirmation. The code feature branch remains alpha `2.0.0a2`; current GitHub documentation-only head can be newer than the last tested feature commit.
 - Next session must read current branch HEAD, `ROADMAP.md`, and this `HANDOFF.md`; resume focused real-capture interoperability, authorized lab-only passive adapter QA, accessibility keyboard checks, and source/license/secret provenance review, without merging master or rewriting history.
+
+## Current master/branch status and file-age audit — 2026-10-08
+
+- The earlier report that GitHub had no recent commits was explained by branch selection. Direct git ls-remote confirmed master at 4bc3c2e (17:39 Brussels) and modernization at ea23621 (22:38 Brussels) **before this audit's new documentation commit**.
+- The modernization branch had **73 commits beyond master** at the audit start, all published, and three older local worktrees contained only superseded versions or whitespace-only mismatches against current remote source. They were not reset or overwritten.
+- Full date inventory created in FILE_AGE_INVENTORY_2026-10-08.csv (252 tracked paths at ea23621 baseline) and LEGACY_AGE_REVIEW_2026-10-08.md. Last Git commit date alone is not evidence that old functionality was modernized.
+- MODERNIZATION_STATUS.md is the concise authoritative functional/risks/TODO summary, and README explicitly clones the modernization branch for the current alpha.
+- **Current confirmed feature validation** remains d8bb5b8: all six CI jobs successful, 100 Python cases in a Git checkout; clean archive 99 passes + 1 Git-metadata skip. No newer active-code change is represented by this audit. Version 2.0.0a2 alpha.
+- Next: confirm new HEAD and CI after audit docs are committed; proceed with historical module-by-module classifications and real authorized capture test corpus. No master merge, history rewrite or license change without owner approval.

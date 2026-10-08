@@ -2,12 +2,16 @@
 
 **Modernization in progress — version 2.0.0a2 (alpha).** The modern assessment core is installable; the complete historical framework is not yet restored or validated.
 
+## Project status and modernization branch
+
+The default GitHub branch, master, still contains an earlier alpha snapshot. The active Python 3 modernization is published on modernization-2026-10-08-continuation. See [MODERNIZATION_STATUS.md](MODERNIZATION_STATUS.md) for verified features, outstanding tasks and the historical file-age audit. No merge to master has yet been authorized.
+
 ## Install the modern runtime
 
 Use Python 3.11 or newer in a virtual environment. Do not run the historical installer or updater.
 
 ```sh
-git clone https://github.com/VIG-tekh-labs/Subterfuge-Framework.git
+git clone --branch modernization-2026-10-08-continuation --single-branch https://github.com/VIG-tekh-labs/Subterfuge-Framework.git
 cd Subterfuge-Framework
 python3 -m venv .venv
 . .venv/bin/activate

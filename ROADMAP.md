@@ -1,17 +1,18 @@
 # Maintenance roadmap
 
-## CURRENT VERIFIED HANDOFF — 2026-10-08
+## CURRENT VERIFIED HANDOFF — October 8, 2026
 
-- **Start with [HANDOFF.md](HANDOFF.md)** for the current branch, exact tested commit, security/license caveats and next actions.
-- Last tested feature commit: `1b584b4a08d3f7d0345e16a7db464adb916717cc`; alpha version `2.0.0a2`.
-- GitHub Actions [run 37830132711](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37830132711): all six Linux/Windows/macOS matrix jobs succeeded.
-- Latest clean archive: 89 tests ran, 1 expected skip (Git metadata unavailable); wheel built. In checkout all 89 tests passed.
-- Historical feature parity is not claimed. **Do not merge into master without the owner's approval.**
-
+- **Start with HANDOFF.md and MODERNIZATION_STATUS.md** for the exact branch, proven feature state, outstanding tasks and licensing/security caveats.
+- Last fully verified functional commit: d8bb5b836b20046e13712beced1e03c7b5ee36c5, version 2.0.0a2 alpha.
+- Cross-platform GitHub Actions run 37840748127: six Linux/Windows/macOS jobs successful.
+- Latest clean feature archive: 100 unittest cases discovered, 99 passed and 1 Git-dependent test skipped; in a Git checkout all 100 passed. Browser schema, Chromium QA and distribution audit passed in the recorded checkpoints.
+- The default GitHub master points to 4bc3c2e (earlier alpha), while the working modernization branch has progressed ahead of master. Do not confuse an old master commit date with an unpublished feature branch.
+- FILE_AGE_INVENTORY_2026-10-08.csv lists **252** tracked paths at audit baseline ea23621; LEGACY_AGE_REVIEW_2026-10-08.md records 169 historic code/assets, 55 old Python references and 24 legacy syntax failures.
+- **No full historical interception feature parity is claimed. Do not merge master, force-push or rewrite history without owner approval.**
 
 Last checkpoint: 2026-10-08, Europe/Brussels.
 Repository: https://github.com/VIG-tekh-labs/Subterfuge-Framework
-Reference branch: master.
+Working reference branch: modernization-2026-10-08-continuation; master is the older baseline.
 Publication parent: 634979fdb8cc71f309bb168706906be7a6817e61.
 
 ## Start here
@@ -349,3 +350,13 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Verified GitHub Actions run [37840748127](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840748127) for accessibility feature commit `d8bb5b836b20046e13712beced1e03c7b5ee36c5`: **all six jobs completed successfully** (Ubuntu/Python 3.11, 3.12, 3.13 and 3.14; Windows and macOS/Python 3.12).
 - All modern features published up to this feature commit have now passed the GitHub Actions matrix. Documentation-only commits may still have queued runs; do not mistake queued doc runs for unvalidated functional changes.
 - Follow the previous checkpoint's next-action list, keeping unported legacy modules, historical license obligations and secret-remediation decisions separate from the verified modern alpha.
+
+## Comprehensive repository-state and legacy age audit — 2026-10-08
+
+- Independently verified GitHub remote refs: master at 4bc3c2ec439d6c978d5b51a3c9d310c39aed590e (17:39 Brussels); modernization work branch at ea2362125393b0e25f89c290075b910233081e4e (22:38 Brussels) **before this audit's new commits**.
+- At audit start, the working branch was **73 commits ahead** of master. These commits were already published by the GitHub connector even though default GitHub browsing showed older master.
+- Compared three previous local development directories with remote branch. Their unmatched edits are superseded older file versions or newline-only differences, **not new source additions missing from GitHub**. Retained dirty worktrees untouched.
+- Created a clean audit worktree at ~/projects/Subterfuge-Framework-legacy-audit-20261008 and enumerated all **252** tracked files at the starting commit. Built a chronological CSV inventory and a dated legacy technical-debt review.
+- Legacy audit: **169** tracked historical code/asset paths have commit history before October 8, 2025, including **55** old Python paths and **97** historic UI assets. Python 3 AST parsing of legacy reference scripts: **31 parsed and 24 syntax failures**; parsing is not runtime validation. Some 2026 commit timestamps reflect cosmetic maintenance comments, not successful porting.
+- Created MODERNIZATION_STATUS.md to consolidate validated modern capabilities, current matrix/CI evidence, incomplete work, GPL and old-secret concerns, and ordered next actions. Updated README installation instructions to explicitly check out the actual modernization branch.
+- **Next:** verify the resulting published Git commit and CI, then expand permission-cleared PCAP/PCAPNG fixtures and authorized isolated live-capture QA; continue safe module-by-module modernization. Keep project GPL/provenance and branch merge constraints explicit.

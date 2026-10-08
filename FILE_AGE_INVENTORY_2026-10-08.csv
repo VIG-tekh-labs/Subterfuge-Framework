@@ -1,0 +1,253 @@
+path,category,latest_commit_date,last_historical_commit_before_2025_10_08,has_historical_code_or_asset,note
+.github/workflows/modern-runtime.yml,automation,2026-10-08,,no,
+.gitignore,documentation_and_build,2026-10-08,,no,
+AUDIT.md,documentation_and_build,2026-10-08,,no,
+CAPABILITIES.md,documentation_and_build,2026-10-08,,no,
+COPYING,documentation_and_build,2015-07-30,2015-07-30,no,
+FILE_AUDIT.md,documentation_and_build,2026-10-08,,no,
+HANDOFF.md,documentation_and_build,2026-10-08,,no,
+LICENSING.md,documentation_and_build,2026-10-08,,no,
+MAINTENANCE.md,documentation_and_build,2026-10-08,,no,
+MAINTENANCE_COUNTS.md,documentation_and_build,2026-10-08,,no,
+MANIFEST.in,documentation_and_build,2026-10-08,,no,
+MIGRATION_MATRIX.md,documentation_and_build,2026-10-08,,no,
+README.md,documentation_and_build,2026-10-08,2015-09-16,no,
+ROADMAP.md,documentation_and_build,2026-10-08,,no,
+SECURITY.md,documentation_and_build,2026-10-08,,no,
+__init__.py,miscellaneous,2026-10-08,2015-07-30,no,
+attackctrl.py,legacy_reference,2026-10-08,2016-03-06,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+cease/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+cease/__init__.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+cease/models.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+cease/tests.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+cease/views.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+cease/views.py~,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+configure.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+definitions/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+definitions/passwordfields.lst,legacy_reference,2015-07-30,2015-07-30,yes,
+definitions/usernamefields.lst,legacy_reference,2015-07-30,2015-07-30,yes,
+exportcreds.py,miscellaneous,2026-10-08,2015-07-30,no,
+legacy/setup.py,archived_legacy,2026-10-08,,no,
+legacy/update.py,archived_legacy,2026-10-08,,no,
+lock.ico,miscellaneous,2015-07-30,2015-07-30,no,
+main/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+main/__init__.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+main/models.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+main/models.py~,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+main/views.py,legacy_reference,2026-10-08,2015-09-11,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+main/views.py~,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+manage.py,legacy_reference,2026-10-08,2015-08-12,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+modules/TunnelBlock/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+modules/TunnelBlock/TunnelBlock.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/__init__.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/db,legacy_reference,2015-07-30,2015-07-30,yes,
+modules/dos/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+modules/dos/dos.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/exportcreds.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/harvester/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+modules/harvester/ftp_password_sniffer.py,legacy_reference,2026-10-08,2015-09-28,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/harvester/harvester.py,legacy_reference,2026-10-08,2015-09-28,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/httpcodeinjection/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+modules/httpcodeinjection/httpcodeinjection.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/httpcodeinjection/httpcodeinjection.rc,legacy_reference,2015-07-30,2015-07-30,yes,
+modules/httpcodeinjection/inject.x,legacy_reference,2015-07-30,2015-07-30,yes,
+modules/models.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/modextras.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/sessionhijacking/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+modules/sessionhijacking/cookiestealer.py,legacy_reference,2026-10-08,2015-09-27,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/sessionhijacking/cookieswapper.js,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/templatetags/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+modules/templatetags/__init__.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/templatetags/modextras.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+modules/views.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+pyproject.toml,documentation_and_build,2026-10-08,,no,
+qa/audit_distributions.py,modern_qa,2026-10-08,,no,
+qa/browser_report_smoke.cjs,modern_qa,2026-10-08,,no,
+qa/browser_report_validation.mjs,modern_qa,2026-10-08,,no,
+qa/loopback_nmap_smoke.py,modern_qa,2026-10-08,,no,
+scan.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+settings.py,legacy_reference,2026-10-08,2015-08-12,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+setup.py,documentation_and_build,2026-10-08,2016-03-06,no,
+src/subterfuge/__init__.py,modern_runtime,2026-10-08,,no,
+src/subterfuge/__main__.py,modern_runtime,2026-10-08,,no,
+src/subterfuge/analysis.py,modern_runtime,2026-10-08,,no,
+src/subterfuge/cli.py,modern_runtime,2026-10-08,,no,
+src/subterfuge/demo.py,modern_runtime,2026-10-08,,no,
+src/subterfuge/dhcp.py,modern_runtime,2026-10-08,,no,
+src/subterfuge/environment.py,modern_runtime,2026-10-08,,no,
+src/subterfuge/name_resolution.py,modern_runtime,2026-10-08,,no,
+src/subterfuge/static/index.html,modern_runtime,2026-10-08,,no,
+src/subterfuge/tls.py,modern_runtime,2026-10-08,,no,
+src/subterfuge/udp_evidence.py,modern_runtime,2026-10-08,,no,
+src/subterfuge/web.py,modern_runtime,2026-10-08,,no,
+sslstrip.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+sslstrip/ClientRequest.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+sslstrip/CookieCleaner.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+sslstrip/DnsCache.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+sslstrip/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+sslstrip/SSLServerConnection.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+sslstrip/ServerConnection.py,legacy_reference,2026-10-08,2015-09-27,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+sslstrip/ServerConnectionFactory.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+sslstrip/StrippingProxy.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+sslstrip/URLMonitor.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+sslstrip/__init__.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+sslstrip/clientip,legacy_reference,2015-07-30,2015-07-30,yes,
+sslstrip/db,legacy_reference,2015-07-30,2015-07-30,yes,
+sslstrip/sslstrip,legacy_reference,2015-07-30,2015-07-30,yes,
+subterfuge.conf,legacy_reference,2015-09-11,2015-09-11,yes,
+templates/._home.ext,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/._netview.ext,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/basic.tm,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/css/._main.css,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/css/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/css/domtab.css,historical_ui_assets,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+templates/css/jquery-ui.css,historical_ui_assets,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+templates/css/main.css,historical_ui_assets,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+templates/css/settings.css,historical_ui_assets,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+templates/domtab/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/domtab/domtab.css,historical_ui_assets,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+templates/domtab/domtab.js,historical_ui_assets,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+templates/domtab/index.html,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/home.ext,historical_ui_assets,2015-09-29,2015-09-29,yes,
+templates/images/._down copy 2.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/._down copy.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/._down.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/images/TranspFills/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/images/TranspFills/transpBlack10.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/TranspFills/transpBlack25.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/TranspFills/transpBlack50.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/TranspFills/transpBlack75.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/TranspFills/transpBlack90.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/TranspFills/transpBlue10.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/TranspFills/transpBlue25.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/TranspFills/transpBlue50.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/TranspFills/transpBlue75.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/TranspFills/transpBlue90.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/activity.gif,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/black_arrow.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/down copy 2.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/down copy.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/down.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/expand.png,historical_ui_assets,2015-09-29,2015-09-29,yes,
+templates/images/help.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/loader.gif,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/logo.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/menu.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/netview/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/images/netview/green.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/netview/lnx.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/netview/osx.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/netview/red.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/netview/unknown.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/netview/win.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/notify.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/panel.jpg,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/panelsmall.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/plugins/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/images/plugins/builder.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/plugins/dos.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/plugins/evilgrade.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/plugins/harvester.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/plugins/hijacking.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/plugins/httpcodeinjection.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/plugins/injection.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/plugins/netview.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/plugins/tunnelblock.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/redbuttonbg.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/subterfugebg.jpg,historical_ui_assets,2015-09-27,2015-09-27,yes,
+templates/images/title.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/transpBlack75.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/transpBlue50.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/images/transpBlue90.png,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/includes/._credtable.inc,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/includes/._netview.inc,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/includes/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/includes/credtable.inc,historical_ui_assets,2015-09-29,2015-09-29,yes,
+templates/includes/footer.inc,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/includes/header.inc,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/includes/hostcheck.inc,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/includes/nav.inc,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/includes/netview.inc,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/includes/notificationtable.inc,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/js/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/js/domtab.js,historical_ui_assets,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+templates/js/jquery-ui.js,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/js/jquery.js,historical_ui_assets,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+templates/mod.ext,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/mods/builder.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/builder_page.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/builder_settings.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/default.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/default_settings.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/dos.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/dos_settings.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/harvester.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/harvester_settings.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/netview.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/netview_settings.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/tunnelblock.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/mods/tunnelblock_settings.mod,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/netview.ext,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/notifications.ext,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/plugins.ext,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/profile.tm,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/settings.ext,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/settings.ext~,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/settings/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/settings/advanced/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/settings/advanced/menu.set,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/settings/vectors/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+templates/settings/vectors/arpcachepoisoning.set,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/settings/vectors/roguedhcp.set,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/settings/vectors/wirelessapgenerator.set,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/settings/vectors/wpadhijack.set,historical_ui_assets,2015-07-30,2015-07-30,yes,
+templates/wpad.dat,historical_ui_assets,2015-07-30,2015-07-30,yes,
+tests/fixtures/nmap_inventory.xml,modern_tests,2026-10-08,,no,
+tests/test_analysis.py,modern_tests,2026-10-08,,no,
+tests/test_capture_evidence.py,modern_tests,2026-10-08,,no,
+tests/test_cli.py,modern_tests,2026-10-08,,no,
+tests/test_dhcp.py,modern_tests,2026-10-08,,no,
+tests/test_distribution_manifest.py,modern_tests,2026-10-08,,no,
+tests/test_environment.py,modern_tests,2026-10-08,,no,
+tests/test_external_capture_writer.py,modern_tests,2026-10-08,,no,
+tests/test_live_protocols.py,modern_tests,2026-10-08,,no,
+tests/test_name_resolution.py,modern_tests,2026-10-08,,no,
+tests/test_pcapng.py,modern_tests,2026-10-08,,no,
+tests/test_pcapng_packet_blocks.py,modern_tests,2026-10-08,,no,
+tests/test_repository_hygiene.py,modern_tests,2026-10-08,,no,
+tests/test_services.py,modern_tests,2026-10-08,,no,
+tests/test_tls.py,modern_tests,2026-10-08,,no,
+tests/test_udp_evidence.py,modern_tests,2026-10-08,,no,
+tests/test_updater.py,modern_tests,2026-10-08,,no,
+tests/test_web.py,modern_tests,2026-10-08,,no,
+uninstall.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+update.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+urls.py,legacy_reference,2026-10-08,2015-08-12,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+utilities/apgen.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/arpmitm.py,legacy_reference,2026-10-08,2015-09-16,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/arpwatch.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/dev/MAINTENANCE.md,maintenance_note,2026-10-08,,no,
+utilities/dev/build_db.sql,legacy_reference,2015-07-30,2015-07-30,yes,
+utilities/dev/package.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/dev/webdump,legacy_reference,2015-07-30,2015-07-30,yes,
+utilities/dhcpd.conf,legacy_reference,2015-07-30,2015-07-30,yes,
+utilities/dhcprace.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/dhcptools.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/errorhandler.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/nbtools.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/notification.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/rearp.py,legacy_reference,2026-10-08,2015-09-16,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/scan.py,legacy_reference,2026-10-08,2015-09-27,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/scanindicator.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/stop.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/subfunctions.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/subutils.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+utilities/wpadhijack.py,legacy_reference,2026-10-08,2015-07-30,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+versioninfo.py,legacy_reference,2026-10-08,2015-09-16,yes,"2026 updates can be maintenance annotations, not a functional Python 3 port"
+wsgi.py,miscellaneous,2026-10-08,2015-09-11,no,
+xsubterfuge,legacy_reference,2015-08-01,2015-08-01,yes,
