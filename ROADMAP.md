@@ -186,3 +186,10 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Historical interception modules remain unported. Never infer that
   upgrading Django/Twisted would make deprecated downgrade mechanisms safe
   or reliable on contemporary browsers.
+## Alpha 2 published and validated — 2026-10-08
+
+- Feature commit `9862b19640e797c6f8d3548f0f90227db2dd8e39` published on the continuation branch. Runtime and package version: `2.0.0a2` (alpha).
+- Published-branch archive passed **78/78** regression tests on Linux/Python 3.14.7. Built wheel (18 entries) and source distribution (52 entries); checked no tracked private PEM, compiled `.pyc`, logs, historic `sslstrip/`/`modules/` trees or credential files.
+- Browser interaction validated via Chromium/Puppeteer: the new TLS form rejected an invalid URL-form host with the expected error; **no JavaScript exceptions** occurred. No external endpoint was contacted.
+- **GitHub Actions run [37828069880](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37828069880) completed successfully** across all six jobs (Linux/Python 3.11, 3.12, 3.13, 3.14; Windows and macOS/Python 3.12).
+- Historical feature parity remains incomplete; no root-only attack scripts or live network adapters were validated. `master` is unchanged. Further work: module-by-module migration plan, real-capture PCAPNG validation, optional adapters in authorized lab, UI accessibility review, and security/license remediation.
