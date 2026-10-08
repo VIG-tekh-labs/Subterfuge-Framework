@@ -3,7 +3,7 @@
 **Date:** 2026-10-08 (Europe/Brussels)  
 **Repository:** https://github.com/VIG-tekh-labs/Subterfuge-Framework  
 **Working branch:** `modernization-2026-10-08-continuation`  
-**Last fully validated feature commit:** `1b584b4a08d3f7d0345e16a7db464adb916717cc`  
+**Last fully validated feature commit:** `1581fefff359bcf6eca7b7727005848293944b9a`  
 **Development version:** `2.0.0a2` (alpha; NOT full historical restoration)
 
 ## Verified results at this checkpoint
@@ -47,3 +47,13 @@
 Use a **fresh checkout/worktree** for each new checkpoint rather than overwriting older working directories with unpublished changes. On Linux, create an isolated `python3 -m venv .venv`, activate it, install with `python -m pip install .` and run `python -m unittest discover -s tests -v`. For additional lab-only checks see `qa/loopback_nmap_smoke.py`.
 
 **Documentation and commit messages are in English, per the owner's project requirements.**
+
+## October 8 continuation — PCAPNG extended formats (latest verified)
+
+- Branch: `modernization-2026-10-08-continuation`. New development snapshot: `1581fefff359bcf6eca7b7727005848293944b9a`; documentation checkpoint: `c24f4537ee87079255504be7ce586a584e6eee3f`.
+- Production code: `src/subterfuge/analysis.py` now accepts PCAPNG Enhanced Packet Blocks (6), legacy Packet Blocks (2), Simple Packet Blocks (3), and interface timestamp offsets. For Simple Packet Blocks, no time is invented; JSON host times are null if no timestamped evidence exists. The dashboard and README disclose experimental capture compatibility.
+- Regression coverage: `tests/test_pcapng_packet_blocks.py` and `tests/test_web.py` cover synthetic endian variants, malformed blocks, passive DHCP passthrough, time-offset handling and loopback HTTP import.
+- **Re-verified from published Git archive:** Linux/Python 3.14.7 reports `Ran 97 tests ... OK (skipped=1)`; compileall and wheel creation passed. Wheel checked for historical/secret/credential paths and none were present among 18 archived members. The skipped test needs a Git checkout and does not imply a failure.
+- Previously recorded six-platform CI success applies to an **earlier commit**; a new CI verification for `1581fef` is still required. Broader real capture interoperability and real hardware passive capture remain unverified.
+- Keep old working folders intact: `~/projects/Subterfuge-Framework-phase2` and others may contain unpublished changes. Fresh development folder `~/projects/Subterfuge-Framework-hardening-20261008` has local modifications already published through the GitHub connector, but is not yet reset to remote HEAD.
+- **Next exact steps:** check GitHub Actions status for latest remote HEAD; add diverse externally generated PCAPNG fixtures including simple packet and corrupt options; perform accessibility/browser checks and review UI report validation; update ROADMAP.md following each verified step. Do not merge into master, change license metadata or rewrite public history without owner authorization.
