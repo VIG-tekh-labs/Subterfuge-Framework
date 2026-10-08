@@ -276,3 +276,11 @@ Read the current remote head before writes. Preserve unrelated work and use an e
   at [run 37829668360](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37829668360).
 - Next: publish/report branch checks, verify all six new CI jobs; continue
   accessibility/usability review and real-capture validation before release.
+
+## Full-modernization and licensing review checkpoint — 2026-10-08
+
+- Re-read current `HANDOFF.md`, `AUDIT.md`, `MIGRATION_MATRIX.md`, `LICENSING.md` and roadmap. Found **alpha 2.0.0a2** and a more recent verified checkpoint than the older 69-test record. Handoff records 89 passing tests plus one skipped in source archive, six cross-platform CI jobs, browser QA, `editcap` interoperability, and a loopback-only Nmap smoke check. These are recorded previous validation outcomes, not newly rerun in this checkpoint.
+- Historical audit lists 26 Python 2 syntax failures among 82 original Python files and obsolete Django 1.x / Twisted / jQuery entry points. Those files are outside the active `src/subterfuge` runtime and should not be globally rewritten without feature-by-feature acceptance criteria.
+- Desktop Commander `eden` connected. A separately cloned worktree unexpectedly contained extensive modified/deleted files while other modernization activity had progressed; treat it as potentially concurrent work. **Do not reset, clean, force-push, or overwrite**. A test invocation in that worktree reported 76 passed, but its checkout was not clean and is **not** accepted as a reliable replacement for the more recent 89-test handoff.
+- Updated `LICENSING.md` at commit `1773c391` with a rights-holder/provenance decision gate. GPL declarations remain; GPLv2-only legacy material needs separate distribution review. Source reference: https://www.gnu.org/licenses/gpl-faq.en.html.
+- Next: obtain a stable clean snapshot of the latest published branch; compare exact SHA and handoff; run reproducible tests/wheel/sdist checks; inspect secrets in historical Git history, dependency SBOM, accessibility, passive capture edge cases, and feature-by-feature legacy migration; publish only verified changes with this roadmap updated. Keep `master` unchanged.
