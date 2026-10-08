@@ -73,6 +73,13 @@ class PcapngPacketBlockTests(unittest.TestCase):
                 report = analyze_pcap(section_and_interface(endian, offset_option) + epb)
                 self.assertAlmostEqual(report["hosts"][0]["first_seen"], 1600.0)
 
+    def test_excessive_unknown_blocks_are_bounded(self):
+        from unittest.mock import patch
+        unknown_metadata = block(0x12345678, b"")
+        with patch("subterfuge.analysis.MAX_PCAPNG_BLOCKS", 3):
+            with self.assertRaisesRegex(AnalysisError, "block limit exceeded"):
+                analyze_pcap(capture() + unknown_metadata)
+
     def test_invalid_tsoffset_option_and_missing_interface(self):
         bad_option = struct.pack("<HHI", 14, 4, 42)
         with self.assertRaises(AnalysisError):
