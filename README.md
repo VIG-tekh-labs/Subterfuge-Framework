@@ -89,6 +89,8 @@ node qa/browser_report_smoke.cjs
 
 This local smoke test starts only a temporary loopback dashboard, checks saved report reopening/rejection and then closes the browser and server.
 
+The QA scripts are bundled with the source distribution but not with the installed runtime wheel. Distribution hygiene can be checked after building both artifacts by running the source-only command: python qa/audit_distributions.py dist.
+
 ## Validation and continuity
 
 ```sh
