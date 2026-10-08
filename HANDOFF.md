@@ -3,7 +3,7 @@
 **Date:** 2026-10-08 (Europe/Brussels)  
 **Repository:** https://github.com/VIG-tekh-labs/Subterfuge-Framework  
 **Working branch:** `modernization-2026-10-08-continuation`  
-**Last fully validated feature commit:** `cf49be2d85d3764649677cc5dbe738aa68832374`  
+**Last fully validated feature commit:** `ac3b754b926d682c6514a45aeff014f4226804e1`  
 **Development version:** `2.0.0a2` (alpha; NOT full historical restoration)
 
 ## Verified results at this checkpoint
@@ -66,3 +66,12 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - GitHub Actions run [37838822992](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37838822992) **passed six jobs** for `1581fef` across supported matrix runners. CI for the new `cf49be2` commit was in progress at the last query and must be rechecked.
 - Do not overwrite the older dirty local checkouts; the isolated development checkout for these code changes is `~/projects/Subterfuge-Framework-hardening-20261008`. GitHub connector published the content, so local HEAD can lag behind the published branch.
 - Next exact actions: verify CI head for `cf49be2`, review saved-report browser import validation and accessibility, add malformed/real PCAPNG interoperability fixtures, then record an updated roadmap checkpoint before any interruption. Keep GPL obligations, alpha caveats and no-master-merge rules unchanged.
+
+## Saved-report browser validation checkpoint — current
+
+- Published source feature HEAD `ac3b754b926d682c6514a45aeff014f4226804e1`, followed by ROADMAP.md checkpoint `968fd5294e66ef64fe0b221f085b245ceb70e945`.
+- The browser-side importer now rejects malformed nested host, ports, MACs, timestamps and DHCP/NBNS observation records before replacing the displayed report. Existing valid reports and JSON null timestamps are preserved.
+- Added `qa/browser_report_validation.mjs` (no npm dependencies), invoked by the GitHub Actions workflow, and optional `qa/browser_report_smoke.cjs` (Puppeteer externally installed, sandboxed Chromium loopback QA). Updated README.md and SECURITY.md.
+- **Fresh published archive validation:** 98 discovered Python unit tests: 97 passed and 1 Git-metadata-dependent case skipped; Node validation accepted 5 genuine/synthetic records and rejected 10 malformed ones; sandboxed Chromium imported a valid report, rejected malformed data without losing the previous report and had zero uncaught page exceptions; compileall passed.
+- **CI:** the earlier `cf49be2` PCAPNG hardening run `37839129084` completed successfully. The revised CI workflow commit `ac3b754` was **queued** on run `37839864418` when last checked. Re-check before claiming matrix-wide success for the browser validator.
+- Next steps: verify six current CI jobs; rebuild and audit wheel/sdist from latest branch; expand PCAPNG external capture coverage; improve UI accessibility and focus behavior; continue historical migration/licensing provenance audit, without merging into master or rewriting history.
