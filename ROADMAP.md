@@ -118,3 +118,11 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Local verification: 66 unittest tests passed on Linux/Python 3.14.7 using Desktop Commander device `eden` before publication. Full legacy module parity remains incomplete.
 - Publication: new DHCP module and tests committed to the continuation branch; `master` unchanged.
 - Next exact actions: verify fresh archive of published branch passes 66 tests; integrate passive DHCP/NBNS evidence into PCAP/PCAPNG packet processing with strict bounds and no payload retention; run browser QA and CI. Never run legacy active DHCP spoofing scripts as a routine test.
+
+## Offline UDP evidence dispatch checkpoint — 2026-10-08
+
+- Added `src/subterfuge/udp_evidence.py` with bounded Ethernet/VLAN/IPv4 UDP frame recognition. It delegates eligible UDP payloads to the passive DHCPv4 and NBNS decoders; non-UDP and fragmented IPv4 are ignored. No packet transmission or persistent payload storage.
+- Added `tests/test_udp_evidence.py` with synthetic DHCP, WPAD NBNS, truncated frame, non-UDP and fragmentation cases.
+- Local Linux/Python 3.14.7 regression suite: **69 tests passed** before publication.
+- This dispatcher is an **independent library helper**. It is not yet wired into the `analyze_pcap` or PCAPNG aggregate reports; do not claim integrated capture-level DHCP/NBNS support.
+- Next: implement bounded aggregation into capture reports without changing existing ARP evidence semantics; validate fresh published checkout and dashboard UI; review protocol edge cases and CI.
