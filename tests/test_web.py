@@ -71,6 +71,18 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(json.loads(body)["stats"]["findings"], 1)
         self.assertEqual(json.loads(self.request("GET", "/api/report")[2]), json.loads(body))
 
+    def test_pcapng_upload_and_ui_copy(self):
+        from test_pcapng import capture
+        status, _, body = self.request("GET", "/")
+        self.assertEqual(status, 200)
+        self.assertIn(b".pcapng", body)
+        status, _, body = self.request(
+            "POST", "/api/analyze-pcap", capture(),
+            {"X-Subterfuge-Token": self.token},
+        )
+        self.assertEqual(status, 200)
+        self.assertEqual(json.loads(body)["kind"], "pcapng")
+
     def test_standard_xml_upload(self):
         data = (Path(__file__).parent / "fixtures/nmap_inventory.xml").read_bytes()
         status, _, body = self.request("POST", "/api/import-nmap", data, {"X-Subterfuge-Token": self.token})
