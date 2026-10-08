@@ -15,7 +15,7 @@ def capture(endian="<", frame=None):
         frame = sample_capture()[40:82]
     section = block(0x0A0D0D0A, struct.pack(endian + "IHHq", 0x1A2B3C4D, 1, 0, -1), endian)
     interface = block(1, struct.pack(endian + "HHI", 1, 0, 65535), endian)
-    padded = frame + b"\x5cx00" * (-len(frame) % 4)
+    padded = frame + b"\x00" * (-len(frame) % 4)
     packet = block(6, struct.pack(endian + "IIIII", 0, 0, 1700000000, len(frame), len(frame)) + padded, endian)
     return section + interface + packet
 
@@ -30,7 +30,7 @@ class PcapngTests(unittest.TestCase):
 
     def test_truncation_and_bad_trailer(self):
         valid = capture()
-        for data in (valid[:-1], valid[:20], valid[:28] + b"\x5cx00", valid[:-4] + b"\x5cx00" * 4):
+        for data in (valid[:-1], valid[:20], valid[:28] + b"\x00", valid[:-4] + b"\x00" * 4):
             with self.subTest(length=len(data)), self.assertRaises(AnalysisError):
                 analyze_pcap(data)
 
@@ -43,7 +43,7 @@ class PcapngTests(unittest.TestCase):
 
     def test_non_arp_ignored(self):
         frame = sample_capture()[40:82]
-        report = analyze_pcap(capture(frame=frame[:12] + b"\x5cx08\x5cx00" + frame[14:]))
+        report = analyze_pcap(capture(frame=frame[:12] + b"\x08\x00" + frame[14:]))
         self.assertEqual(report["stats"]["ignored_packets"], 1)
         self.assertEqual(report["stats"]["hosts"], 0)
 
