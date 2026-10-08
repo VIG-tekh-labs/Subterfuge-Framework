@@ -110,3 +110,11 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Files updated: `src/subterfuge/static/index.html`, `tests/test_pcapng.py`, `tests/test_web.py`, `src/subterfuge/name_resolution.py`, `tests/test_name_resolution.py`.
 - Remaining: integrate passive name-resolution observations into bounded PCAP processing, add passive DHCP parsing with fixtures, browser visual QA, actual capture validation, review historical plugin contracts, inspect CI results. Do not claim historical parity or merge into master.
 - Existing working directories contain uncommitted changes; keep them intact and use fresh archives/worktrees for remote-branch verification.
+
+## DHCPv4 passive analysis checkpoint — 2026-10-08
+
+- Added `src/subterfuge/dhcp.py`: offline-only bounded DHCPv4/BOOTP payload inspection, DHCP message-type and server-ID metadata, and presence-only WPAD option 252 review. No DHCP response generation, transmission, privileged network operation or option-252 contents retention.
+- Added `tests/test_dhcp.py` for synthetic offer, server identifier, WPAD indicator, and malformed input.
+- Local verification: 66 unittest tests passed on Linux/Python 3.14.7 using Desktop Commander device `eden` before publication. Full legacy module parity remains incomplete.
+- Publication: new DHCP module and tests committed to the continuation branch; `master` unchanged.
+- Next exact actions: verify fresh archive of published branch passes 66 tests; integrate passive DHCP/NBNS evidence into PCAP/PCAPNG packet processing with strict bounds and no payload retention; run browser QA and CI. Never run legacy active DHCP spoofing scripts as a routine test.
