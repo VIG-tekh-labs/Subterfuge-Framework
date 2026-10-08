@@ -284,3 +284,10 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Desktop Commander `eden` connected. A separately cloned worktree unexpectedly contained extensive modified/deleted files while other modernization activity had progressed; treat it as potentially concurrent work. **Do not reset, clean, force-push, or overwrite**. A test invocation in that worktree reported 76 passed, but its checkout was not clean and is **not** accepted as a reliable replacement for the more recent 89-test handoff.
 - Updated `LICENSING.md` at commit `1773c391` with a rights-holder/provenance decision gate. GPL declarations remain; GPLv2-only legacy material needs separate distribution review. Source reference: https://www.gnu.org/licenses/gpl-faq.en.html.
 - Next: obtain a stable clean snapshot of the latest published branch; compare exact SHA and handoff; run reproducible tests/wheel/sdist checks; inspect secrets in historical Git history, dependency SBOM, accessibility, passive capture edge cases, and feature-by-feature legacy migration; publish only verified changes with this roadmap updated. Keep `master` unchanged.
+
+## Fresh archive validation after licensing review — 2026-10-08
+
+- Fetched published continuation commit `ce92dfb`, exported an isolated Git archive to `/tmp/subterfuge-verify-fQ1u9i`, and ran independent Linux/Python 3.14 tests.
+- **89 tests passed; one Git-metadata-dependent test skipped** in the archive. `python3 -m compileall -q src/subterfuge` exited successfully. Both commands returned exit code 0.
+- This independently confirms the published code in this snapshot; it does not validate historical interception, real live interfaces, external networks, or comprehensive feature parity.
+- Next: new changes must use a new clean checkout or archive, add targeted tests, and preserve concurrently modified worktrees. Prioritize provenance/security compliance, passive capture interoperability, and accessibility before any release.
