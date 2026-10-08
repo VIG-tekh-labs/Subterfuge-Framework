@@ -26,11 +26,11 @@ This is an alpha modernization, not historical feature parity. Source paths belo
 
 ## Compatibility and validation
 
-The offline core has no runtime dependencies and targets Python 3.11+. Linux/Python 3.12 was exercised locally. The CI matrix requests Linux/Python 3.11–3.14 plus Windows/macOS/Python 3.12; results must be checked before expanding verified support claims. Live Scapy capture requires OS capture permissions and appropriate platform drivers. Nmap discovery requires Nmap installed separately. Neither live adapter was validated against a real network in this checkpoint. PCAPNG is not yet supported.
+The offline core has no runtime dependencies and targets Python 3.11+. Linux/Python 3.12 was exercised locally. The CI matrix requests Linux/Python 3.11–3.14 plus Windows/macOS/Python 3.12; results must be checked before expanding verified support claims. Live Scapy capture requires OS capture permissions and appropriate platform drivers. Nmap discovery requires Nmap installed separately. Neither live adapter was validated against a real network in this checkpoint. Experimental PCAPNG enhanced-packet parsing is available only on the modernization branch and has passed synthetic fixtures on Linux/Python 3.14; real capture compatibility is not yet validated.
 
 ## Next migration work
 
-1. Add PCAPNG support with malformed-input and resource-limit tests.
+1. Expand PCAPNG regression coverage with real captures, multi-section inputs and resource-limit tests.
 2. Add passive DHCP and name-resolution evidence analysis with isolated fixtures.
 3. Review historical proxy and plugin contracts against modern TLS and browser protections, documenting protocol and environment constraints before implementation.
 4. Verify live adapters in an isolated test network and reconcile historical functionality one module at a time.
