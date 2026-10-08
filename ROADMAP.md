@@ -379,3 +379,12 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Next: verify source tests, Node/browser QA, wheel/sdist membership and six-platform CI from the **published** new branch SHA. Continue genuine module-by-module safety/compatibility work, not indiscriminate file touching. Preserve master and GPL terms.
 
 - Media integrity follow-up: confirmed 8 obsolete 4-KiB AppleDouble resource-fork files (signature 00051607, unreferenced), removed them from the current branch only, and verified the remaining 45 image/icon resources decode successfully. These are 8 repository cleanup removals, distinct from 37 documentary header additions, with all decisions recorded in the CSV.
+
+## Published 24-hour stale-file audit — verified October 8, 2026
+
+- Audited the 104 files with last Git commit older than 24 hours at cutoff 2026-10-07 21:43 UTC. 37 first-party historic templates/configs received only non-executable review comments; eight unreferenced macOS AppleDouble resource-fork sidecars were removed; 59 old files were intentionally preserved with individual rationales and pre/post hashes.
+- All 45 remaining historical image/icon resources passed ImageMagick format/decode checks. GPL COPYING, third-party jQuery UI and SSLStrip code, raw data and active legacy payloads were not altered.
+- Published the exact reviewed tree in branch commit `b6864e3376c5eb59329e0120b8de0704d9cfd434`. Local staged tree and published Git tree both equal `d3eb27b0c0938dd52cef2e7be30238942601677a`; no master merge or history rewrite.
+- Fresh Git archive of published commit: 103 unittest cases discovered, 102 successful and one skipped because Git metadata is absent; Node report-schema QA passed (five valid fixtures and ten malformed fixtures); built wheel and source archive and passed distribution hygiene (18 wheel members, 63 source members).
+- GitHub Actions [run 37850134395](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37850134395) for commit `b6864e3` completed with **all six jobs successful** (Ubuntu Python 3.11–3.14, Windows and macOS Python 3.12).
+- This is **repository hygiene and historical status documentation**, not migration of Python 2/Twisted/Django interception functions. Modern runtime remains `2.0.0a2` alpha. Next: module-by-module migration decisions, authorized diverse capture corpus, isolated live passive adapter testing, licensing and old-secret handling with owner agreement.

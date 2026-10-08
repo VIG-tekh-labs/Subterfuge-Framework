@@ -127,3 +127,7 @@ full historical feature parity or cleared relicensing of derivative material.
 - 33 historical first-party Django template fragments and 4 obsolete configuration/launcher samples received non-executable status comments; 8 unreferenced AppleDouble macOS binary sidecars were removed, while 59 originals (including 45 valid images/icons, GPL license, vendor code, payloads and raw data) were intentionally preserved.
 - The 37 annotations change Git content and update file history but DO NOT make any historical Django/SSLStrip/DHCP hijacking modules functional under Python 3. The modern active distribution remains separate.
 - See STALE_24H_REVIEW_2026-10-08.md and FILE_REVIEW_OLDER_24H_2026-10-08.csv for every path, previous commit date, checksum and decision.
+
+### October 8 older-file audit: published and verified
+
+Commit `b6864e3376c5eb59329e0120b8de0704d9cfd434` reviewed 104 files more than 24 hours old (Git last-commit measure): 37 status comments, eight unused AppleDouble sidecars removed, 59 original files preserved. The 45 remaining images/icons decode correctly. It was independently verified from a fresh Git archive (103 test cases, 102 successes plus one Git-metadata skip; Node QA and wheel/sdist hygiene passed) and on all six GitHub Actions runners ([run 37850134395](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37850134395)). This maintenance checkpoint does not establish restored historical attack functionality; the modern package remains an alpha.

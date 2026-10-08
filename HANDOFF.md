@@ -124,3 +124,12 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - Examined 104 tracked files with last commit >24 hours before review. 37 first-party templates/configs annotated without executable changes; 8 unreferenced AppleDouble sidecars removed, 59 resources intentionally preserved. See STALE_24H_REVIEW_2026-10-08.md and FILE_REVIEW_OLDER_24H_2026-10-08.csv for every path, checksum and rationale.
 - Added tests/test_stale_file_review.py and included both review documents in the sdist manifest and archive auditor. **Do not claim these comments restored old functionality.**
 - Before continuing, verify the latest published feature SHA, run fresh checkout unit tests, Node report QA, wheel/sdist content audit and six-platform GitHub Actions. No master merge, force-push, license change or history rewrite without owner approval.
+
+## Definitive validation of the 24-hour legacy audit
+
+- Published branch commit `b6864e3376c5eb59329e0120b8de0704d9cfd434` is the verified historical-maintenance checkpoint; it does **not** supersede the previously recorded last functional-feature commit `d8bb5b8`.
+- Reviewed 104 paths: 37 safe first-party legacy status annotations, eight obsolete AppleDouble files removed (history preserved), 59 excluded from automatic changes, including GPL and third-party source, historical payloads and 45 intact decodable images/icons.
+- `FILE_REVIEW_OLDER_24H_2026-10-08.csv` contains one record per file and SHA-256 before/after; `STALE_24H_REVIEW_2026-10-08.md` contains the decision matrix. `tests/test_stale_file_review.py` checks the recorded disposition and snapshot integrity.
+- Direct independent Git archive validation of the published commit: 103 unittest cases discovered (102 successful, 1 conditional Git-metadata skip); Node browser-report validator passed; wheel and sdist built and artifact audit passed (18 / 63 archive members).
+- GitHub Actions [run 37850134395](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37850134395) passed six out of six platform jobs. Do not confuse these documentation-only old-file annotations with fully ported legacy functionality.
+- Next agent: read current remote HEAD, ROADMAP.md, MODERNIZATION_STATUS.md, MIGRATION_MATRIX.md and LICENSING.md; prioritize actually supported current code and safe historical replacements, preserve GPL/attribution, and avoid touching master unless owner explicitly authorizes.

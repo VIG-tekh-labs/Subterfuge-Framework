@@ -44,3 +44,10 @@ Baseline SHA: `060ae24e46b1d70307d26aa9bc98a0666cdc7483`
 - `FILE_AGE_INVENTORY_2026-10-08.csv` preserves the earlier long-term 252-file historic classification.
 - Modern Python regression tests, Node report schema checks, wheel/sdist hygiene checks and CI must pass after publishing.
 - Do not merge master, rewrite Git history or change licence terms without explicit owner approval.
+
+## Published GitHub verification
+
+- Published exact audited snapshot: `b6864e3376c5eb59329e0120b8de0704d9cfd434` on the modernization branch, not master. Git tree matches local staged tree (`d3eb27b0c0938dd52cef2e7be30238942601677a`).
+- Independent Git archive: 103 unittest cases discovered (102 passed; one skipped without Git metadata), Node report QA passed, wheel and source archives built, and distribution contents passed hygiene inspection (18 wheel members / 63 source members).
+- [GitHub Actions run 37850134395](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37850134395) verified all six Linux/Windows/macOS configurations successfully.
+- Source-code functional restoration is still pending for historical Python 2/Django/Twisted and interception modules. The 37 template/config comments are non-executing status markers only.
