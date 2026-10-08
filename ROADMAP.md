@@ -100,3 +100,13 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - **Executed checks:** 56/56 unittest cases passed; Python compileall passed; isolated `pip install .` built and installed wheel `subterfuge_framework-2.0.0a1`; installed CLI version and synthetic demo smoke checks passed.
 - **Remaining limitations:** historical interception/proxy/plugins remain unported; PCAPNG has only synthetic test coverage, not comprehensive real-capture validation; no network interception or active attack modules tested; Windows/macOS and CI results not verified.
 - Next: test real PCAPNG fixtures and multiple sections/interfaces, perform browser QA, inspect historical passive DHCP/name-resolution logic for safe Python 3 replacements, and verify CI before proposing a merge. Keep master untouched pending owner approval.
+
+## Passive name-resolution and PCAPNG UI checkpoint — 2026-10-08
+
+- Examined historical `utilities/dhcptools.py` and `utilities/nbtools.py`: both depend on Python 2 syntax, old Scapy behavior, hard-coded addresses and active packet transmission. These are not compatible or safe to run unchanged. Original sources remain preserved for review.
+- Added `src/subterfuge/name_resolution.py`: dependency-free, offline-only NBNS query datagram decoding, including WPAD observation without spoofing or packet transmission. Added `tests/test_name_resolution.py`. This is a library parser, not yet integrated with full PCAP capture workflows.
+- Expanded PCAPNG regressions for multiple sections of differing byte order, timestamp resolution options and malformed option/packet limits. Updated dashboard input and text to accept experimental PCAPNG uploads, and added an HTTP import test.
+- Verification on Desktop Commander `eden`, Linux Python 3.14.7: 63 tests passed in local worktree; 63 tests passed again from a fresh archive of the published branch commit `14b97dd`. No external network testing or active interception occurred.
+- Files updated: `src/subterfuge/static/index.html`, `tests/test_pcapng.py`, `tests/test_web.py`, `src/subterfuge/name_resolution.py`, `tests/test_name_resolution.py`.
+- Remaining: integrate passive name-resolution observations into bounded PCAP processing, add passive DHCP parsing with fixtures, browser visual QA, actual capture validation, review historical plugin contracts, inspect CI results. Do not claim historical parity or merge into master.
+- Existing working directories contain uncommitted changes; keep them intact and use fresh archives/worktrees for remote-branch verification.
