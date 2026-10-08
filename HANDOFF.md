@@ -3,7 +3,7 @@
 **Date:** 2026-10-08 (Europe/Brussels)  
 **Repository:** https://github.com/VIG-tekh-labs/Subterfuge-Framework  
 **Working branch:** `modernization-2026-10-08-continuation`  
-**Last fully validated feature commit:** `d18dd998dc28d89d460271d2fe3945ad7a46966b`  
+**Last fully validated feature commit:** `d8bb5b836b20046e13712beced1e03c7b5ee36c5`  
 **Development version:** `2.0.0a2` (alpha; NOT full historical restoration)
 
 ## Verified results at this checkpoint
@@ -84,3 +84,12 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - Independent Git archive of published `d18dd99` passed **99 Python test cases: 98 passed, 1 Git-metadata test skipped**; Node report-schema QA passed (5 valid, 10 malformed); wheel and source archives built; archive audit found **18 wheel members and 57 source members with no prohibited files**.
 - **CI caveat:** prior browser-validator run [37839864418](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37839864418) passed all six matrix jobs. New source-distribution run [37840372524](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840372524) was **in progress** at last check. Confirm all six results before expanding validated cross-platform claims.
 - Next: verify six newest CI jobs and inspect failures if any; extend safe real-capture corpus, UI keyboard/a11y tests, and historical module audit. Legacy Django/Twisted/jQuery are unnecessary for modern runtime; GPL and historical-license obligations remain. Never force-push, merge master or rewrite history without owner approval.
+
+## Current handoff — accessibility and release hygiene
+
+- Latest verified feature commit: `d8bb5b836b20046e13712beced1e03c7b5ee36c5`. Updated roadmap checkpoint: `c60fb6c070cbebdd8f8353500343e323364cac0a`.
+- Dashboard now gives explicit accessible semantics to the host inventory and dynamically rendered passive evidence/findings/warnings. A Python HTTP boundary test and sandboxed Chromium QA exercise these attributes with valid PCAPNG saved-report imports.
+- Fresh Git archive of `d8bb5b8`: 100 test cases discovered, **99 passed, 1 skipped** (Git metadata absent); Node browser validator (5 valid, 10 malformed) and sandboxed Chromium QA succeeded, with zero uncaught browser exceptions. Local Git worktree ran all 100 tests successfully.
+- Artifact-build and archive-hygiene workflow run [37840372524](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840372524) **passed all six** Linux/Windows/macOS jobs. The newer accessibility workflow run [37840748127](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840748127) was in progress at last check.
+- Remember: current alpha supports passive capture/inventory/TLS review but does NOT have historical active-interception feature parity. GPL obligations remain, historical public secrets need owner-coordinated remediation, and there is no permission to merge master, force-push or rewrite history.
+- Next: verify newest six CI jobs; expand authentic sample capture and malformed-input test corpus; test keyboard accessibility in a real browser, and continue safe module-by-module migration. Keep ROADMAP.md updated after each verified change.
