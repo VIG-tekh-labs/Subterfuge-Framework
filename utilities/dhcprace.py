@@ -42,3 +42,4 @@ while 1:
    data = sniff(filter="udp and port 137", count=1)
    nbQueryCheck(data[0], globalvar['attackerip'], 'f0:7b:cb:4d:d6:6f')
 '''
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

@@ -87,3 +87,4 @@ def logSession(source, cookie):
 
     
 a = sniff(filter="tcp and ( port 80 )", prn=getCookies)
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

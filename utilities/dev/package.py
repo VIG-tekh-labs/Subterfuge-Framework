@@ -7,3 +7,4 @@ os.system("cat /usr/share/subterfuge/utilities/dev/build_db.sql | sqlite3 /usr/s
 os.system("rm /usr/share/subterfuge/base_db")
 os.system("cp /usr/share/subterfuge/db /usr/share/subterfuge/base_db")
 
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

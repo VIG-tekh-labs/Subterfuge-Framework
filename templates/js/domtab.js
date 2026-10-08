@@ -254,3 +254,4 @@ domtab={
 }
 domtab.addEvent(window, 'load', domtab.init, false);
 	
+// Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

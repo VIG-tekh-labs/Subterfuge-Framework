@@ -9,3 +9,4 @@ current_revision_number = 3
 
 #Debian versioning
 
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

@@ -1,0 +1,181 @@
+# Maintenance change counts
+
+Date: 2026-10-08. Baseline: `d917e53bfe46647495794c2c8897789c61c2e94e`.
+
+| Category | Count |
+| --- | ---: |
+| Existing source files with comment-only markers | 71 |
+| New directory maintenance notes | 26 |
+| Updated root status documents | 2 |
+| New count report | 1 |
+| Functional fixes in this checkpoint | 0 |
+| Dependency upgrades in this checkpoint | 0 |
+| Existing files retaining identical content | 163 |
+
+All 26 existing directories receive a new maintenance note. This does not update the last-change date of every existing file. Filesystem touch operations are not tracked by Git. No application-wide compatibility claim is made.
+
+## Existing files unchanged
+
+- `COPYING`
+- `MAINTENANCE.md`
+- `__init__.pyc`
+- `base_db`
+- `cease/__init__.pyc`
+- `cease/models.pyc`
+- `cease/tests.pyc`
+- `cease/views.pyc`
+- `cert.pem`
+- `credentials.txt`
+- `db`
+- `definitions/passwordfields.lst`
+- `definitions/usernamefields.lst`
+- `harvester.log`
+- `httpall.log`
+- `lock.ico`
+- `main/__init__.pyc`
+- `main/models.pyc`
+- `main/views.pyc`
+- `mitmproxy.log`
+- `modules/TunnelBlock/TunnelBlock.pyc`
+- `modules/__init__.pyc`
+- `modules/db`
+- `modules/dos/dos.pyc`
+- `modules/exportcreds.pyc`
+- `modules/harvester/ftp_password_sniffer.pyc`
+- `modules/harvester/harvester.pyc`
+- `modules/httpcodeinjection/httpcodeinjection.pyc`
+- `modules/httpcodeinjection/httpcodeinjection.rc`
+- `modules/httpcodeinjection/inject.x`
+- `modules/models.pyc`
+- `modules/modextras.pyc`
+- `modules/sessionhijacking/cookiestealer.pyc`
+- `modules/templatetags/__init__.pyc`
+- `modules/templatetags/modextras.pyc`
+- `modules/views.pyc`
+- `settings.pyc`
+- `sslstrip.log`
+- `sslstrip/ClientRequest.pyc`
+- `sslstrip/CookieCleaner.pyc`
+- `sslstrip/DnsCache.pyc`
+- `sslstrip/SSLServerConnection.pyc`
+- `sslstrip/ServerConnection.pyc`
+- `sslstrip/ServerConnectionFactory.pyc`
+- `sslstrip/StrippingProxy.pyc`
+- `sslstrip/URLMonitor.pyc`
+- `sslstrip/__init__.pyc`
+- `sslstrip/clientip`
+- `sslstrip/db`
+- `sslstrip/sslstrip`
+- `subterfuge.conf`
+- `templates/._home.ext`
+- `templates/._netview.ext`
+- `templates/basic.tm`
+- `templates/css/._main.css`
+- `templates/domtab/index.html`
+- `templates/home.ext`
+- `templates/images/._down copy 2.png`
+- `templates/images/._down copy.png`
+- `templates/images/._down.png`
+- `templates/images/TranspFills/transpBlack10.png`
+- `templates/images/TranspFills/transpBlack25.png`
+- `templates/images/TranspFills/transpBlack50.png`
+- `templates/images/TranspFills/transpBlack75.png`
+- `templates/images/TranspFills/transpBlack90.png`
+- `templates/images/TranspFills/transpBlue10.png`
+- `templates/images/TranspFills/transpBlue25.png`
+- `templates/images/TranspFills/transpBlue50.png`
+- `templates/images/TranspFills/transpBlue75.png`
+- `templates/images/TranspFills/transpBlue90.png`
+- `templates/images/activity.gif`
+- `templates/images/black_arrow.png`
+- `templates/images/down copy 2.png`
+- `templates/images/down copy.png`
+- `templates/images/down.png`
+- `templates/images/expand.png`
+- `templates/images/help.png`
+- `templates/images/loader.gif`
+- `templates/images/logo.png`
+- `templates/images/menu.png`
+- `templates/images/netview/green.png`
+- `templates/images/netview/lnx.png`
+- `templates/images/netview/osx.png`
+- `templates/images/netview/red.png`
+- `templates/images/netview/unknown.png`
+- `templates/images/netview/win.png`
+- `templates/images/notify.png`
+- `templates/images/panel.jpg`
+- `templates/images/panelsmall.png`
+- `templates/images/plugins/builder.png`
+- `templates/images/plugins/dos.png`
+- `templates/images/plugins/evilgrade.png`
+- `templates/images/plugins/harvester.png`
+- `templates/images/plugins/hijacking.png`
+- `templates/images/plugins/httpcodeinjection.png`
+- `templates/images/plugins/injection.png`
+- `templates/images/plugins/netview.png`
+- `templates/images/plugins/tunnelblock.png`
+- `templates/images/redbuttonbg.png`
+- `templates/images/subterfugebg.jpg`
+- `templates/images/title.png`
+- `templates/images/transpBlack75.png`
+- `templates/images/transpBlue50.png`
+- `templates/images/transpBlue90.png`
+- `templates/includes/._credtable.inc`
+- `templates/includes/._netview.inc`
+- `templates/includes/credtable.inc`
+- `templates/includes/footer.inc`
+- `templates/includes/header.inc`
+- `templates/includes/hostcheck.inc`
+- `templates/includes/nav.inc`
+- `templates/includes/netview.inc`
+- `templates/includes/notificationtable.inc`
+- `templates/js/jquery-ui.js`
+- `templates/mod.ext`
+- `templates/mods/builder.mod`
+- `templates/mods/builder_page.mod`
+- `templates/mods/builder_settings.mod`
+- `templates/mods/default.mod`
+- `templates/mods/default_settings.mod`
+- `templates/mods/dos.mod`
+- `templates/mods/dos_settings.mod`
+- `templates/mods/harvester.mod`
+- `templates/mods/harvester_settings.mod`
+- `templates/mods/netview.mod`
+- `templates/mods/netview_settings.mod`
+- `templates/mods/tunnelblock.mod`
+- `templates/mods/tunnelblock_settings.mod`
+- `templates/netview.ext`
+- `templates/notifications.ext`
+- `templates/plugins.ext`
+- `templates/profile.tm`
+- `templates/settings.ext`
+- `templates/settings.ext~`
+- `templates/settings/advanced/menu.set`
+- `templates/settings/vectors/arpcachepoisoning.set`
+- `templates/settings/vectors/roguedhcp.set`
+- `templates/settings/vectors/wirelessapgenerator.set`
+- `templates/settings/vectors/wpadhijack.set`
+- `templates/wpad.dat`
+- `update.pyc`
+- `urls.pyc`
+- `utilities/apgen.pyc`
+- `utilities/arpmitm.pyc`
+- `utilities/arpwatch.pyc`
+- `utilities/dev/build_db.sql`
+- `utilities/dev/package.pyc`
+- `utilities/dev/webdump`
+- `utilities/dhcpd.conf`
+- `utilities/dhcprace.pyc`
+- `utilities/dhcptools.pyc`
+- `utilities/errorhandler.pyc`
+- `utilities/nbtools.pyc`
+- `utilities/notification.pyc`
+- `utilities/rearp.pyc`
+- `utilities/scan.pyc`
+- `utilities/scanindicator.pyc`
+- `utilities/stop.pyc`
+- `utilities/subfunctions.pyc`
+- `utilities/subutils.pyc`
+- `utilities/wpadhijack.pyc`
+- `versioninfo.pyc`
+- `xsubterfuge`

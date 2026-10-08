@@ -188,3 +188,4 @@ def wpad(request):
    return render_to_response("wpad.dat", {
 	   "na"  :   "na"
    })  
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

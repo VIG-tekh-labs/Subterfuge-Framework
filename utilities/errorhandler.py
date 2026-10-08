@@ -25,3 +25,4 @@ def notification_scan(type):
 def notification_main(type):
    if type == "init":
       os.system("python /usr/share/subterfuge/utilities/notification.py 'Starting' 'Subterfuge attack initializing...' '' 'hidden'")
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

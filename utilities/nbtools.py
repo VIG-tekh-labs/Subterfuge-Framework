@@ -105,3 +105,4 @@ def nbResponse(pkt, srcip, srcmac):
                                   NB_ADDRESS= srcip)
    sendp(packet, verbose=0)
    print "Hijacking!"
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

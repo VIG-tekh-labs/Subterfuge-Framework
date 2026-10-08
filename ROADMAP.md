@@ -77,6 +77,14 @@ For every publication, refresh the target branch, preserve unrelated files, veri
 
 ## Checkpoint discipline
 
-Automatically update this file after each development step, check, publication, failed attempt or blocker, and before starting a long step or ending a session. Do not wait for an owner reminder. Record changed paths, actual validation, publication state, remaining issues and the exact next action. Tell the owner when the checkpoint changes.
+Automatically update this file after each development step, check, publication, failed attempt or blocker, and before starting a long step or ending a session. Do not wait for an owner reminder. Record changed paths, actual validation, publication state, remaining issues and the exact next action. Keep routine checkpoint bookkeeping in the background; report newly updated directories once.
 
 Never mark implementation, tests or publication complete without corresponding evidence. Use English for repository documentation, instructions, comments and commit messages. Keep the repository free of generated branding or signatures.
+
+## Repository-wide maintenance checkpoint — 2026-10-08
+
+Owner requested visible activity across historical files and directories, with cosmetic maintenance counted separately from real modernization. Git does not record filesystem touch operations.
+
+This checkpoint adds comment-only markers to 71 historical Python, JavaScript and CSS files and a maintenance note in all 26 existing directories. It updates README.md and this roadmap and adds MAINTENANCE_COUNTS.md. It introduces no dependency upgrades or functional fixes. Binary assets, databases, compiled files, license text and unsupported text formats retain their original content. The large bundled jquery-ui.js is also unchanged. Directory activity does not imply every contained file was modified.
+
+The separate working copy contains unpublished development work. Preserve it and validate its latest state before publication. Next: reconcile this checkpoint with the development branch, verify packaging and functional tests, then publish actual runtime modernization with a separate change count. Do not treat comment-only maintenance as a modern release.

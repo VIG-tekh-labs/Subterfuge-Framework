@@ -72,3 +72,4 @@ else:
 	print "Local IP Address =>", myip
 
 sniff(prn=arp_monitor_callback, filter="arp", store=0)
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

@@ -16,3 +16,4 @@ while True:
    else:
       time.sleep(.5)
       
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

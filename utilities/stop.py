@@ -14,3 +14,4 @@ os.system('iptables -t nat --delete-chain')
 os.system('airmon-ng stop mon0')
 os.system('airmon-ng stop at0')
 os.system('killall -9 dhcpd3')
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

@@ -30,3 +30,4 @@ os.system('iptables --append FORWARD --in-interface at0 -j ACCEPT')
 time.sleep(2)
 os.system('dhcpd3')
 time.sleep(10)
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

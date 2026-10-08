@@ -42,3 +42,4 @@ class sessions(models.Model):
     session    = models.CharField(max_length=300)
     date        = models.CharField(max_length=300)
     
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

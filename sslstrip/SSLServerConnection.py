@@ -104,3 +104,4 @@ class SSLServerConnection(ServerConnection):
             self.buildAbsoluteLink(match.group(10))
 
         return data
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

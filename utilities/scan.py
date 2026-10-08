@@ -135,3 +135,4 @@ def insert(target, ports, os, osdetails, mac, hostname):
 
 if __name__ == '__main__':
                          main()
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

@@ -6,3 +6,4 @@ print "No new files to download."
 #os.system("chmod +x subterfuge")
 #os.system("rm /bin/subterfuge")
 #os.system("mv subterfuge /bin/")
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

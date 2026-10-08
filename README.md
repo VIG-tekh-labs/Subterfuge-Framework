@@ -6,7 +6,7 @@ This fork is being maintained to restore usability on current Python environment
 
 **This development version is not yet a functional, validated application. No modern release has been published.**
 
-This maintenance checkpoint updates documentation only. The modern runtime draft is not yet included on `master`.
+The latest maintenance checkpoint adds documentation and comment-only markers; it introduces no functional changes. The modern runtime draft is not yet included on `master`.
 
 ## Current status
 
@@ -29,3 +29,5 @@ Contributions are welcome through issues and pull requests. Proposed changes wil
 The original documentation is available in the [historical revision](https://github.com/VIG-tekh-labs/Subterfuge-Framework/blob/6c35097c202ee2c23fa68ab966711c9cf9300c95/README.md). Its installation instructions describe the historical implementation and have not been validated for current environments.
 
 Original contributors, source history and the [license](COPYING) are retained.
+
+See [MAINTENANCE_COUNTS.md](MAINTENANCE_COUNTS.md) for the distinction between maintenance activity and functional modernization.

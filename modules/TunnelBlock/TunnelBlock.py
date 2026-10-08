@@ -12,3 +12,4 @@ os.system("iptables -A FORWARD -p udp --destination-port 4500 -j DROP")
 os.system("iptables -A FORWARD -p udp --destination-port 10000 -j DROP")
 #OpenVPN Tunnels
 os.system("iptables -A FORWARD -p udp --destination-port 1194 -j DROP")
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

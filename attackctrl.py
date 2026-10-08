@@ -360,3 +360,4 @@ if len(sys.argv) < 1:
     exit()
 else:
     attack(sys.argv[1])
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

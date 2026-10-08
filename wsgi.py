@@ -29,3 +29,4 @@ application = get_wsgi_application()
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

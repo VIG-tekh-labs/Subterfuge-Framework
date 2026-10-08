@@ -172,3 +172,4 @@ class ClientRequest(Request):
                 
         icoFile.close()
         self.finish()
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

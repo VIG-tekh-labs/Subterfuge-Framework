@@ -24,3 +24,4 @@ urlpatterns = patterns('',
     url(r'^wpad.dat', 'modules.views.wpad', name='WPAD'),
     
 )
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

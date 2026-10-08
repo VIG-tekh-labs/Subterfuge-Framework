@@ -12,3 +12,4 @@ def expandtrack(value):
    print "visible"
    print value
    return value
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.

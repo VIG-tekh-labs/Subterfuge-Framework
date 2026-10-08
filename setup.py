@@ -46,3 +46,4 @@ try:
 except:
    print "[!] An unknown error occurred while attempting to install Subterfuge"
    exit(1)
+# Maintenance checkpoint: 2026-10-08; legacy runtime migration pending.
