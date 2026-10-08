@@ -343,3 +343,9 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Verified GitHub Actions run [37840372524](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840372524) for distribution/audit feature commit `d18dd99`: **all six jobs** (Linux Python 3.11–3.14; Windows/macOS Python 3.12) completed successfully, including new wheel/sdist inspections. Latest UI accessibility run [37840748127](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840748127) was **in progress** at last inspection; do not claim full matrix validation for `d8bb5b8` until checked.
 - Historical Python 2/Django/Twisted sources remain reference-only, modern runtime is `2.0.0a2` alpha, licensing review is still provisional, and master has not been modified.
 - **Next exact actions:** confirm latest `d8bb5b8` CI result, extend real-world PCAPNG/DHCP/NBNS sample corpus and malformed-input fuzzing, inspect accessibility with keyboard/screen-reader tooling, validate optional live passive capture only in an expressly authorized isolated environment, and progress migration-matrix entries with accurate verified/unsupported labels.
+
+## Six-platform accessibility CI follow-up — 2026-10-08
+
+- Verified GitHub Actions run [37840748127](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840748127) for accessibility feature commit `d8bb5b836b20046e13712beced1e03c7b5ee36c5`: **all six jobs completed successfully** (Ubuntu/Python 3.11, 3.12, 3.13 and 3.14; Windows and macOS/Python 3.12).
+- All modern features published up to this feature commit have now passed the GitHub Actions matrix. Documentation-only commits may still have queued runs; do not mistake queued doc runs for unvalidated functional changes.
+- Follow the previous checkpoint's next-action list, keeping unported legacy modules, historical license obligations and secret-remediation decisions separate from the verified modern alpha.
