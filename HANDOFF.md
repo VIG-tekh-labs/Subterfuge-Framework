@@ -93,3 +93,9 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - Artifact-build and archive-hygiene workflow run [37840372524](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840372524) **passed all six** Linux/Windows/macOS jobs. The newer accessibility workflow run [37840748127](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840748127) was in progress at last check.
 - Remember: current alpha supports passive capture/inventory/TLS review but does NOT have historical active-interception feature parity. GPL obligations remain, historical public secrets need owner-coordinated remediation, and there is no permission to merge master, force-push or rewrite history.
 - Next: verify newest six CI jobs; expand authentic sample capture and malformed-input test corpus; test keyboard accessibility in a real browser, and continue safe module-by-module migration. Keep ROADMAP.md updated after each verified change.
+
+## CI status confirmation after accessibility delivery
+
+- GitHub Actions run [37840748127](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840748127) for latest fully verified **feature** commit `d8bb5b8` has now completed with **six out of six jobs successful** (Linux Python 3.11–3.14, macOS/Windows Python 3.12).
+- Earlier "pending" notes above are retained as chronological history and are superseded by this confirmation. The code feature branch remains alpha `2.0.0a2`; current GitHub documentation-only head can be newer than the last tested feature commit.
+- Next session must read current branch HEAD, `ROADMAP.md`, and this `HANDOFF.md`; resume focused real-capture interoperability, authorized lab-only passive adapter QA, accessibility keyboard checks, and source/license/secret provenance review, without merging master or rewriting history.
