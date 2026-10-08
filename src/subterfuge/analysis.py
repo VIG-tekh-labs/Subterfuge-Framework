@@ -151,8 +151,117 @@ def _arp_frame(frame: bytes, linktype: int) -> tuple[str, str, int] | None:
     return ip, mac, operation
 
 
+
+def _analyze_pcapng(data: bytes, source: str) -> dict:
+    """Read bounded PCAPNG section/interface/enhanced-packet blocks, without payload retention."""
+    if len(data) > MAX_INPUT_BYTES:
+        raise AnalysisError("Capture exceeds the 64 MiB input limit.")
+    if len(data) < 28:
+        raise AnalysisError("Truncated PCAPNG section header.")
+    tracker = ArpTracker(source, kind="pcapng")
+    position = 0
+    endian = None
+    interfaces: list[tuple[int, int, float]] = []
+    packets = ignored = 0
+    sections = 0
+    while position < len(data):
+        if len(data) - position < 12:
+            raise AnalysisError("Truncated PCAPNG block header.")
+        block_magic = data[position:position + 4]
+        if block_magic == b"\x0a\x0d\x0d\x0a":
+            if len(data) - position < 28:
+                raise AnalysisError("Truncated PCAPNG section header.")
+            marker = data[position + 8:position + 12]
+            if marker == b"\x4d\x3c\x2b\x1a":
+                endian = "<"
+            elif marker == b"\x1a\x2b\x3c\x4d":
+                endian = ">"
+            else:
+                raise AnalysisError("Invalid PCAPNG byte-order marker.")
+            block_type = 0x0A0D0D0A
+        else:
+            if endian is None:
+                raise AnalysisError("PCAPNG requires a section header.")
+            block_type = struct.unpack_from(endian + "I", data, position)[0]
+        length = struct.unpack_from(endian + "I", data, position + 4)[0]
+        if length < 12 or length % 4 or length > len(data) - position:
+            raise AnalysisError("Invalid or truncated PCAPNG block length.")
+        if struct.unpack_from(endian + "I", data, position + length - 4)[0] != length:
+            raise AnalysisError("PCAPNG block length trailer mismatch.")
+        body = position + 8
+        body_end = position + length - 4
+        if block_type == 0x0A0D0D0A:
+            if length < 28 or struct.unpack_from(endian + "HH", data, body + 4) != (1, 0):
+                raise AnalysisError("Unsupported PCAPNG section version.")
+            sections += 1
+            interfaces = []
+        elif block_type == 1:
+            if body_end - body < 8:
+                raise AnalysisError("Truncated PCAPNG interface block.")
+            linktype, _, snaplen = struct.unpack_from(endian + "HHI", data, body)
+            if len(interfaces) >= 256 or not 0 < snaplen <= MAX_PACKET_BYTES:
+                raise AnalysisError("Invalid PCAPNG interface count or snapshot length.")
+            if linktype not in (1, 113, 276):
+                raise AnalysisError(f"Unsupported capture link type: {linktype}.")
+            resolution = 1e-6
+            option = body + 8
+            while option < body_end:
+                if body_end - option < 4:
+                    raise AnalysisError("Truncated PCAPNG interface option.")
+                code, size = struct.unpack_from(endian + "HH", data, option)
+                option += 4
+                padded = (size + 3) & ~3
+                if padded > body_end - option:
+                    raise AnalysisError("Invalid PCAPNG option length.")
+                if code == 0:
+                    if size != 0:
+                        raise AnalysisError("Invalid PCAPNG end-of-options.")
+                    break
+                if code == 9:
+                    if size != 1:
+                        raise AnalysisError("Invalid PCAPNG timestamp resolution.")
+                    value = data[option]
+                    resolution = (2.0 ** -(value & 127)) if value & 128 else (10.0 ** -value)
+                    if resolution == 0 or not math.isfinite(resolution):
+                        raise AnalysisError("Invalid PCAPNG timestamp resolution.")
+                option += padded
+            interfaces.append((linktype, snaplen, resolution))
+        elif block_type == 6:
+            if body_end - body < 20:
+                raise AnalysisError("Truncated PCAPNG enhanced packet.")
+            interface_id, ts_hi, ts_lo, length_captured, length_original = struct.unpack_from(endian + "IIIII", data, body)
+            if interface_id >= len(interfaces):
+                raise AnalysisError("PCAPNG packet refers to missing interface.")
+            linktype, snaplen, resolution = interfaces[interface_id]
+            if (length_captured > snaplen or length_captured > MAX_PACKET_BYTES
+                    or length_captured > length_original
+                    or ((length_captured + 3) & ~3) > body_end - (body + 20)):
+                raise AnalysisError("Invalid PCAPNG packet length.")
+            packets += 1
+            if packets > MAX_PACKETS:
+                raise AnalysisError("Packet limit exceeded.")
+            frame = data[body + 20:body + 20 + length_captured]
+            try:
+                event = _arp_frame(frame, linktype)
+            except AnalysisError:
+                event = None
+            if event is not None:
+                timestamp = ((ts_hi << 32) | ts_lo) * resolution
+                if not math.isfinite(timestamp):
+                    raise AnalysisError("Invalid PCAPNG timestamp.")
+                tracker.observe(*event, timestamp)
+            else:
+                ignored += 1 if not (len(frame) < 0) else 0
+        position += length
+    if not sections:
+        raise AnalysisError("PCAPNG has no section header.")
+    if ignored:
+        tracker.report["warnings"].append("Incomplete ARP frames were ignored.")
+    tracker.report["capture"] = {"format": "pcapng", "sections": sections, "interfaces_last_section": len(interfaces)}
+    return tracker.finish(packets, ignored)
+
 def analyze_pcap(data: bytes, source: str = "capture") -> dict:
-    """Analyze classic PCAP. PCAPNG must be converted before import."""
+    """Analyze classic PCAP or bounded PCAPNG enhanced packets."""
     if len(data) > MAX_INPUT_BYTES:
         raise AnalysisError("Capture exceeds the 64 MiB input limit.")
     if len(data) < 24:
@@ -164,7 +273,7 @@ def analyze_pcap(data: bytes, source: str = "capture") -> dict:
         b"\xa1\xb2\x3c\x4d": (">", 1_000_000_000),
     }
     if data[:4] == b"\x0a\x0d\x0d\x0a":
-        raise AnalysisError("PCAPNG is not supported; convert to classic PCAP with editcap -F pcap.")
+        return _analyze_pcapng(data, source)
     if data[:4] not in formats:
         raise AnalysisError("Unrecognized PCAP format.")
     endian, resolution = formats[data[:4]]
