@@ -42,22 +42,58 @@ function status(message,error=false){byId('status').textContent=message;byId('st
 function node(tag,text,className){const element=document.createElement(tag);element.textContent=text;if(className)element.className=className;return element}
 function validateImportedReport(report){
   const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
-  if(!object(report)||report.schema_version!==1||typeof report.kind!=='string'||!object(report.stats)||
+  const text=(value,limit=1024)=>typeof value==='string'&&value.length<=limit;
+  const optionalList=(value,limit,itemCheck)=>value===undefined||
+    (Array.isArray(value)&&value.length<=limit&&value.every(itemCheck));
+  const integer=value=>Number.isSafeInteger(value)&&value>=0;
+  const optionalInteger=value=>value===undefined||integer(value);
+  const optionalText=(value,limit=1024)=>value===undefined||text(value,limit);
+  const optionalTime=value=>value===undefined||value===null||
+    (typeof value==='number'&&Number.isFinite(value));
+  if(!object(report)||report.schema_version!==1||!text(report.kind,64)||!report.kind||
+     !object(report.stats)||!optionalText(report.source,2048)||
+     !optionalText(report.generated_at,128)||
      !Array.isArray(report.hosts)||!Array.isArray(report.findings)||!Array.isArray(report.warnings)||
      report.hosts.length>10000||report.findings.length>10000||report.warnings.length>10000||
-     !Array.isArray(report.network_evidence||[])||(report.network_evidence||[]).length>1024){
+     !optionalList(report.network_evidence,1024,object)){
     throw new Error('Invalid or unsupported Subterfuge report structure.');
   }
-  for(const host of report.hosts){
-    if(!object(host)||!Array.isArray(host.mac_addresses||[])||!Array.isArray(host.addresses||[])||
-       !Array.isArray(host.ports||[]))throw new Error('Invalid host structure in saved report.');
+  for(const key of ['open_ports','arp_packets','packets','hosts','findings']){
+    if(!optionalInteger(report.stats[key]))throw new Error('Invalid report statistics.');
   }
-  if(report.findings.some(f=>!object(f))||report.warnings.some(w=>typeof w!=='string')||
-     (report.network_evidence||[]).some(item=>!object(item))){
-    throw new Error('Invalid findings or observations in saved report.');
+  for(const host of report.hosts){
+    if(!object(host)||!optionalText(host.address,512)||!optionalText(host.status,256)||
+       !optionalInteger(host.observations)||!optionalTime(host.first_seen)||
+       !optionalTime(host.last_seen)||
+       !optionalList(host.mac_addresses,256,value=>text(value,64))||
+       !optionalList(host.addresses,128,value=>text(value,128))||
+       !optionalList(host.ports,4096,port=>object(port)&&
+         Number.isInteger(port.port)&&port.port>=1&&port.port<=65535&&
+         optionalText(port.protocol,32)&&optionalText(port.service,256)&&
+         optionalText(port.state,64))){
+      throw new Error('Invalid host structure in saved report.');
+    }
+  }
+  if(report.findings.some(f=>!object(f)||!text(f.message,4096)||
+       !optionalText(f.interpretation,8192)||!optionalText(f.address,512))||
+     report.warnings.some(w=>!text(w,4096))){
+    throw new Error('Invalid findings or warnings in saved report.');
+  }
+  for(const item of report.network_evidence||[]){
+    if(!object(item)||!integer(item.observations)||
+       (item.protocol!=='dhcp'&&item.protocol!=='nbns')||
+       (item.protocol==='dhcp'&&(!text(item.message_type,64)||
+        (item.server_identifier!==undefined&&item.server_identifier!==null&&
+         !text(item.server_identifier,128))||
+        (item.wpad_option_present!==undefined&&typeof item.wpad_option_present!=='boolean')))||
+       (item.protocol==='nbns'&&(!text(item.name,256)||
+         !optionalInteger(item.query_type)||!optionalInteger(item.suffix)))){
+      throw new Error('Invalid passive evidence in saved report.');
+    }
   }
   return report;
 }
+
 function render(report){
   currentReport=report;const hosts=report.hosts||[];const findings=report.findings||[];const inventory=report.kind==='nmap'||report.kind==='discovery'||report.kind==='service_scan';const tls=report.kind==='tls';
   byId('hosts').textContent=hosts.length;byId('activity-label').textContent=tls?'Verified TLS':inventory?'Open ports':'ARP packets';byId('activity').textContent=tls?(report.tls?.certificate_verified?1:0):((inventory?report.stats.open_ports:report.stats.arp_packets)||0);byId('findings-count').textContent=findings.length;
