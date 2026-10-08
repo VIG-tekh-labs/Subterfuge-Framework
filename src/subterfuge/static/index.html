@@ -40,7 +40,7 @@ const byId=id=>document.getElementById(id);
 function status(message,error=false){byId('status').textContent=message;byId('status').classList.toggle('error',error)}
 function node(tag,text,className){const element=document.createElement(tag);element.textContent=text;if(className)element.className=className;return element}
 function render(report){
-  currentReport=report;const hosts=report.hosts||[];const findings=report.findings||[];const inventory=report.kind==='nmap'||report.kind==='discovery';const tls=report.kind==='tls';
+  currentReport=report;const hosts=report.hosts||[];const findings=report.findings||[];const inventory=report.kind==='nmap'||report.kind==='discovery'||report.kind==='service_scan';const tls=report.kind==='tls';
   byId('hosts').textContent=hosts.length;byId('activity-label').textContent=tls?'Verified TLS':inventory?'Open ports':'ARP packets';byId('activity').textContent=tls?(report.tls?.certificate_verified?1:0):((inventory?report.stats.open_ports:report.stats.arp_packets)||0);byId('findings-count').textContent=findings.length;
   byId('source').textContent=report.source||'Report';byId('host-rows').replaceChildren();
   for(const host of hosts){const row=document.createElement('tr');const address=host.address||(host.addresses||[]).join(', ')||'Unknown';const ports=(host.ports||[]).filter(p=>p.state==='open').map(p=>`${p.port}/${p.protocol} ${p.service}`).join(', ');const observation=inventory?(ports||host.status):`${host.observations} ARP observations`;row.append(node('td',address),node('td',(host.mac_addresses||[]).join(', ')||'—'),node('td',observation||'—'));byId('host-rows').append(row)}

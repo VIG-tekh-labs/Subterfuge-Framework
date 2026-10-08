@@ -9,7 +9,7 @@ import sys
 
 from . import __version__
 from .analysis import AnalysisError, analyze_nmap, analyze_pcap, read_input, write_report
-from .environment import capture, discover, doctor, interfaces
+from .environment import capture, discover, doctor, interfaces, scan_services
 
 
 def parser() -> argparse.ArgumentParser:
@@ -25,13 +25,18 @@ def parser() -> argparse.ArgumentParser:
     command.add_argument("--output", type=Path)
     command = commands.add_parser("demo", help="Analyze a synthetic capture without sending traffic")
     command.add_argument("--output", type=Path)
-    for name, label in [("analyze-pcap", "Analyze a classic PCAP capture"), ("import-nmap", "Import an Nmap XML inventory")]:
+    for name, label in [("analyze-pcap", "Analyze a PCAP or experimental PCAPNG capture"), ("import-nmap", "Import an Nmap XML inventory")]:
         command = commands.add_parser(name, help=label)
         command.add_argument("file", type=Path)
         command.add_argument("--output", type=Path, help="Write a private JSON report")
     command = commands.add_parser("discover", help="Inventory an explicitly authorized IP or CIDR using Nmap")
     command.add_argument("--target", required=True, help="IP or CIDR; at most 256 addresses")
     command.add_argument("--timeout", type=float, default=60)
+    command.add_argument("--output", type=Path)
+    command = commands.add_parser("scan-services", help="Explicit TCP connect inventory of one authorized IP (Nmap)")
+    command.add_argument("--target", required=True, help="One IPv4 or IPv6 address; no CIDR or hostnames")
+    command.add_argument("--ports", default="22,80,443", help="Comma-separated list of at most 32 TCP ports")
+    command.add_argument("--timeout", type=float, default=120)
     command.add_argument("--output", type=Path)
     command = commands.add_parser("capture", help="Passively observe ARP on an explicitly selected interface")
     command.add_argument("--interface", required=True)
@@ -67,6 +72,8 @@ def main(argv: list[str] | None = None) -> int:
             report = analyze_nmap(read_input(args.file), args.file.name)
         elif args.command == "discover":
             report = discover(args.target, args.timeout)
+        elif args.command == "scan-services":
+            report = scan_services(args.target, args.ports, args.timeout)
         elif args.command == "capture":
             report = capture(args.interface, args.duration, args.limit)
         else:
@@ -82,4 +89,3 @@ def main(argv: list[str] | None = None) -> int:
     except KeyboardInterrupt:
         print("Stopped.", file=sys.stderr)
         return 130
-

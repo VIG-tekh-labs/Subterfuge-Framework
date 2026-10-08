@@ -193,3 +193,23 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Browser interaction validated via Chromium/Puppeteer: the new TLS form rejected an invalid URL-form host with the expected error; **no JavaScript exceptions** occurred. No external endpoint was contacted.
 - **GitHub Actions run [37828069880](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37828069880) completed successfully** across all six jobs (Linux/Python 3.11, 3.12, 3.13, 3.14; Windows and macOS/Python 3.12).
 - Historical feature parity remains incomplete; no root-only attack scripts or live network adapters were validated. `master` is unchanged. Further work: module-by-module migration plan, real-capture PCAPNG validation, optional adapters in authorized lab, UI accessibility review, and security/license remediation.
+
+
+## Optional Nmap service inventory and historical migration matrix — 2026-10-08
+
+- Added CLI `scan-services` to complement host discovery and Nmap XML import.
+  It requires an explicit single IPv4/IPv6 address, accepts at most 32 unique
+  TCP ports, a bounded timeout and optional JSON report output.
+- It invokes modern Nmap with TCP connect (`-sT`), no ping (`-Pn`), light
+  version detection (`-sV --version-light`) and one retry cap. No external
+  scans were performed during this checkpoint; all adapter tests mock Nmap.
+- Added `tests/test_services.py` with validation, IPv4/IPv6, error paths
+  and CLI dispatch coverage. **83/83** tests pass locally on Linux/Python 3.14.
+- Added `MIGRATION_MATRIX.md` describing each historical module category,
+  active status, modern equivalent (where one exists), remaining gaps and
+  acceptance criteria.
+- Updated readme, capability matrix and security notes. Current development
+  version remains `2.0.0a2`; still an alpha without historical parity.
+- Next: publish, verify clean checkout/wheel/sdist, inspect all six GitHub
+  Actions matrix results, then validate optional adapters in a private
+  authorized test network. Keep `master` unchanged.

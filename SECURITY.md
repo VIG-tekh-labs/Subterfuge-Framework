@@ -17,3 +17,11 @@ Earlier commits of this **public** repository included an RSA private-key PEM fi
 Run installation inside a Python virtual environment. Do not execute `legacy/setup.py` or `legacy/update.py`, and do not run historical interception modules as an installation or regression check. Use synthetic packets or an isolated authorized lab for network testing. Local audit findings are evidence to investigate, not automatic vulnerability verdicts.
 
 Please report security issues privately to the maintainers rather than adding credentials, captures containing secrets or private keys to a public issue.
+
+## Explicit active inventory
+
+The modern `scan-services` CLI command is opt-in. It accepts one IP address,
+at most 32 explicit ports and a bounded timeout, invokes Nmap in user-space
+TCP-connect mode and does not use shell interpolation. Its service probes
+generate real network traffic. Do not run this command without the network
+owner's authorization. Unit tests mock all such process execution.

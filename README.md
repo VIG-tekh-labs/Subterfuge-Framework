@@ -46,6 +46,7 @@ historical modules or redistributing historical assets.
 ```sh
 subterfuge analyze-pcap capture.pcap --output report.json
 subterfuge import-nmap inventory.xml --output inventory.json
+subterfuge scan-services --target 192.0.2.10 --ports 22,80,443 --output services.json
 subterfuge inspect-tls --host example.com --output tls.json
 subterfuge interfaces
 ```
@@ -67,7 +68,7 @@ subterfuge capture --interface eth0 --duration 30 --output arp.json
 subterfuge discover --target 192.0.2.0/24 --output hosts.json
 ```
 
-Nmap must be installed separately. Discovery performs host discovery, not a service scan. The interface name above is an example: use `subterfuge interfaces`. Capture permissions and drivers depend on your OS. Live adapters remain unvalidated in this checkpoint.
+Nmap must be installed separately. Discovery performs host discovery. The optional `scan-services` command explicitly opens TCP connections and performs light service detection for one selected IP and at most 32 TCP ports; run it only against networks you are authorized to assess. The interface name above is an example: use `subterfuge interfaces`. Capture permissions and drivers depend on your OS. Live adapters remain unvalidated in this checkpoint.
 
 ## Validation and continuity
 
@@ -85,3 +86,7 @@ Original source, authorship and [GPL license](COPYING) are retained. Historical 
 ## Updating a modern checkout
 
 The historical Python 2/SVN updater has been retired. Its original implementation is retained in `legacy/update.py` for reference only and must not be executed. The root `update.py` is a safe Python 3 migration notice, not an automatic updater. To update a reviewed checkout, use Git to inspect and select changes, then reinstall the modern package inside its virtual environment using `python -m pip install --upgrade .`.
+
+For the module-by-module restoration checklist and technology choices, see
+[MIGRATION_MATRIX.md](MIGRATION_MATRIX.md). The full historical functionality is
+not yet present in the active alpha package.

@@ -35,6 +35,7 @@ This is an alpha modernization, not historical feature parity. Source paths belo
 ## New supported assessment paths
 
 - Nmap XML imports include IPv4/IPv6 hosts, open ports, service names, product/version evidence and OS guesses.
+- Optional `scan-services` performs a bounded, explicitly requested Nmap TCP-connect inventory for one IP and at most 32 TCP ports; it does not run during offline analysis.
 - Transport review items identify service records lacking a recorded SSL tunnel. These are not confirmed vulnerabilities: STARTTLS, redirects and policy require separate verification.
 - `inspect-tls` (CLI and loopback dashboard) verifies certificate trust and hostname, records the negotiated TLS version/cipher and checks imminent expiry. It does not perform interception, downgrade tests or exhaustive protocol enumeration.
 
@@ -48,3 +49,6 @@ The offline core has no runtime dependencies and targets Python 3.11+. Linux/Pyt
 2. Add passive DHCP and name-resolution evidence analysis with isolated fixtures.
 3. Review historical proxy and plugin contracts against modern TLS and browser protections, documenting protocol and environment constraints before implementation.
 4. Verify live adapters in an isolated test network and reconcile historical functionality one module at a time.
+
+The detailed legacy-to-modern mapping and acceptance conditions are in
+[MIGRATION_MATRIX.md](MIGRATION_MATRIX.md).

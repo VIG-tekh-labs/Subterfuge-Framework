@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from importlib import metadata
-from ipaddress import ip_network
+from ipaddress import ip_address, ip_network
 from pathlib import Path
 import json
 import math
@@ -95,6 +95,55 @@ def discover(target: str, timeout: float = 60) -> dict:
     return report
 
 
+def scan_services(target: str, ports: str = "22,80,443", timeout: float = 120) -> dict:
+    """Optional, explicit low-volume TCP connect inventory for one authorized IP.
+
+    Uses Nmap's user-space TCP connect mode (no raw-socket/root requirement).
+    The only network traffic occurs when a user explicitly invokes this API.
+    """
+    try:
+        address = ip_address(target)
+    except ValueError as exc:
+        raise AnalysisError("Use one explicit IPv4 or IPv6 address (not a hostname or CIDR).") from exc
+    if not math.isfinite(timeout) or not 0 < timeout <= 300:
+        raise AnalysisError("Scan timeout must be greater than zero and at most 300 seconds.")
+    if not isinstance(ports, str):
+        raise AnalysisError("Ports must be a comma-separated string.")
+    tokens = [value.strip() for value in ports.split(",")]
+    if not 1 <= len(tokens) <= 32 or any(not token or not token.isascii() or not token.isdecimal() for token in tokens):
+        raise AnalysisError("Specify 1 to 32 explicit TCP port numbers.")
+    numbers = [int(value) for value in tokens]
+    if len(set(numbers)) != len(numbers) or any(not 1 <= value <= 65535 for value in numbers):
+        raise AnalysisError("TCP ports must be unique numbers between 1 and 65535.")
+    executable = shutil.which("nmap")
+    if not executable:
+        raise AnalysisError("Nmap is not installed. Offline Nmap XML import remains available.")
+    command = [
+        executable, "-sT", "-Pn", "-sV", "--version-light",
+        "--max-retries", "1", "-p", ",".join(str(value) for value in numbers),
+        "-oX", "-",
+    ]
+    if address.version == 6:
+        command.append("-6")
+    command.append(str(address))
+    try:
+        result = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+    except subprocess.TimeoutExpired as exc:
+        raise AnalysisError("Service inventory timed out.") from exc
+    if result.returncode:
+        error = result.stderr.decode("utf-8", errors="replace").strip()[:300]
+        raise AnalysisError("Nmap service inventory failed: " + (error or str(result.returncode)))
+    report = analyze_nmap(result.stdout, str(address))
+    report["kind"] = "service_scan"
+    report["scan"] = {
+        "target": str(address), "ports": numbers,
+        "method": "explicit TCP connect, light service detection",
+        "active_connections": True,
+    }
+    report["warnings"].append("An active service inventory was requested. Verify authorization before scanning third-party networks.")
+    return report
+
+
 def capture(interface: str, duration: float = 30, limit: int = 10_000) -> dict:
     if not math.isfinite(duration) or not 0 < duration <= 600:
         raise AnalysisError("Capture duration must be greater than zero and at most 600 seconds.")
@@ -132,4 +181,3 @@ def capture(interface: str, duration: float = 30, limit: int = 10_000) -> dict:
         raise AnalysisError("Capture could not be fully analyzed: " + errors[0])
     tracker.report["capture"] = {"interface": interface, "requested_duration_seconds": duration, "packet_limit": limit}
     return tracker.finish(packets)
-
