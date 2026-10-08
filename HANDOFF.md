@@ -108,3 +108,12 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - MODERNIZATION_STATUS.md is the concise authoritative functional/risks/TODO summary, and README explicitly clones the modernization branch for the current alpha.
 - **Current confirmed feature validation** remains d8bb5b8: all six CI jobs successful, 100 Python cases in a Git checkout; clean archive 99 passes + 1 Git-metadata skip. No newer active-code change is represented by this audit. Version 2.0.0a2 alpha.
 - Next: confirm new HEAD and CI after audit docs are committed; proceed with historical module-by-module classifications and real authorized capture test corpus. No master merge, history rewrite or license change without owner approval.
+
+## Published audit and definitive cross-platform CI result — October 8, 2026
+
+- The 252-file history inventory and complete next-actions summary were **actually published** in one commit `9ae17f2631a65cfeb8e58dd3657a478dbed7993d`, not merely saved locally. The default master remains at `4bc3c2e`; view the `modernization-2026-10-08-continuation` branch to see current work.
+- New files: MODERNIZATION_STATUS.md, LEGACY_AGE_REVIEW_2026-10-08.md, FILE_AGE_INVENTORY_2026-10-08.csv. Updated README branch-clone instructions, ROADMAP, this HANDOFF, MANIFEST.in, distribution audit and its regression test.
+- Fresh Git archive verified `9ae17f2`: **101 discovered tests; 100 passed and one Git-metadata-dependent test skipped**, Node browser QA 5 valid/10 invalid cases passed, wheel and sdist audits passed (18/60 members; zero prohibited entries).
+- **CI 37847844746: all six Linux/Windows/macOS jobs completed successfully** for `9ae17f2`. Earlier run-status notes above are historical and superseded by this confirmed outcome.
+- The audited 2015–2016 historical source has not magically become Python 3-compatible from 2026 maintenance comments. 169 tracked historic code/assets predate the one-year cutoff; 55 older Python paths are identified and 24 legacy-reference Python scripts fail syntax parsing. See the CSV and LEGACY_AGE_REVIEW documentation.
+- Next agent: read current remote HEAD, ROADMAP.md, MODERNIZATION_STATUS.md and LICENSING.md first. Preserve dirty older local checkouts. Review age-prioritized legacy modules individually, expand genuine authorized capture tests, maintain cross-platform CI and update handoff after each verified checkpoint.

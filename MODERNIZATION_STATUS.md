@@ -106,3 +106,17 @@ and sdist, then run:
 
 Avoid running historical privileged setup.py, active interception scripts,
 untrusted payloads or production-network scans as basic health checks.
+
+## Verification of the published consolidation
+
+The consolidated documentation/build change was published at GitHub commit
+`9ae17f2631a65cfeb8e58dd3657a478dbed7993d`, without merging master.
+
+Independent fetch-and-test from that remote commit: 101 Python test cases
+were discovered (100 passed and one Git-metadata-dependent test skipped);
+Node report-schema checks and modern wheel/sdist inclusion/hygiene audits
+passed (18 wheel members, 60 source archive members).
+
+GitHub Actions [run 37847844746](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37847844746)
+also passed all six platform jobs. The software still remains an alpha without
+full historical feature parity or cleared relicensing of derivative material.
