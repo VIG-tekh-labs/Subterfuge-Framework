@@ -10,6 +10,7 @@ class DistributionManifestTests(unittest.TestCase):
         text = (ROOT / "MANIFEST.in").read_text(encoding="utf-8")
         self.assertIn("recursive-include qa *.py *.mjs *.cjs", text)
         self.assertIn("prune legacy", text)
+        self.assertIn("recursive-include src/subterfuge/browser_lab *.json *.html *.js *.css", text)
         self.assertIn("LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv", text)
         self.assertIn("LEGACY_REORGANIZATION_2026-10-09.md", text)
         self.assertIn("include COPYING LICENSE", text)

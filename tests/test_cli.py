@@ -60,6 +60,26 @@ class CommandTests(unittest.TestCase):
                     self.assertIn("Error:", result.stderr)
                     self.assertNotIn("Traceback", result.stderr)
 
+    def test_optional_tls_browser_and_bettercap_commands(self):
+        with tempfile.TemporaryDirectory() as folder:
+            metadata = self.run_cli("agent-capabilities", cwd=folder)
+            self.assertEqual(metadata.returncode, 0, metadata.stderr)
+            self.assertIn("tls_decrypt", json.loads(metadata.stdout)["action_schema"])
+            extension = self.run_cli("browser-lab", cwd=folder)
+            self.assertEqual(extension.returncode, 0, extension.stderr)
+            self.assertTrue(
+                Path(json.loads(extension.stdout)["installed_extension_directory"])
+                .joinpath("manifest.json").is_file()
+            )
+            events = Path(folder)/"events.json"
+            events.write_text('[]', encoding="utf-8")
+            bettercap = self.run_cli("import-bettercap", events, cwd=folder)
+            self.assertEqual(bettercap.returncode, 0, bettercap.stderr)
+            self.assertEqual(json.loads(bettercap.stdout)["stats"]["total_events"], 0)
+            proxy = self.run_cli("proxy-lab", cwd=folder)
+            self.assertEqual(proxy.returncode, 2)
+            self.assertIn("authorized", proxy.stderr)
+
     def test_doctor_requires_no_optional_packages(self):
         with tempfile.TemporaryDirectory() as folder:
             result = self.run_cli("doctor", cwd=folder)

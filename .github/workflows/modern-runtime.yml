@@ -28,6 +28,8 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Offline saved-report browser schema regressions (no npm dependencies)
         run: node qa/browser_report_validation.mjs
+      - name: Optional browser companion regression (no npm dependencies)
+        run: node qa/browser_lab_validation.mjs
       - name: Installed CLI smoke checks
         run: |
           subterfuge --version

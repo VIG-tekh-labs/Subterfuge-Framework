@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "subterfuge-framework"
-version = "2.0.0a2"
+version = "2.0.0a3"
 description = "Network inventory, ARP observation and local audit reporting"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -26,4 +26,4 @@ subterfuge = "subterfuge.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-subterfuge = ["static/*.html"]
+subterfuge = ["static/*.html", "browser_lab/*.json", "browser_lab/*.html", "browser_lab/*.js", "browser_lab/*.css"]

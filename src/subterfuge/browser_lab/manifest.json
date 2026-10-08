@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Subterfuge Lab Companion",
+  "description": "Visible, opt-in diagnostics only for your local Subterfuge workspace.",
+  "version": "2.0.0",
+  "minimum_chrome_version": "110",
+  "permissions": ["storage", "activeTab"],
+  "action": {"default_title": "Subterfuge Lab", "default_popup": "popup.html"},
+  "content_scripts": [
+    {
+      "matches": ["http://127.0.0.1/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

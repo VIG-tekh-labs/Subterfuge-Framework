@@ -21,12 +21,20 @@ REQUIRED_SDIST = {
     "FILE_AGE_INVENTORY_2026-10-08.csv",
     "STALE_24H_REVIEW_2026-10-08.md", "FILE_REVIEW_OLDER_24H_2026-10-08.csv",
     "LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv", "LEGACY_REORGANIZATION_2026-10-09.md",
+    "TLS_BROWSER_LAB_2026-10-09.md",
     "qa/loopback_nmap_smoke.py", "qa/browser_report_smoke.cjs",
+    "qa/browser_lab_validation.mjs",
     "qa/browser_report_validation.mjs", "qa/audit_distributions.py",
 }
 REQUIRED_WHEEL = {
     "subterfuge/analysis.py", "subterfuge/cli.py",
-    "subterfuge/static/index.html",
+    "subterfuge/static/index.html", "subterfuge/tls_lab.py",
+    "subterfuge/bettercap_events.py", "subterfuge/agent_integration.py",
+    "subterfuge/browser_lab/manifest.json",
+    "subterfuge/browser_lab/content.js",
+    "subterfuge/browser_lab/popup.html",
+    "subterfuge/browser_lab/popup.js",
+    "subterfuge/browser_lab/popup.css",
 }
 
 

@@ -1,5 +1,19 @@
 # Security and historical artifact handling
 
+## 2026-10-09 — Consent-only local TLS and Browser Lab safety boundary
+
+### New optional TLS / Browser Lab capabilities — 2026-10-09 (2.0.0a3)
+
+- Added a TShark-backed offline tls-decrypt command for PCAP/PCAPNG plus a user-supplied SSLKEYLOGFILE, with strict key-log input permissions (0600 on Unix), limits, metadata-only default, opt-in URI inclusion and private atomic decrypted JSON export.
+- Proved a real loopback-only TLS/HTTPS test: a locally generated server certificate, a controlled client producing five TLS secrets, an actual PCAPNG capture on lo and TShark reporting two decrypted HTTP messages, including the expected synthetic test URI.
+- Added a mitmproxy-based proxy-lab command for visible local test clients. Only explicit regular proxy mode on 127.0.0.1/loopback is allowed; LAN binding, stealth interception, unauthorized client redirection and automatic CA trust changes are excluded.
+- Added a Chromium Manifest V3 Browser Lab companion shipped with the Python wheel and sdist. It has a simple enable/disable toggle, persisted local setting and read-only inspect action. It operates ONLY on 127.0.0.1 with a recognized local Subterfuge dashboard; it does not read cookies or credentials, inject into arbitrary sites, or run background remote commands.
+- Added a read-only Bettercap JSON event importer accepting only network discovery tags and discarding packet contents, handshake keys and attack-related events.
+- Added agent-capabilities and an independent optional ZIA-friendly Python policy bridge: standalone operation requires no ZIA installation; ZIA must supply exact allowed_actions, allowed_files and allowed_targets with additional affirmative gates for sensitive TLS/network operations. Those ZIA rules can further restrict but never bypass OS controls.
+- These modules are optional components. Python 3.11+ modern offline analysis remains zero mandatory external runtime dependencies; TShark and mitmdump are optional installed system tools.
+- For installation, examples, scope, privacy and security rules, consult TLS_BROWSER_LAB_2026-10-09.md. Current release remains alpha (2.0.0a3), not a recreation of historical SSLStrip, BeEF, Bettercap spoofing or user-session hooks.
+
+
 ## Historical interception sources excluded from the active GitHub tree
 
 - The owner explicitly authorized applying modernization to the default branch master. Master fast-forwarded without force from 4bc3c2e to f50bd4a (79 commits).

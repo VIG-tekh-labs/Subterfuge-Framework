@@ -1,5 +1,19 @@
 # Subterfuge Framework — verified continuation handoff
 
+## 2026-10-09 — ZIA-ready standalone TLS / Browser Lab work
+
+### New optional TLS / Browser Lab capabilities — 2026-10-09 (2.0.0a3)
+
+- Added a TShark-backed offline tls-decrypt command for PCAP/PCAPNG plus a user-supplied SSLKEYLOGFILE, with strict key-log input permissions (0600 on Unix), limits, metadata-only default, opt-in URI inclusion and private atomic decrypted JSON export.
+- Proved a real loopback-only TLS/HTTPS test: a locally generated server certificate, a controlled client producing five TLS secrets, an actual PCAPNG capture on lo and TShark reporting two decrypted HTTP messages, including the expected synthetic test URI.
+- Added a mitmproxy-based proxy-lab command for visible local test clients. Only explicit regular proxy mode on 127.0.0.1/loopback is allowed; LAN binding, stealth interception, unauthorized client redirection and automatic CA trust changes are excluded.
+- Added a Chromium Manifest V3 Browser Lab companion shipped with the Python wheel and sdist. It has a simple enable/disable toggle, persisted local setting and read-only inspect action. It operates ONLY on 127.0.0.1 with a recognized local Subterfuge dashboard; it does not read cookies or credentials, inject into arbitrary sites, or run background remote commands.
+- Added a read-only Bettercap JSON event importer accepting only network discovery tags and discarding packet contents, handshake keys and attack-related events.
+- Added agent-capabilities and an independent optional ZIA-friendly Python policy bridge: standalone operation requires no ZIA installation; ZIA must supply exact allowed_actions, allowed_files and allowed_targets with additional affirmative gates for sensitive TLS/network operations. Those ZIA rules can further restrict but never bypass OS controls.
+- These modules are optional components. Python 3.11+ modern offline analysis remains zero mandatory external runtime dependencies; TShark and mitmdump are optional installed system tools.
+- For installation, examples, scope, privacy and security rules, consult TLS_BROWSER_LAB_2026-10-09.md. Current release remains alpha (2.0.0a3), not a recreation of historical SSLStrip, BeEF, Bettercap spoofing or user-session hooks.
+
+
 ## Verified default-branch cleanup — October 9, 2026
 
 - **Final active code commit:** 9a986a148eb34cf74596df8b6d2adbfa34714ad8. The owner explicitly approved fast-forwarding modernization into master; the 79 earlier commits were applied without a force push.
@@ -186,3 +200,25 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - Wheel and source distribution built successfully; the artifact checker found 18 wheel and 67 source members, **no old framework files**, and the byte-identical original GPL-3.0 text in wheel metadata.
 - Maintained current project sources under src/subterfuge/ and the root Python3 CLI; no old privileged Django/SSLStrip modules restored.
 - Publication and CI confirmation will be recorded in a follow-up checkpoint after the exact new Git SHA exists on GitHub.
+
+## 2026-10-09 — Prepublication functional validation of 2.0.0a3
+
+- A real 127.0.0.1-only SSL/TLS test produced a PCAPNG capture and
+  SSLKEYLOGFILE with five entries; the new offline TShark module decrypted
+  two HTTP messages and recognized the synthetic local request path.
+- A real locally bound mitmdump proxy completed an explicit HTTP request
+  to an operator-controlled temporary HTTP listener with status 200.
+- Browser Lab Manifest V3 behavioral simulation passed, including local
+  preference persistence and refusal to inject on unrelated websites.
+- 134 Python tests discovered (132 passed, two expected history-related
+  skips), Node Browser Lab and existing report JSON validators passed.
+- Standalone wheel 2.0.0a3 installed into an isolated venv and located its
+  packaged browser extension and ZIA tool manifest; archive QA confirmed
+  26 wheel and 81 source archive members before the last adjustments.
+- Built-in proxy remains loopback-only to avoid becoming a shared, open
+  interception proxy; Bettercap integration is offline event import only.
+- ZIA rules can be enforced through the explicit allowed_actions,
+  allowed_files, allowed_targets mission bridge. No automatic ZIA agent
+  patch, credential extraction or silent persistence is claimed.
+- Publish to GitHub only after final regressions, then check Linux/
+  Windows/macOS GitHub Actions and preserve the existing archival branch.

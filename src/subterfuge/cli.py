@@ -48,6 +48,25 @@ def parser() -> argparse.ArgumentParser:
     command.add_argument("--duration", type=float, default=30)
     command.add_argument("--limit", type=int, default=10_000)
     command.add_argument("--output", type=Path)
+    command = commands.add_parser(
+        "tls-decrypt", help="Offline HTTPS inspection with a user-provided SSLKEYLOGFILE (TShark)"
+    )
+    command.add_argument("--pcap", required=True, type=Path, help="Existing PCAP/PCAPNG capture")
+    command.add_argument("--keylog", required=True, type=Path, help="Owned 0600 SSLKEYLOGFILE containing TLS session secrets")
+    command.add_argument("--include-uris", action="store_true", help="Include sensitive HTTP request paths in the summary")
+    command.add_argument("--export-decrypted-json", type=Path, help="Explicit private export of decrypted TShark protocol fields")
+    command.add_argument("--limit", type=int, default=100_000, help="Maximum packets to process")
+    command.add_argument("--timeout", type=int, default=120, help="Processing timeout in seconds")
+    command.add_argument("--output", type=Path, help="Save summary report (not TLS session secrets)")
+    command = commands.add_parser("proxy-lab", help="Start an opt-in regular HTTPS proxy for explicitly configured test clients")
+    command.add_argument("--host", default="127.0.0.1", help="Local proxy address (loopback by default)")
+    command.add_argument("--port", type=int, default=8081)
+    command.add_argument("--authorized-clients", action="store_true", help="Confirm own/authorized clients are configured explicitly")
+    commands.add_parser("browser-lab", help="Show where to install the opt-in Chromium laboratory companion")
+    command = commands.add_parser("import-bettercap", help="Summarize offline JSON discovery events exported from Bettercap")
+    command.add_argument("file", type=Path, help="A Bettercap /api/events JSON export from your authorized laboratory")
+    command.add_argument("--output", type=Path)
+    commands.add_parser("agent-capabilities", help="Report supported actions for standalone use and optional ZIA integration")
     command = commands.add_parser("serve", help="Open the local dashboard")
     command.add_argument("--port", type=int, default=8080)
     command.add_argument("--open", action="store_true", help="Open the dashboard in the default browser")
@@ -83,6 +102,37 @@ def main(argv: list[str] | None = None) -> int:
             report = capture_protocols(args.interface, args.duration, args.limit)
         elif args.command == "capture":
             report = capture(args.interface, args.duration, args.limit)
+        elif args.command == "tls-decrypt":
+            from .tls_lab import decrypt_https
+            report = decrypt_https(
+                args.pcap, args.keylog, include_uris=args.include_uris,
+                export_json=args.export_decrypted_json,
+                maximum_frames=args.limit, timeout=args.timeout,
+            )
+        elif args.command == "proxy-lab":
+            from .tls_lab import serve_proxy
+            serve_proxy(args.host, args.port, authorized_clients=args.authorized_clients)
+            return 0
+        elif args.command == "browser-lab":
+            from importlib.resources import files
+            extension = files("subterfuge").joinpath("browser_lab")
+            report = {
+                "kind": "browser_lab", "installed_extension_directory": str(extension),
+                "install": [
+                    "In Chromium open chrome://extensions",
+                    "Enable Developer mode, then Load unpacked",
+                    "Select installed_extension_directory",
+                    "Pin the visible Subterfuge Lab Companion icon",
+                    "Toggle Lab mode in its popup, then analyze only your own local Subterfuge page",
+                ],
+                "scope": "Visible, opt-in, local loopback page diagnostics; no arbitrary-site hooks.",
+            }
+        elif args.command == "import-bettercap":
+            from .bettercap_events import import_bettercap_events
+            report = import_bettercap_events(args.file)
+        elif args.command == "agent-capabilities":
+            from .agent_integration import describe_capabilities
+            report = describe_capabilities()
         else:
             raise AnalysisError("Unknown command.")
         if getattr(args, "output", None):

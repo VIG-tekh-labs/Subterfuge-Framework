@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Subterfuge Browser Lab</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<main>
+  <h1>Subterfuge Lab</h1>
+  <p class="context">Browser companion · Local workspace only</p>
+  <label class="switch">
+    <input id="enabled" type="checkbox" aria-describedby="description">
+    <span>Lab mode enabled</span>
+  </label>
+  <p id="description">Keeps this visible diagnostic preference after browser restarts. It only works on your local Subterfuge dashboard.</p>
+  <button id="inspect" type="button">Inspect current tab</button>
+  <section aria-labelledby="result-heading">
+    <h2 id="result-heading">Current page</h2>
+    <output id="result" role="status" aria-live="polite">Lab mode is off.</output>
+  </section>
+  <p class="footer">No cookies · No credential collection · No remote commands</p>
+</main>
+<script src="popup.js"></script>
+</body>
+</html>
