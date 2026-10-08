@@ -117,3 +117,10 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - **CI 37847844746: all six Linux/Windows/macOS jobs completed successfully** for `9ae17f2`. Earlier run-status notes above are historical and superseded by this confirmed outcome.
 - The audited 2015–2016 historical source has not magically become Python 3-compatible from 2026 maintenance comments. 169 tracked historic code/assets predate the one-year cutoff; 55 older Python paths are identified and 24 legacy-reference Python scripts fail syntax parsing. See the CSV and LEGACY_AGE_REVIEW documentation.
 - Next agent: read current remote HEAD, ROADMAP.md, MODERNIZATION_STATUS.md and LICENSING.md first. Preserve dirty older local checkouts. Review age-prioritized legacy modules individually, expand genuine authorized capture tests, maintain cross-platform CI and update handoff after each verified checkpoint.
+
+## Older-than-one-day file review continuation — 2026-10-08
+
+- Worktree: ~/projects/Subterfuge-Framework-one-day-audit-20261008 (isolated clone, baseline 060ae24). Old dirty checkouts retained untouched.
+- Examined 104 tracked files with last commit >24 hours before review. 37 first-party templates/configs annotated without executable changes; 8 unreferenced AppleDouble sidecars removed, 59 resources intentionally preserved. See STALE_24H_REVIEW_2026-10-08.md and FILE_REVIEW_OLDER_24H_2026-10-08.csv for every path, checksum and rationale.
+- Added tests/test_stale_file_review.py and included both review documents in the sdist manifest and archive auditor. **Do not claim these comments restored old functionality.**
+- Before continuing, verify the latest published feature SHA, run fresh checkout unit tests, Node report QA, wheel/sdist content audit and six-platform GitHub Actions. No master merge, force-push, license change or history rewrite without owner approval.

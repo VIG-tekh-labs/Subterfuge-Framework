@@ -120,3 +120,10 @@ passed (18 wheel members, 60 source archive members).
 GitHub Actions [run 37847844746](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37847844746)
 also passed all six platform jobs. The software still remains an alpha without
 full historical feature parity or cleared relicensing of derivative material.
+
+## Review of files older than 24 hours — October 8, 2026
+
+- At baseline 060ae24, 104 tracked paths had last Git commits more than 24 hours earlier. All were opened and classified, with documented pre/post SHA-256 hashes.
+- 33 historical first-party Django template fragments and 4 obsolete configuration/launcher samples received non-executable status comments; 8 unreferenced AppleDouble macOS binary sidecars were removed, while 59 originals (including 45 valid images/icons, GPL license, vendor code, payloads and raw data) were intentionally preserved.
+- The 37 annotations change Git content and update file history but DO NOT make any historical Django/SSLStrip/DHCP hijacking modules functional under Python 3. The modern active distribution remains separate.
+- See STALE_24H_REVIEW_2026-10-08.md and FILE_REVIEW_OLDER_24H_2026-10-08.csv for every path, previous commit date, checksum and decision.

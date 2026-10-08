@@ -26,3 +26,4 @@
 
 </body>
 </html>
+{# Reviewed 2026-10-08: archived Django UI, not loaded by the Python 3 package. #}

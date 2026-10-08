@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# Reviewed 2026-10-08: Legacy Python 2 launcher retained for reference only; use the modern subterfuge CLI.
 import os
 import sys
 import subprocess

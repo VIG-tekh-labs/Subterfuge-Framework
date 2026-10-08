@@ -19,6 +19,7 @@ REQUIRED_SDIST = {
     "COPYING", "README.md", "HANDOFF.md", "SECURITY.md", "LICENSING.md",
     "MODERNIZATION_STATUS.md", "LEGACY_AGE_REVIEW_2026-10-08.md",
     "FILE_AGE_INVENTORY_2026-10-08.csv",
+    "STALE_24H_REVIEW_2026-10-08.md", "FILE_REVIEW_OLDER_24H_2026-10-08.csv",
     "qa/loopback_nmap_smoke.py", "qa/browser_report_smoke.cjs",
     "qa/browser_report_validation.mjs", "qa/audit_distributions.py",
 }

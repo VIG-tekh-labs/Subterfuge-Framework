@@ -6,6 +6,10 @@
 
 The default GitHub branch, master, still contains an earlier alpha snapshot. The active Python 3 modernization is published on modernization-2026-10-08-continuation. See [MODERNIZATION_STATUS.md](MODERNIZATION_STATUS.md) for verified features, outstanding tasks and the historical file-age audit. No merge to master has yet been authorized.
 
+## Historic file maintenance review
+
+An October 2026 audit reviewed all 104 tracked files whose last Git commit was more than 24 hours old. Thirty-seven first-party archived Django templates and old configuration/launcher samples received non-executing review comments. Eight unreferenced AppleDouble macOS metadata sidecars were removed; 59 licensed, third-party, real-image, raw-data or active legacy payload files were preserved to prevent damage. These cosmetic annotations do not port historic functionality to Python 3. Read [STALE_24H_REVIEW_2026-10-08.md](STALE_24H_REVIEW_2026-10-08.md) and [FILE_REVIEW_OLDER_24H_2026-10-08.csv](FILE_REVIEW_OLDER_24H_2026-10-08.csv) for per-file classifications and SHA-256 checksums.
+
 ## Install the modern runtime
 
 Use Python 3.11 or newer in a virtual environment. Do not run the historical installer or updater.

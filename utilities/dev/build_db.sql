@@ -1,3 +1,4 @@
+-- Reviewed 2026-10-08: Historical database seed; not part of the modern package. Do not run on production systems.
 --Main Database Models
 INSERT INTO main_setup VALUES ("1", "", "", "", "yes", "3", "6", "8", "no", "", "yes", "sslstrip");
 

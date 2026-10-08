@@ -44,3 +44,4 @@
 <!--    FOOTER      -->
     {% include "includes/footer.inc" %}
 <!--    END_FOOTER  -->
+{# Reviewed 2026-10-08: archived Django UI, not loaded by the Python 3 package. #}

@@ -2,3 +2,4 @@
 The Network View allows you to quickly and easily launch advanced attack vectors.<br><br>
 <a href = '/netview/' name = 'pset'><div id = 'redbutton' style = 'margin-top: 385px; color: white;'>Start</div></a>
 </div>
+{# Reviewed 2026-10-08: archived Django UI, not loaded by the Python 3 package. #}
