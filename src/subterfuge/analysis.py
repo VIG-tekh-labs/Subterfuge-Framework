@@ -251,7 +251,7 @@ def _analyze_pcapng(data: bytes, source: str) -> dict:
                     raise AnalysisError("Invalid PCAPNG timestamp.")
                 tracker.observe(*event, timestamp)
             else:
-                ignored += 1 if not (len(frame) < 0) else 0
+                ignored += 1
         position += length
     if not sections:
         raise AnalysisError("PCAPNG has no section header.")
