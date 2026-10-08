@@ -3,7 +3,7 @@
 **Date:** 2026-10-08 (Europe/Brussels)  
 **Repository:** https://github.com/VIG-tekh-labs/Subterfuge-Framework  
 **Working branch:** `modernization-2026-10-08-continuation`  
-**Last fully validated feature commit:** `ac3b754b926d682c6514a45aeff014f4226804e1`  
+**Last fully validated feature commit:** `d18dd998dc28d89d460271d2fe3945ad7a46966b`  
 **Development version:** `2.0.0a2` (alpha; NOT full historical restoration)
 
 ## Verified results at this checkpoint
@@ -75,3 +75,12 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - **Fresh published archive validation:** 98 discovered Python unit tests: 97 passed and 1 Git-metadata-dependent case skipped; Node validation accepted 5 genuine/synthetic records and rejected 10 malformed ones; sandboxed Chromium imported a valid report, rejected malformed data without losing the previous report and had zero uncaught page exceptions; compileall passed.
 - **CI:** the earlier `cf49be2` PCAPNG hardening run `37839129084` completed successfully. The revised CI workflow commit `ac3b754` was **queued** on run `37839864418` when last checked. Re-check before claiming matrix-wide success for the browser validator.
 - Next steps: verify six current CI jobs; rebuild and audit wheel/sdist from latest branch; expand PCAPNG external capture coverage; improve UI accessibility and focus behavior; continue historical migration/licensing provenance audit, without merging into master or rewriting history.
+
+## Latest checkpoint — distribution audit and source QA reproducibility
+
+- Latest fully validated published feature commit: `d18dd998dc28d89d460271d2fe3945ad7a46966b`. Roadmap checkpoint: `a633810716ad2e532052f24af0e28fbb947c6572`.
+- Packaging: `MANIFEST.in` includes source-only QA scripts. New `qa/audit_distributions.py` checks the wheel and sdist for expected runtime/docs/QA files and rejects legacy interception trees, credentials, private keys, databases and runtime logs. `tests/test_distribution_manifest.py` prevents regression.
+- CI now builds an isolated source distribution and runs artifact checks alongside Python, Node browser-schema and installed CLI tests. `build` is a **development-only frontend**, not a runtime dependency. The direct `--no-isolation` build initially failed because setuptools was absent in the development venv; normal isolated build succeeded, as intended.
+- Independent Git archive of published `d18dd99` passed **99 Python test cases: 98 passed, 1 Git-metadata test skipped**; Node report-schema QA passed (5 valid, 10 malformed); wheel and source archives built; archive audit found **18 wheel members and 57 source members with no prohibited files**.
+- **CI caveat:** prior browser-validator run [37839864418](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37839864418) passed all six matrix jobs. New source-distribution run [37840372524](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37840372524) was **in progress** at last check. Confirm all six results before expanding validated cross-platform claims.
+- Next: verify six newest CI jobs and inspect failures if any; extend safe real-capture corpus, UI keyboard/a11y tests, and historical module audit. Legacy Django/Twisted/jQuery are unnecessary for modern runtime; GPL and historical-license obligations remain. Never force-push, merge master or rewrite history without owner approval.
