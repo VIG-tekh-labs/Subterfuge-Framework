@@ -71,6 +71,24 @@ subterfuge discover --target 192.0.2.0/24 --output hosts.json
 
 Nmap must be installed separately. Discovery performs host discovery. The optional `scan-services` command explicitly opens TCP connections and performs light service detection for one selected IP and at most 32 TCP ports; run it only against networks you are authorized to assess. The interface name above is an example: use `subterfuge interfaces`. Capture permissions and drivers depend on your OS. The new `capture-protocols` adapter observes ARP/DHCPv4/NetBIOS metadata passively when Scapy permissions are available. It has synthetic adapter tests but has **not** been validated on a real interface. It does not send packets or retain raw UDP payloads.
 
+## Browser report-import quality checks
+
+The dashboard opens a saved JSON audit report entirely in the browser (no server upload). Import validates nested host, port, finding and passive-evidence field types, bounds and optional timestamp values before modifying the current view.
+
+The dependency-free Node.js regression harness runs against valid records, malformed input and genuine CLI demo/Nmap exports:
+
+```sh
+node qa/browser_report_validation.mjs
+```
+
+Optional interactive Chromium QA (requires a separately installed Puppeteer, **not** a production dependency):
+
+```sh
+node qa/browser_report_smoke.cjs
+```
+
+This local smoke test starts only a temporary loopback dashboard, checks saved report reopening/rejection and then closes the browser and server.
+
 ## Validation and continuity
 
 ```sh
