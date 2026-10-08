@@ -41,12 +41,12 @@ This is an alpha modernization, not historical feature parity. Source paths belo
 
 ## Compatibility and validation
 
-The offline core has no runtime dependencies and targets Python 3.11+. Linux/Python 3.12 was exercised locally. The CI matrix requests Linux/Python 3.11–3.14 plus Windows/macOS/Python 3.12; results must be checked before expanding verified support claims. Live Scapy capture requires OS capture permissions and appropriate platform drivers. Nmap discovery requires Nmap installed separately. Neither live adapter was validated against a real network in this checkpoint. Experimental PCAPNG enhanced-packet parsing is available only on the modernization branch and has passed synthetic fixtures on Linux/Python 3.14; real capture compatibility is not yet validated.
+The offline core has no runtime dependencies and targets Python 3.11+. Linux/Python 3.12 was exercised locally. The CI matrix requests Linux/Python 3.11–3.14 plus Windows/macOS/Python 3.12; results must be checked before expanding verified support claims. Live Scapy capture requires OS capture permissions and appropriate platform drivers. Nmap discovery requires Nmap installed separately. Neither live adapter was validated against a real network in this checkpoint. Experimental PCAPNG parsing covers enhanced packet (type 6), obsolete packet (type 2), and simple packet (type 3) blocks, plus timestamp offset options; only synthetic fixtures for these extensions have been validated on Linux/Python 3.14. Untimed simple packet host observations contain null first/last-seen fields when no timed evidence exists. Broader real capture compatibility is not yet validated.
 
 ## Next migration work
 
 1. Expand PCAPNG regression coverage with real captures and additional malformed-input/resource-limit cases.
-2. Add passive DHCP and name-resolution evidence analysis with isolated fixtures.
+2. Expand real-capture interoperability checks and standalone DHCP/NBNS safety/regression tests; passive parsers already exist.
 3. Review historical proxy and plugin contracts against modern TLS and browser protections, documenting protocol and environment constraints before implementation.
 4. Verify live adapters in an isolated test network and reconcile historical functionality one module at a time.
 
