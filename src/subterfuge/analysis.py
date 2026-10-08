@@ -20,6 +20,7 @@ from . import __version__
 MAX_INPUT_BYTES = 64 * 1024 * 1024
 MAX_PACKET_BYTES = 1024 * 1024
 MAX_PACKETS = 250_000
+MAX_PCAPNG_BLOCKS = MAX_PACKETS + 50_000
 MAX_HOSTS = 10_000
 MAX_FINDINGS = 10_000
 MAX_MACS_PER_HOST = 256
@@ -170,7 +171,7 @@ def _analyze_pcapng(data: bytes, source: str) -> dict:
     position = 0
     endian = None
     interfaces: list[tuple[int, int, float, int]] = []
-    packets = ignored = sections = untimed = 0
+    packets = ignored = sections = untimed = blocks = 0
 
     def observe_frame(frame: bytes, linktype: int, timestamp: float | None) -> None:
         nonlocal packets, ignored
@@ -187,6 +188,9 @@ def _analyze_pcapng(data: bytes, source: str) -> dict:
             ignored += 1
 
     while position < len(data):
+        blocks += 1
+        if blocks > MAX_PCAPNG_BLOCKS:
+            raise AnalysisError("PCAPNG block limit exceeded.")
         if len(data) - position < 12:
             raise AnalysisError("Truncated PCAPNG block header.")
         if data[position:position + 4] == b"\x0a\x0d\x0d\x0a":
