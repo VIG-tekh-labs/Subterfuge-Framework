@@ -2,27 +2,30 @@
 
 **Modernization in progress — version 2.0.0a2 (alpha).** The modern assessment core is installable; the complete historical framework is not yet restored or validated.
 
-## Project status and modernization branch
+## Project status — current default master
 
-The default GitHub branch, master, still contains an earlier alpha snapshot. The active Python 3 modernization is published on modernization-2026-10-08-continuation. See [MODERNIZATION_STATUS.md](MODERNIZATION_STATUS.md) for verified features, outstanding tasks and the historical file-age audit. No merge to master has yet been authorized.
+The default GitHub branch master now contains the modern Python 3 alpha. At the owner's request, the old 2015–2016 framework and unused assets have been removed from the maintained branch. The older source and its copyright notices remain available on a separate archival branch. See MODERNIZATION_STATUS.md for current supported capabilities and remaining work.
 
-## Historical source archive (October 2026)
+## Historical source preservation without obsolete files on main
 
-The maintained Python 3 runtime is in `src/subterfuge/`. The entire old
-Django 1.x, Twisted/SSLStrip, Python 2 and legacy UI framework, including
-its original assets and third-party attributions, was moved **without
-changing source bytes** into `legacy/historical-framework-2015-2016/`. This inactive code
-is excluded from the modern wheel and source distribution. The separate
-branch `archive-legacy-original-2026-10-09` retains the complete
-pre-reorganization checkout.
+The default branch contains only the maintained Python 3 alpha and the
+supporting documentation, tests and license files. The 2015–2016 Python 2,
+Django, Twisted/SSLStrip framework and unused old images were **removed**
+from the active repository tree.
 
-The verbatim GNU GPLv3 text is in root `LICENSE`. Root
-`COPYING` is now a compatibility pointer, not a new license. The move does not change copyright or license obligations.
+Those source files, original author notices and old versions remain available
+from the [original historical archive branch](https://github.com/VIG-tekh-labs/Subterfuge-Framework/tree/archive-legacy-original-2026-10-09).
+Earlier modernization commits documented the move into a legacy directory;
+the later cleanup removed that directory from the active branch as requested.
+The Git history remains intact; removal does not mean the old features were
+ported or that earlier copyright obligations have disappeared.
 
-See [the file relocation map](LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv) and
-[the archival review](LEGACY_REORGANIZATION_2026-10-09.md) for provenance.
-**Recent Git commit dates on archived files indicate reorganization,
-not a code upgrade or a security certification.**
+The verbatim complete GNU GPLv3 text remains at [LICENSE](LICENSE).
+COPYING is a compatibility pointer; the licensing terms have not changed.
+The [relocation ledger](LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv) and
+[archival audit](LEGACY_REORGANIZATION_2026-10-09.md) are historical
+provenance references, not active files.
+
 
 ## Historic file maintenance review
 
@@ -33,7 +36,7 @@ An October 2026 audit reviewed all 104 tracked files whose last Git commit was m
 Use Python 3.11 or newer in a virtual environment. Do not run the historical installer or updater.
 
 ```sh
-git clone --branch modernization-2026-10-08-continuation --single-branch https://github.com/VIG-tekh-labs/Subterfuge-Framework.git
+git clone https://github.com/VIG-tekh-labs/Subterfuge-Framework.git
 cd Subterfuge-Framework
 python3 -m venv .venv
 . .venv/bin/activate
@@ -43,9 +46,9 @@ subterfuge demo
 subterfuge serve --open
 ```
 
-On Windows, create the environment with `py -m venv .venv` and activate it with `.venv\Scripts\Activate.ps1` in PowerShell. Windows execution is awaiting CI validation.
+On Windows, create the environment with `py -m venv .venv` and activate it with `.venv\Scripts\Activate.ps1` in PowerShell. Automated Windows regression and packaging checks have passed; actual network interface capture on Windows is still unverified.
 
-The modern core requires no Django, Twisted, GPU or root privileges for offline work. The previous privileged installer is preserved at `legacy/setup.py`; the root setup.py now delegates packaging to setuptools.
+The modern core requires no Django, Twisted, GPU or root privileges for offline work. The privileged 2015-era installer exists only in the historical archive branch; modern setup.py delegates packaging to setuptools.
 
 ## Migration status and supported components
 
@@ -61,7 +64,7 @@ passive DHCPv4/NetBIOS queries into bounded, deduplicated
 alongside host inventory and review findings. DHCP option 252 contents and
 unrelated packet payloads are not retained. These are **observations, not
 proofs of exploitation**. IP fragments and unsupported link protocols
-are not reassembled. Live capture remains ARP-only and optional.
+are not reassembled. Optional passive capture supports ARP and DHCPv4/NBNS metadata on explicitly selected interfaces, but real-device capture interoperability is still incompletely verified.
 
 See [AUDIT.md](AUDIT.md), [FILE_AUDIT.md](FILE_AUDIT.md),
 [SECURITY.md](SECURITY.md) and [LICENSING.md](LICENSING.md) before restoring
@@ -128,11 +131,11 @@ Read [ROADMAP.md](ROADMAP.md) first, then [CAPABILITIES.md](CAPABILITIES.md) for
 
 Linux/Python 3.12 passed local checks. Other OS/Python combinations are CI targets, not yet verified support claims. Contributions are welcome through issues and pull requests.
 
-Original source, authorship and [complete GPL license](LICENSE) are retained. Historical source outside `src/` remains reference material and is not imported by the modern package. No replacement repository has been created.
+Original authorship and the [complete GPL license](LICENSE) are preserved. Historical source remains available in the separate archive branch and Git history, not in the installable modern package.
 
 ## Updating a modern checkout
 
-The historical Python 2/SVN updater has been retired. Its original implementation is retained in `legacy/update.py` for reference only and must not be executed. The root `update.py` is a safe Python 3 migration notice, not an automatic updater. To update a reviewed checkout, use Git to inspect and select changes, then reinstall the modern package inside its virtual environment using `python -m pip install --upgrade .`.
+The historical Python 2/SVN updater has been retired. Its original implementation exists only in the original archived branch and must not be executed. Root update.py is a safe Python 3 migration notice, not an automatic updater. Use Git to select changes, then reinstall with python -m pip install --upgrade . inside your virtual environment.
 
 For the module-by-module restoration checklist and technology choices, see
 [MIGRATION_MATRIX.md](MIGRATION_MATRIX.md). The full historical functionality is

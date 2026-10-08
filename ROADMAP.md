@@ -1,5 +1,17 @@
 # Maintenance roadmap
 
+## FINAL MAIN-BRANCH CLEANUP — October 9, 2026
+
+- The owner explicitly authorized applying modernization to the default branch master. Master fast-forwarded without force from 4bc3c2e to f50bd4a (79 commits).
+- To remove the 10–11-year-old files from the active GitHub tree, all 193 tracked files in the legacy directory were deleted from the maintained branch (190 older framework files, archive README, original update.py and setup.py).
+- The separate branch archive-legacy-original-2026-10-09 preserves the old source, history and copyright attribution. No history rewrite, force push, archival branch deletion or relicensing was performed.
+- The active Python 3 runtime remains under src/subterfuge; it is version 2.0.0a2 alpha and does not restore unported historical interception features.
+- The original complete GPLv3 text remains byte-for-byte unchanged in LICENSE, with COPYING as a pointer. Historical relocation maps remain documentation, not active source paths.
+- Verify Python/Node regression tests, wheel and source archive hygiene, and six-platform CI after this cleanup. Synchronize both modernization and master through non-forced fast-forward, then verify the GitHub default root has no legacy folder.
+- Remaining modernization: diverse actual authorized PCAP/PCAPNG captures, safe Scapy passive lab testing, browser accessibility/keyboard checks, provenance and module-by-module feature migration decisions.
+
+
+
 ## POST-PUBLICATION VERIFIED CHECKPOINT — October 9, 2026
 
 - Latest published archive/reorganization code commit: `1f21f9bc8cfafd4689eb781e6f83f7f335fcf8f5`, derived from baseline `8c8f7f3`. Complete historical tree remains preserved as branch `archive-legacy-original-2026-10-09`.
@@ -410,3 +422,12 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Local Linux/Python 3.14 checks on the newly organized checkout: 105 test cases discovered, 104 passed and one expected skip (old root settings no longer exists); offline Node report validation passed; wheel and sdist built with **18 wheel and 66 source members**, and source archive excludes the historical tree. Wheel carries the exact original GPL text under its license metadata.
 - Last Git file-change dates will reflect genuine archive renames when the commit is published. **The archived source remains from 2015 and is not functionally upgraded**. Historical commits and the archive branch retain the original timeline. GitHub default `master` stays unchanged until owner approval.
 - **Next:** publish the exact staging tree to the modernization branch, fetch a clean Git archive of its SHA and retest; confirm no tracked file path in that branch has a last-commit timestamp older than 24 hours; verify the six-platform GitHub Actions workflow; finalize status and handoff.
+
+### Local verification of the owner-requested master cleanup
+
+- Started from the published modernization checkpoint f50bd4a, already fast-forwarded into master by explicit owner authorization (79 commits).
+- Removed 193 legacy files from the maintained tree while leaving the original archive branch archive-legacy-original-2026-10-09 unchanged.
+- Regression suite on Kali/Linux Python 3.14 discovered 108 tests: 106 passed, two skipped by design (historical source no longer present). The Node saved-report validator accepted five valid and rejected ten malformed fixtures.
+- Wheel and source distribution built successfully; the artifact checker found 18 wheel and 67 source members, **no old framework files**, and the byte-identical original GPL-3.0 text in wheel metadata.
+- Maintained current project sources under src/subterfuge/ and the root Python3 CLI; no old privileged Django/SSLStrip modules restored.
+- Publication and CI confirmation will be recorded in a follow-up checkpoint after the exact new Git SHA exists on GitHub.

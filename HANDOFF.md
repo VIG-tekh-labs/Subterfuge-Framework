@@ -1,5 +1,17 @@
 # Subterfuge Framework — verified continuation handoff
 
+## FINAL MAIN-BRANCH CLEANUP — exact continuation
+
+- The owner explicitly authorized applying modernization to the default branch master. Master fast-forwarded without force from 4bc3c2e to f50bd4a (79 commits).
+- To remove the 10–11-year-old files from the active GitHub tree, all 193 tracked files in the legacy directory were deleted from the maintained branch (190 older framework files, archive README, original update.py and setup.py).
+- The separate branch archive-legacy-original-2026-10-09 preserves the old source, history and copyright attribution. No history rewrite, force push, archival branch deletion or relicensing was performed.
+- The active Python 3 runtime remains under src/subterfuge; it is version 2.0.0a2 alpha and does not restore unported historical interception features.
+- The original complete GPLv3 text remains byte-for-byte unchanged in LICENSE, with COPYING as a pointer. Historical relocation maps remain documentation, not active source paths.
+- Verify Python/Node regression tests, wheel and source archive hygiene, and six-platform CI after this cleanup. Synchronize both modernization and master through non-forced fast-forward, then verify the GitHub default root has no legacy folder.
+- Remaining modernization: diverse actual authorized PCAP/PCAPNG captures, safe Scapy passive lab testing, browser accessibility/keyboard checks, provenance and module-by-module feature migration decisions.
+The default GitHub view is now on modern master; old historical files are accessible via archive-legacy-original-2026-10-09 only. Do not reintroduce or re-import them.
+
+
 ## Definitive current state — October 9, 2026
 
 - **Published modern branch last validated code commit:** `1f21f9bc8cfafd4689eb781e6f83f7f335fcf8f5` (archive structural cleanup). Previous last substantive runtime feature commit remains `d8bb5b8`; version `2.0.0a2` alpha, not historical parity.
@@ -151,3 +163,12 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - Source docs and tests now use a 191-row relocation map and preserve prior 24-hour old-file review records as *historical snapshots*, not new path assertions. Modern packaged wheels/sdists exclude the historical subtree.
 - Validation before publication: 105 Python unit tests discovered (104 successes, 1 expected skip), Node offline report QA passed; wheel/sdist audit passed (18/66 file entries). The modern runtime is still 2.0.0a2 alpha. Renames are not functional Python 3 ports.
 - Next agent MUST publish staged modifications via connector atomic tree, then re-fetch the published branch and verify tests, package integrity and per-file last-touch dates. Check six-platform CI. Preserve archive branch, license, Git history and original copyright notices; do not merge master without owner approval.
+
+### Local verification of the owner-requested master cleanup
+
+- Started from the published modernization checkpoint f50bd4a, already fast-forwarded into master by explicit owner authorization (79 commits).
+- Removed 193 legacy files from the maintained tree while leaving the original archive branch archive-legacy-original-2026-10-09 unchanged.
+- Regression suite on Kali/Linux Python 3.14 discovered 108 tests: 106 passed, two skipped by design (historical source no longer present). The Node saved-report validator accepted five valid and rejected ten malformed fixtures.
+- Wheel and source distribution built successfully; the artifact checker found 18 wheel and 67 source members, **no old framework files**, and the byte-identical original GPL-3.0 text in wheel metadata.
+- Maintained current project sources under src/subterfuge/ and the root Python3 CLI; no old privileged Django/SSLStrip modules restored.
+- Publication and CI confirmation will be recorded in a follow-up checkpoint after the exact new Git SHA exists on GitHub.
