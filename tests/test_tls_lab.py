@@ -64,7 +64,9 @@ class TlsDecryptionTests(unittest.TestCase):
         self.assertTrue(path.is_file())
         if os.name == "posix":
             self.assertEqual(path.stat().st_mode & 0o777, 0o600)
-        self.assertEqual(result["tls"]["decrypted_json_saved_to"], str(path))
+        # Windows temp paths can use different 8.3 aliases for the same file.
+        # Compare filesystem identity rather than path spelling.
+        self.assertTrue(os.path.samefile(result["tls"]["decrypted_json_saved_to"], path))
 
     def test_missing_matching_secrets_is_not_claimed_as_decryption(self):
         with patch("subterfuge.tls_lab.shutil.which", return_value="/usr/bin/tshark"), patch(
