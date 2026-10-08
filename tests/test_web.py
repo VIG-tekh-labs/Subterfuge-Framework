@@ -51,6 +51,18 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("frame-ancestors 'none'", headers["Content-Security-Policy"])
         self.assertEqual(self.server.server_address[0], "127.0.0.1")
 
+    def test_accessible_table_and_result_regions(self):
+        status, _, page = self.request("GET", "/")
+        self.assertEqual(status, 200)
+        for label in (
+            b'aria-label="Observed host inventory"',
+            b'aria-label="Passive protocol observations"',
+            b'aria-label="Audit findings"',
+            b'aria-label="Import warnings"',
+        ):
+            with self.subTest(label=label):
+                self.assertIn(label, page)
+
     def test_demo_and_doctor(self):
         status, _, body = self.request("GET", "/api/demo")
         self.assertEqual(status, 200)
