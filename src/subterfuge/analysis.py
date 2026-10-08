@@ -55,14 +55,14 @@ class ArpTracker:
         self.arp_packets = 0
         self.operations: Counter[int] = Counter()
 
-    def observe(self, ip: str, mac: str, operation: int, timestamp: float) -> None:
+    def observe(self, ip: str, mac: str, operation: int, timestamp: float | None) -> None:
         if operation not in (1, 2):
             return
         self.arp_packets += 1
         self.operations[operation] += 1
         address = ip_address(ip)
-        if address.version != 4 or not math.isfinite(timestamp):
-            raise AnalysisError("ARP observations require IPv4 and a finite timestamp.")
+        if address.version != 4 or (timestamp is not None and not math.isfinite(timestamp)):
+            raise AnalysisError("ARP observations require IPv4 and a finite timestamp when known.")
         raw_mac = bytes.fromhex(mac.replace(":", ""))
         if len(raw_mac) != 6:
             raise AnalysisError("Invalid Ethernet address.")
@@ -82,8 +82,9 @@ class ArpTracker:
             raise AnalysisError("MAC address limit exceeded for one host.")
         host["mac_addresses"].add(mac.lower())
         host["observations"] += 1
-        host["first_seen"] = min(host["first_seen"], timestamp)
-        host["last_seen"] = max(host["last_seen"], timestamp)
+        if timestamp is not None:
+            host["first_seen"] = timestamp if host["first_seen"] is None else min(host["first_seen"], timestamp)
+            host["last_seen"] = timestamp if host["last_seen"] is None else max(host["last_seen"], timestamp)
         if len(host["mac_addresses"]) > 1:
             if ip not in self.conflicts:
                 if len(self.conflicts) >= MAX_FINDINGS:
@@ -153,7 +154,12 @@ def _arp_frame(frame: bytes, linktype: int) -> tuple[str, str, int] | None:
 
 
 def _analyze_pcapng(data: bytes, source: str) -> dict:
-    """Read bounded PCAPNG section/interface/enhanced-packet blocks, without payload retention."""
+    """Decode bounded PCAPNG, retaining only ARP and passive protocol evidence.
+
+    Supports enhanced packet blocks, obsolete packet blocks and simple packet
+    blocks. Simple packet blocks have no timestamp; unknown time is represented
+    as None rather than an invented epoch.
+    """
     if len(data) > MAX_INPUT_BYTES:
         raise AnalysisError("Capture exceeds the 64 MiB input limit.")
     if len(data) < 28:
@@ -163,14 +169,27 @@ def _analyze_pcapng(data: bytes, source: str) -> dict:
     passive = EvidenceAccumulator()
     position = 0
     endian = None
-    interfaces: list[tuple[int, int, float]] = []
-    packets = ignored = 0
-    sections = 0
+    interfaces: list[tuple[int, int, float, int]] = []
+    packets = ignored = sections = untimed = 0
+
+    def observe_frame(frame: bytes, linktype: int, timestamp: float | None) -> None:
+        nonlocal packets, ignored
+        packets += 1
+        if packets > MAX_PACKETS:
+            raise AnalysisError("Packet limit exceeded.")
+        try:
+            event = _arp_frame(frame, linktype)
+        except AnalysisError:
+            event = None
+        if event is not None:
+            tracker.observe(*event, timestamp)
+        elif not passive.observe(frame, linktype):
+            ignored += 1
+
     while position < len(data):
         if len(data) - position < 12:
             raise AnalysisError("Truncated PCAPNG block header.")
-        block_magic = data[position:position + 4]
-        if block_magic == b"\x0a\x0d\x0d\x0a":
+        if data[position:position + 4] == b"\x0a\x0d\x0d\x0a":
             if len(data) - position < 28:
                 raise AnalysisError("Truncated PCAPNG section header.")
             marker = data[position + 8:position + 12]
@@ -192,6 +211,7 @@ def _analyze_pcapng(data: bytes, source: str) -> dict:
             raise AnalysisError("PCAPNG block length trailer mismatch.")
         body = position + 8
         body_end = position + length - 4
+
         if block_type == 0x0A0D0D0A:
             if length < 28 or struct.unpack_from(endian + "HH", data, body + 4) != (1, 0):
                 raise AnalysisError("Unsupported PCAPNG section version.")
@@ -206,6 +226,7 @@ def _analyze_pcapng(data: bytes, source: str) -> dict:
             if linktype not in (1, 113, 276):
                 raise AnalysisError(f"Unsupported capture link type: {linktype}.")
             resolution = 1e-6
+            offset_seconds = 0
             option = body + 8
             while option < body_end:
                 if body_end - option < 4:
@@ -226,41 +247,66 @@ def _analyze_pcapng(data: bytes, source: str) -> dict:
                     resolution = (2.0 ** -(value & 127)) if value & 128 else (10.0 ** -value)
                     if resolution == 0 or not math.isfinite(resolution):
                         raise AnalysisError("Invalid PCAPNG timestamp resolution.")
+                elif code == 14:
+                    if size != 8:
+                        raise AnalysisError("Invalid PCAPNG timestamp offset.")
+                    offset_seconds = struct.unpack_from(endian + "q", data, option)[0]
                 option += padded
-            interfaces.append((linktype, snaplen, resolution))
-        elif block_type == 6:
+            interfaces.append((linktype, snaplen, resolution, offset_seconds))
+        elif block_type in (2, 6):
             if body_end - body < 20:
-                raise AnalysisError("Truncated PCAPNG enhanced packet.")
-            interface_id, ts_hi, ts_lo, length_captured, length_original = struct.unpack_from(endian + "IIIII", data, body)
+                raise AnalysisError("Truncated PCAPNG packet block.")
+            if block_type == 2:
+                interface_id, _drop_count, ts_hi, ts_lo, captured, original = struct.unpack_from(
+                    endian + "HHIIII", data, body
+                )
+            else:
+                interface_id, ts_hi, ts_lo, captured, original = struct.unpack_from(
+                    endian + "IIIII", data, body
+                )
             if interface_id >= len(interfaces):
                 raise AnalysisError("PCAPNG packet refers to missing interface.")
-            linktype, snaplen, resolution = interfaces[interface_id]
-            if (length_captured > snaplen or length_captured > MAX_PACKET_BYTES
-                    or length_captured > length_original
-                    or ((length_captured + 3) & ~3) > body_end - (body + 20)):
+            linktype, snaplen, resolution, offset_seconds = interfaces[interface_id]
+            if (captured > snaplen or captured > MAX_PACKET_BYTES
+                    or captured > original
+                    or ((captured + 3) & ~3) > body_end - (body + 20)):
                 raise AnalysisError("Invalid PCAPNG packet length.")
-            packets += 1
-            if packets > MAX_PACKETS:
-                raise AnalysisError("Packet limit exceeded.")
-            frame = data[body + 20:body + 20 + length_captured]
-            try:
-                event = _arp_frame(frame, linktype)
-            except AnalysisError:
-                event = None
-            if event is not None:
-                timestamp = ((ts_hi << 32) | ts_lo) * resolution
-                if not math.isfinite(timestamp):
-                    raise AnalysisError("Invalid PCAPNG timestamp.")
-                tracker.observe(*event, timestamp)
-            elif not passive.observe(frame, linktype):
-                ignored += 1
+            timestamp = ((ts_hi << 32) | ts_lo) * resolution + offset_seconds
+            if not math.isfinite(timestamp):
+                raise AnalysisError("Invalid PCAPNG timestamp.")
+            observe_frame(data[body + 20:body + 20 + captured], linktype, timestamp)
+        elif block_type == 3:
+            if body_end - body < 4:
+                raise AnalysisError("Truncated PCAPNG simple packet.")
+            if not interfaces:
+                raise AnalysisError("PCAPNG simple packet requires interface zero.")
+            linktype, snaplen, _, _ = interfaces[0]
+            original = struct.unpack_from(endian + "I", data, body)[0]
+            captured = min(original, snaplen)
+            if (captured > MAX_PACKET_BYTES
+                    or body_end - (body + 4) != ((captured + 3) & ~3)):
+                raise AnalysisError("Invalid PCAPNG simple packet length.")
+            observe_frame(data[body + 4:body + 4 + captured], linktype, None)
+            untimed += 1
         position += length
+
     if not sections:
         raise AnalysisError("PCAPNG has no section header.")
     if ignored:
-        tracker.report["warnings"].append("Non-ARP, non-DHCP/NBNS or incomplete frames were ignored.")
-    tracker.report["capture"] = {"format": "pcapng", "sections": sections, "interfaces_last_section": len(interfaces)}
+        tracker.report["warnings"].append(
+            "Non-ARP, non-DHCP/NBNS or incomplete frames were ignored."
+        )
+    if untimed:
+        tracker.report["warnings"].append(
+            "Simple PCAPNG packets lack timestamps; host times may be unknown or partial."
+        )
+    tracker.report["capture"] = {
+        "format": "pcapng", "sections": sections,
+        "interfaces_last_section": len(interfaces),
+        "untimed_packets": untimed,
+    }
     return passive.extend(tracker.finish(packets, ignored))
+
 
 def analyze_pcap(data: bytes, source: str = "capture") -> dict:
     """Analyze classic PCAP or bounded PCAPNG enhanced packets."""
