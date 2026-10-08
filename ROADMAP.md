@@ -89,3 +89,14 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Commit `1f76782f1729807cda69fafd9701e0442b109c54`: added `tests/test_pcapng.py` with synthetic endian, malformed-length, missing-interface and non-ARP cases.
 - **Not validated**: no Python execution environment was available through Desktop Commander. Test files were committed but have not run; all PCAPNG work remains draft. Do not merge or release.
 - Next: run `python -m unittest discover -s tests -v` in a Python 3.11+ venv; correct failing fixtures/parser; verify dashboard PCAPNG import and CI; inspect historical modules one at a time. Keep `master` unchanged.
+
+## Verified Python 3 modernization checkpoint — 2026-10-08
+
+- Reconnected Remote Desktop Commander device `eden`; cloned the continuation branch to an isolated directory under `~/projects/Subterfuge-Framework-modernization`. No historical system installer was executed.
+- Python 3.14.7, pip 26.1.2 and Git 2.53.0 confirmed on the device.
+- Corrected malformed escaped-byte literals in `tests/test_pcapng.py`; all PCAPNG tests now pass on the local machine.
+- Retired the Python 2/SVN-based root `update.py` (which used a legacy network version socket and system-wide configuration). Preserved its original source in `legacy/update.py`; the replacement Python 3 entry point is informational and performs no network calls or privileged modifications.
+- Added `tests/test_updater.py` to verify the replacement updater remains read-only.
+- **Executed checks:** 56/56 unittest cases passed; Python compileall passed; isolated `pip install .` built and installed wheel `subterfuge_framework-2.0.0a1`; installed CLI version and synthetic demo smoke checks passed.
+- **Remaining limitations:** historical interception/proxy/plugins remain unported; PCAPNG has only synthetic test coverage, not comprehensive real-capture validation; no network interception or active attack modules tested; Windows/macOS and CI results not verified.
+- Next: test real PCAPNG fixtures and multiple sections/interfaces, perform browser QA, inspect historical passive DHCP/name-resolution logic for safe Python 3 replacements, and verify CI before proposing a merge. Keep master untouched pending owner approval.
