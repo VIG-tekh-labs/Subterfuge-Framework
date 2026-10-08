@@ -1,5 +1,21 @@
 # Maintenance change counts
 
+## Repository-wide audit and capture evidence checkpoint — 2026-10-08
+
+- Baseline classification: 293 tracked paths inventoried in `FILE_AUDIT.md`.
+- Python 3 AST audit: 82 Python files; 26 legacy syntax/indentation failures.
+- Historical cleanup proposed: 58 Git-tracked generated or sensitive paths
+  removed from the continuation branch. **Removal is not Git history erasure.**
+- Functional changes: aggregate passive DHCP/NBNS observations for classic PCAP
+  and PCAPNG (Ethernet/VLAN and Linux cooked), add bounded evidence groups,
+  render passive evidence in the dashboard and add end-to-end tests.
+- Validation at local checkpoint: 76 Python unit tests passed, wheel and source
+  distribution built without legacy scripts or sensitive files, Scapy 2.8.0
+  installed in the isolated environment, Chromium headless HTTP/dashboard
+  smoke test passed. This does not imply historical functional parity or
+  cross-platform validation.
+- Documentation additions: AUDIT.md, FILE_AUDIT.md, SECURITY.md, LICENSING.md.
+
 ## Functional checkpoint — 2026-10-08
 
 This checkpoint changes 25 paths: 9 modern runtime files, 6 test/fixture files, 3 packaging files, README.md, ROADMAP.md, CAPABILITIES.md, this report, .gitignore, one CI workflow and the preserved historical installer.

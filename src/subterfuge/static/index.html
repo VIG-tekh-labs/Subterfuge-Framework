@@ -19,6 +19,7 @@
 <div class="workspace">
 <div class="stack">
 <section class="panel"><div class="section-head"><h2>Host inventory</h2><span id="source" class="source">No report loaded</span></div><div class="table-wrap"><table id="inventory" class="hidden"><thead><tr><th>IP address</th><th>MAC address</th><th>Observation</th></tr></thead><tbody id="host-rows"></tbody></table></div><div id="empty" class="empty">Your inventory will appear here.<br><span class="sub">Classic PCAP, experimental PCAPNG and Nmap XML are supported.</span></div></section>
+<section class="panel" aria-labelledby="passive-heading"><h2 id="passive-heading">Passive DHCP &amp; NetBIOS evidence</h2><p id="passive-summary" class="sub">No passive protocol observations loaded.</p><div id="passive-list"></div></section>
 <section class="panel"><h2>Findings &amp; context</h2><p id="finding-empty" class="sub">No report loaded yet.</p><div id="finding-list"></div><div id="warnings"></div></section>
 </div>
 <aside class="stack">
@@ -42,6 +43,20 @@ function render(report){
   byId('source').textContent=report.source||'Report';byId('host-rows').replaceChildren();
   for(const host of hosts){const row=document.createElement('tr');const address=host.address||(host.addresses||[]).join(', ')||'Unknown';const ports=(host.ports||[]).filter(p=>p.state==='open').map(p=>`${p.port}/${p.protocol} ${p.service}`).join(', ');const observation=inventory?(ports||host.status):`${host.observations} ARP observations`;row.append(node('td',address),node('td',(host.mac_addresses||[]).join(', ')||'—'),node('td',observation||'—'));byId('host-rows').append(row)}
   byId('inventory').classList.toggle('hidden',!hosts.length);byId('empty').classList.toggle('hidden',Boolean(hosts.length));byId('empty').textContent='No complete host records were observed in this input.';
+  const passive=report.network_evidence||[];
+  byId('passive-summary').textContent=passive.length?
+    passive.length+' distinct DHCP/NetBIOS observation groups. Repeated messages are counted.':
+    'No complete DHCP/NetBIOS observations in this report.';
+  byId('passive-list').replaceChildren();
+  for(const item of passive){
+    const protocol=item.protocol==='dhcp'?'DHCP '+item.message_type:'NBNS '+item.name;
+    const context=item.protocol==='dhcp'?
+      'Server: '+(item.server_identifier||'unspecified')+(item.wpad_option_present?' · WPAD option present':''):
+      'Type: '+item.query_type+' · Name suffix: '+item.suffix;
+    const record=node('div',protocol+' · '+item.observations+' observed','finding');
+    record.append(node('p',context));
+    byId('passive-list').append(record);
+  }
   byId('finding-list').replaceChildren();byId('finding-empty').textContent=findings.length?'Review the evidence and context below.':'No review items identified in this input. This does not prove the network is secure.';
   for(const finding of findings){const item=node('div',`${finding.address||''} · ${finding.message}`,'finding');item.append(node('p',finding.interpretation||''));byId('finding-list').append(item)}
   byId('warnings').replaceChildren();for(const warning of report.warnings||[])byId('warnings').append(node('p',warning,'warning'));

@@ -1,7 +1,8 @@
+# Archived legacy Django settings. Do not deploy; use the modern loopback dashboard.
 # Django settings for the Subterfuge Project.
 import os
 
-DEBUG = True
+DEBUG = False  # Historical Django project; unsupported in modern runtime.
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -85,7 +86,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '@#yj#zk_f(^g9%t_z3+a_%@j#&9vi85gnf(1mxnffgbxju*pn*'
+SECRET_KEY = os.environ.get("SUBTERFUGE_LEGACY_SECRET_KEY", "")
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

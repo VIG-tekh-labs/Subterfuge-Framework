@@ -21,6 +21,26 @@ On Windows, create the environment with `py -m venv .venv` and activate it with 
 
 The modern core requires no Django, Twisted, GPU or root privileges for offline work. The previous privileged installer is preserved at `legacy/setup.py`; the root setup.py now delegates packaging to setuptools.
 
+## Migration status and supported components
+
+**Release level: alpha.** The modern Python 3 package is intentionally independent of
+the historical Django 1.x/Twisted runtime and does not bundle historical
+interception scripts. The dashboard uses Python standard-library HTTP and
+plain browser JavaScript; no Django, Twisted or jQuery upgrade is required
+to use the active interface.
+
+Classic PCAP and experimental PCAPNG imports now summarize ARP claims and
+passive DHCPv4/NetBIOS queries into bounded, deduplicated
+`network_evidence` records. The local dashboard displays these records
+alongside host inventory and review findings. DHCP option 252 contents and
+unrelated packet payloads are not retained. These are **observations, not
+proofs of exploitation**. IP fragments and unsupported link protocols
+are not reassembled. Live capture remains ARP-only and optional.
+
+See [AUDIT.md](AUDIT.md), [FILE_AUDIT.md](FILE_AUDIT.md),
+[SECURITY.md](SECURITY.md) and [LICENSING.md](LICENSING.md) before restoring
+historical modules or redistributing historical assets.
+
 ## Evidence and assessment
 
 ```sh
@@ -30,7 +50,7 @@ subterfuge inspect-tls --host example.com --output tls.json
 subterfuge interfaces
 ```
 
-The dashboard runs on `127.0.0.1` and imports PCAP/Nmap XML files locally. PCAP limits are 16 MiB for dashboard uploads and 64 MiB for CLI imports. PCAPNG enhanced-packet import is experimental on the modernization branch; only synthetic fixtures have been tested. Classic PCAP remains the validated format. Nmap service/version and OS data are retained as reported evidence. Transport review items require investigation; they do not establish exploitation or missing STARTTLS.
+The dashboard runs on `127.0.0.1` and imports PCAP/Nmap XML files locally. PCAP limits are 16 MiB for dashboard uploads and 64 MiB for CLI imports. PCAPNG enhanced-packet import is experimental on the modernization branch; synthetic format and passive protocol tests have passed, but real-world capture coverage is incomplete. Classic PCAP remains the better validated format. Nmap service/version and OS data are retained as reported evidence. Transport review items require investigation; they do not establish exploitation or missing STARTTLS.
 
 TLS inspection opens one normal certificate-verified connection to the specified endpoint, records its negotiated protocol/cipher and reports certificate expiry or verification failure. It does not enumerate every server configuration or test HSTS.
 

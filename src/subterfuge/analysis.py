@@ -158,7 +158,9 @@ def _analyze_pcapng(data: bytes, source: str) -> dict:
         raise AnalysisError("Capture exceeds the 64 MiB input limit.")
     if len(data) < 28:
         raise AnalysisError("Truncated PCAPNG section header.")
+    from .udp_evidence import EvidenceAccumulator
     tracker = ArpTracker(source, kind="pcapng")
+    passive = EvidenceAccumulator()
     position = 0
     endian = None
     interfaces: list[tuple[int, int, float]] = []
@@ -250,15 +252,15 @@ def _analyze_pcapng(data: bytes, source: str) -> dict:
                 if not math.isfinite(timestamp):
                     raise AnalysisError("Invalid PCAPNG timestamp.")
                 tracker.observe(*event, timestamp)
-            else:
+            elif not passive.observe(frame, linktype):
                 ignored += 1
         position += length
     if not sections:
         raise AnalysisError("PCAPNG has no section header.")
     if ignored:
-        tracker.report["warnings"].append("Incomplete ARP frames were ignored.")
+        tracker.report["warnings"].append("Non-ARP, non-DHCP/NBNS or incomplete frames were ignored.")
     tracker.report["capture"] = {"format": "pcapng", "sections": sections, "interfaces_last_section": len(interfaces)}
-    return tracker.finish(packets, ignored)
+    return passive.extend(tracker.finish(packets, ignored))
 
 def analyze_pcap(data: bytes, source: str = "capture") -> dict:
     """Analyze classic PCAP or bounded PCAPNG enhanced packets."""
@@ -283,7 +285,9 @@ def analyze_pcap(data: bytes, source: str = "capture") -> dict:
         raise AnalysisError("Unsupported PCAP version or snapshot length.")
     if linktype not in (1, 113, 276):
         raise AnalysisError(f"Unsupported capture link type: {linktype}.")
+    from .udp_evidence import EvidenceAccumulator
     tracker = ArpTracker(source)
+    passive = EvidenceAccumulator()
     tracker.report["capture"] = {"link_type": linktype, "snapshot_length": snaplen}
     stream = io.BytesIO(data[24:])
     packets = ignored = 0
@@ -305,12 +309,13 @@ def analyze_pcap(data: bytes, source: str = "capture") -> dict:
             ignored += 1
             continue
         if event is None:
-            ignored += 1
+            if not passive.observe(frame, linktype):
+                ignored += 1
             continue
         tracker.observe(*event, seconds + fraction / resolution)
     if ignored:
-        tracker.report["warnings"].append("Non-ARP or incomplete frames were ignored; only complete ARP claims are analyzed.")
-    return tracker.finish(packets, ignored)
+        tracker.report["warnings"].append("Non-ARP, non-DHCP/NBNS or incomplete frames were ignored.")
+    return passive.extend(tracker.finish(packets, ignored))
 
 
 def _nmap_xml(data: bytes) -> ET.Element:

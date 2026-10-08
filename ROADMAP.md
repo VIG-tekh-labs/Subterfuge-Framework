@@ -126,3 +126,34 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Local Linux/Python 3.14.7 regression suite: **69 tests passed** before publication.
 - This dispatcher is an **independent library helper**. It is not yet wired into the `analyze_pcap` or PCAPNG aggregate reports; do not claim integrated capture-level DHCP/NBNS support.
 - Next: implement bounded aggregation into capture reports without changing existing ARP evidence semantics; validate fresh published checkout and dashboard UI; review protocol edge cases and CI.
+
+## Repository-wide modernization and licensing audit — 2026-10-08
+
+- Inventory of all 293 baseline tracked files created in `FILE_AUDIT.md` (automated category-level triage, not manual proof of each module).
+- Python 3.14 syntax sweep: 82 tracked Python sources; 56 AST-parse; 26 fail due to legacy Python 2 syntax/indentation.
+- Identified legacy Django, Twisted, Scapy and jQuery; the active Python 3 package remains Django/Twisted-free.
+- Preliminary license review in `LICENSING.md`: GPLv3 root and GPL-3.0-or-later active-package metadata; explicit historical GPLv2-only notice in `modules/harvester/ftp_password_sniffer.py`; historical SSLStrip modules have GPLv3-or-later notices. **Do not assume blanket relicensing eligibility.**
+- Historical public repository carries a private-key PEM, Django SECRET_KEY, credential file and databases. Current branch cleanup prepared (58 tracked artifacts); original Git history remains exposed. See `SECURITY.md` for rotation and remediation.
+- Implemented bounded passive DHCP and NetBIOS aggregation in classic PCAP and PCAPNG reports, with Ethernet/VLAN and Linux cooked capture support; dashboard displays observation groups.
+- Last local source regression: 76 tests passed on Linux/Python 3.14, prior to packaging/browser validation of this checkpoint.
+- Next: validate installed wheel, source distribution, Chromium dashboard rendering, CI, and complete publication of cleanup and tests. Retain alpha status. Continue historical module-by-module modernization without claiming full parity.
+
+
+## Installation, browser and packaging validation — 2026-10-08
+
+- Python 3.14.7, isolated pip wheel creation **passed**. The wheel contains
+  only the modern package and packaging metadata (18 entries), with no
+  historical Django/Twisted modules or sensitive artifacts.
+- Isolated source distribution **built** and inspected (46 entries before the
+  manifest documentation expansion); no legacy module tree, compiled `.pyc`,
+  PEM, credential file or database was found in the archive.
+- Optional Scapy 2.8.0 was installed in the virtual environment; 76 offline
+  regressions still passed. Live Scapy packet capture was **not** executed.
+- A real Chromium headless process loaded the loopback dashboard (HTTP 200),
+  returned a DOM containing the passive-evidence panel and generated a
+  screenshot. Manual visual/accessibility QA remains to be completed.
+- Preliminary technical security and provenance notes recorded in
+  `AUDIT.md`, `SECURITY.md`, `LICENSING.md` and `FILE_AUDIT.md`.
+- Next: rerun builds/tests after expanded source manifest, publish the branch
+  atomically, verify the published content, investigate GitHub CI status,
+  then extend PCAPNG fixtures and the Nmap/TLS report experience.

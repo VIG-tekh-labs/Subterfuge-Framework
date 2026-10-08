@@ -83,6 +83,21 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(json.loads(body)["kind"], "pcapng")
 
+    def test_dhcp_pcap_report_and_passive_panel(self):
+        from test_capture_evidence import pcap
+        from test_udp_evidence import frame
+        from test_dhcp import packet
+        status, _, page = self.request("GET", "/")
+        self.assertEqual(status, 200)
+        self.assertIn(b"Passive DHCP &amp; NetBIOS evidence", page)
+        payload = pcap(frame(packet(), 67, 68))
+        status, _, body = self.request("POST", "/api/analyze-pcap", payload,
+                                      {"X-Subterfuge-Token": self.token})
+        self.assertEqual(status, 200)
+        report = json.loads(body)
+        self.assertEqual(report["stats"]["dhcp_messages"], 1)
+        self.assertEqual(report["network_evidence"][0]["protocol"], "dhcp")
+
     def test_standard_xml_upload(self):
         data = (Path(__file__).parent / "fixtures/nmap_inventory.xml").read_bytes()
         status, _, body = self.request("POST", "/api/import-nmap", data, {"X-Subterfuge-Token": self.token})
