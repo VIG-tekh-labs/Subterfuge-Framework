@@ -91,3 +91,19 @@ The historical Python 2/SVN updater has been retired. Its original implementatio
 For the module-by-module restoration checklist and technology choices, see
 [MIGRATION_MATRIX.md](MIGRATION_MATRIX.md). The full historical functionality is
 not yet present in the active alpha package.
+
+## Reproducible additional QA
+
+On a machine with Nmap installed, to verify the optional active Nmap adapter
+**against your own loopback only**, run:
+
+```sh
+PYTHONPATH=src python qa/loopback_nmap_smoke.py
+```
+
+The script starts an ephemeral HTTP-like listener bound to `127.0.0.1`,
+scans only that listener and closes it. It does not scan the LAN or Internet.
+
+If Wireshark `editcap` is installed, the regression suite also independently
+converts a synthetic classic PCAP to PCAPNG and compares the observed ARP
+evidence. If `editcap` is missing, that optional test is explicitly skipped.

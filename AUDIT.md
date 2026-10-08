@@ -44,3 +44,17 @@ request with host, port and timeout and runs one certificate-verified
 connection only after user action. Invalid content types, oversized input,
 malformed JSON and invalid parameters are tested. No historical SSLStrip
 or Twisted intercepting proxy is reactivated.
+
+## Reproducible release and repository hygiene checks
+
+`tests/test_repository_hygiene.py` rejects any newly tracked compiled
+Python bytecode, runtime logs, key files and known historical credential/DB
+paths in a Git checkout, and detects a literal Django SECRET_KEY. These tests
+protect the **current branch** but cannot erase secrets from public history.
+
+`tests/test_external_capture_writer.py` can validate PCAPNG interoperability
+with Wireshark `editcap`, when available; this is not a substitute for a
+diverse corpus of real authorized captures.
+
+`qa/loopback_nmap_smoke.py` checks a self-hosted ephemeral TCP service on
+127.0.0.1 only; it is an opt-in test, not an external scan or a CI requirement.

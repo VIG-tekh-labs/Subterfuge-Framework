@@ -230,3 +230,23 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Next: verify Scapy optional installation, publish this commit, rebuild
   clean wheel/sdist, check all six GitHub CI runners and test real capture
   only on an explicitly authorized isolated interface.
+
+## Artifact hygiene, editcap interoperability and loopback QA — 2026-10-08
+
+- Added `tests/test_repository_hygiene.py` to prevent re-introduction
+  of tracked private PEM/keys, logs, compiled Python bytecode, legacy DB/
+  credential artifacts or hard-coded legacy Django secrets.
+- Added `tests/test_external_capture_writer.py`: optional format test
+  produces a PCAPNG with Wireshark `editcap` and verifies that our decoder
+  reproduces the classic-PCAP ARP evidence. The test skips when `editcap`
+  is missing.
+- Added reproducible `qa/loopback_nmap_smoke.py`, which launches one
+  ephemeral server on `127.0.0.1`, scans that loopback port only and
+  shuts down. It passed locally with installed Nmap. No LAN/Internet scan.
+- Local regression suite: **89 tests passed** on Python 3.14/Linux, including
+  optional editcap interoperability. Source tests from the prior checkpoint
+  on `c99bbe4`: 86/86 passed; its six GitHub Actions jobs all completed
+  successfully at [run 37829286881](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37829286881).
+- Next: publish these QA artifacts, validate published wheel and all six CI
+  jobs, then plan real captures on authorized test interfaces and migration
+  of remaining non-privileged historical functions.

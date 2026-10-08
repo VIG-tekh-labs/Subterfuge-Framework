@@ -1,5 +1,14 @@
 # Maintenance change counts
 
+## Repository hygiene and independent format QA checkpoint — 2026-10-08
+
+- Added regression checks for tracked historical artifacts and a literal
+  Django secret; optional independent Wireshark editcap format conversion.
+- Added `qa/loopback_nmap_smoke.py` so active inventory may be checked
+  against an ephemeral loopback service without probing other hosts.
+- Local tests: **89 tests passed**, including editcap interoperability when
+  installed. GitHub CI may skip the editcap test when unavailable.
+
 ## Passive live protocol observation checkpoint — 2026-10-08
 
 - Added an opt-in Scapy adapter, `capture-protocols`, for passive ARP,

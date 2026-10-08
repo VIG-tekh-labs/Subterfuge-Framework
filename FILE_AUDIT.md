@@ -313,3 +313,17 @@ Baseline: continuation branch before this checkpoint, 293 tracked paths. This in
 | `wsgi.py` | Historical Python / unported | Not imported by modern package; review before reuse |
 | `xsubterfuge` | Historical / other | Preserve for review |
 | `tests/test_capture_evidence.py` | New regression test | Verify, document and maintain |
+
+## Subsequent additions after the 293-file baseline audit
+
+This supplement covers files introduced in later checkpoints; the original
+table above remains a baseline view rather than a newly sampled census.
+
+| Added path | Classification | Validation |
+| --- | --- | --- |
+| `MIGRATION_MATRIX.md` | Historical-to-modern migration plan | Review against code and capability reports |
+| `tests/test_services.py` | Modern Nmap scanner tests | Mocked subprocess and CLI dispatch |
+| `tests/test_live_protocols.py` | Optional passive Scapy capture tests | Synthetic packet callbacks only |
+| `tests/test_repository_hygiene.py` | Repository security regression | Tracked sensitive artifacts and source literals |
+| `tests/test_external_capture_writer.py` | External PCAPNG writer interoperability | Optional Wireshark editcap; skipped when absent |
+| `qa/loopback_nmap_smoke.py` | Optional hands-on local adapter QA | Explicit 127.0.0.1 ephemeral service only |
