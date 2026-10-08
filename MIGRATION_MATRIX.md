@@ -23,7 +23,7 @@ outside that path are reference material and must not be imported as plugins.
 | `modules/httpcodeinjection/` | HTTP response manipulation | No modern active implementation | Assess legitimate isolated test fixtures instead of live injection |
 | `modules/TunnelBlock/`, `modules/dos/` | Traffic disruption | Not active and not shipped | Avoid reactivating destructive functions as routine diagnostics |
 | `scan.py`, legacy Nmap wiring | Scan control / reporting | `discover`, `import-nmap`, new bounded `scan-services` for one explicit IP | Verify Nmap adapter in authorized lab; cap targets/ports/timing |
-| Legacy reports / databases | Historical logs and export | JSON report download and local atomic CLI export | Local secure report import/history, schema compatibility and data minimization |
+| Legacy reports / databases | Historical logs and export | JSON report download, client-side saved-report reopening and atomic CLI export | Local secure report import/history, schema compatibility and data minimization |
 
 ## Technology decisions
 

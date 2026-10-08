@@ -58,3 +58,11 @@ diverse corpus of real authorized captures.
 
 `qa/loopback_nmap_smoke.py` checks a self-hosted ephemeral TCP service on
 127.0.0.1 only; it is an opt-in test, not an external scan or a CI requirement.
+
+## Local saved-report reopening
+
+The dashboard offers client-side reopening of version-1 JSON reports, with
+strict file-size/schema/array-shape validation and DOM text escaping. No
+report import is sent to the backend; it remains in the local browser until
+the page is closed. This is not persistent server-side case management and
+does not read historical Django databases.

@@ -250,3 +250,20 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - Next: publish these QA artifacts, validate published wheel and all six CI
   jobs, then plan real captures on authorized test interfaces and migration
   of remaining non-privileged historical functions.
+
+## Browser-only saved-report import — 2026-10-08
+
+- Added dashboard ability to reopen version-1 JSON reports from a local file,
+  validating top-level schema, arrays, object shapes and 16 MiB file-size
+  limit. Existing report export remains unchanged.
+- No JSON import endpoint or server persistence was added: saved report data
+  stays in the browser until the user exports or reloads; the historical
+  Django database is not required.
+- Chromium/Puppeteer end-to-end QA: loaded synthetic demo, downloaded JSON,
+  reloaded JSON from local file, confirmed host inventory was restored,
+  then rejected a malformed host record without JS exceptions.
+- Python source regressions: **89 tests passed** on Linux/Python 3.14.
+- Previous artifact-hygiene commit `16ae612` passed all six GitHub CI jobs
+  at [run 37829668360](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37829668360).
+- Next: publish/report branch checks, verify all six new CI jobs; continue
+  accessibility/usability review and real-capture validation before release.

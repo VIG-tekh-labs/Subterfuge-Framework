@@ -1,5 +1,14 @@
 # Maintenance change counts
 
+## Client-only saved report reopening checkpoint — 2026-10-08
+
+- Added an explicit JSON report file picker to the loopback dashboard.
+- Saved reports are parsed and validated entirely client-side (size and
+  schema bounds); no backend upload or new database dependency.
+- Chromium/Puppeteer successfully exported the demo, reloaded its JSON
+  report and rejected a malformed report with no JavaScript exception.
+- The 89 Python regression tests continued to pass.
+
 ## Repository hygiene and independent format QA checkpoint — 2026-10-08
 
 - Added regression checks for tracked historical artifacts and a literal

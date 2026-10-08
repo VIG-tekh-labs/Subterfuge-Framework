@@ -26,6 +26,7 @@
 <aside class="stack">
 <section class="panel"><h2>Import evidence</h2><p class="sub">Analyze an existing capture or inventory. No live scan is started here.</p><div class="drop"><label for="file">Choose a PCAP, PCAPNG or Nmap XML file</label><input id="file" type="file" accept=".pcap,.pcapng,.cap,.xml"><button id="analyze" class="primary">Analyze file</button><p class="note">Up to 16 MiB in the dashboard. Use the CLI for files up to 64 MiB.</p></div><p class="note">PCAPNG enhanced-packet import is experimental. Keep the original capture for verification.</p></section>
 <section class="panel" aria-labelledby="tls-heading"><h2 id="tls-heading">Inspect a TLS endpoint</h2><p class="sub">One explicit, certificate-verified TLS connection. No downgrade or interception is performed.</p><div class="tls-fields"><div><label for="tls-host">Hostname or IP address</label><input id="tls-host" type="text" autocomplete="off" placeholder="example.com" maxlength="253"></div><div><label for="tls-port">TLS port</label><input id="tls-port" type="number" min="1" max="65535" value="443"></div></div><button id="tls-inspect" class="primary">Inspect TLS</button><p id="tls-status" class="note" role="status" aria-live="polite">No TLS inspection yet.</p></section>
+<section class="panel" aria-labelledby="open-report-heading"><h2 id="open-report-heading">Reopen a saved report</h2><p class="sub">Open a previously exported JSON report locally in your browser. Its contents are not uploaded.</p><div class="drop"><label for="report-file">Choose a Subterfuge JSON report</label><input id="report-file" type="file" accept=".json,application/json"><button id="load-report">Open JSON report</button><p class="note">Maximum 16 MiB; the report must use schema version 1.</p></div></section>
 <section class="panel"><h2>Environment</h2><div class="health" id="health"><span>Checking local runtime…</span></div><p class="note">Scapy and Nmap are optional. Offline analysis works without either.</p></section>
 <section class="panel"><h2>Working locally</h2><p class="sub">Uploads and results stay in this process until it stops. Reports are written to disk only when you download them.</p><p class="note">Address conflicts can indicate spoofing, failover or address reuse. They require investigation.</p></section>
 </aside>
@@ -39,6 +40,24 @@ let currentReport=null;
 const byId=id=>document.getElementById(id);
 function status(message,error=false){byId('status').textContent=message;byId('status').classList.toggle('error',error)}
 function node(tag,text,className){const element=document.createElement(tag);element.textContent=text;if(className)element.className=className;return element}
+function validateImportedReport(report){
+  const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
+  if(!object(report)||report.schema_version!==1||typeof report.kind!=='string'||!object(report.stats)||
+     !Array.isArray(report.hosts)||!Array.isArray(report.findings)||!Array.isArray(report.warnings)||
+     report.hosts.length>10000||report.findings.length>10000||report.warnings.length>10000||
+     !Array.isArray(report.network_evidence||[])||(report.network_evidence||[]).length>1024){
+    throw new Error('Invalid or unsupported Subterfuge report structure.');
+  }
+  for(const host of report.hosts){
+    if(!object(host)||!Array.isArray(host.mac_addresses||[])||!Array.isArray(host.addresses||[])||
+       !Array.isArray(host.ports||[]))throw new Error('Invalid host structure in saved report.');
+  }
+  if(report.findings.some(f=>!object(f))||report.warnings.some(w=>typeof w!=='string')||
+     (report.network_evidence||[]).some(item=>!object(item))){
+    throw new Error('Invalid findings or observations in saved report.');
+  }
+  return report;
+}
 function render(report){
   currentReport=report;const hosts=report.hosts||[];const findings=report.findings||[];const inventory=report.kind==='nmap'||report.kind==='discovery'||report.kind==='service_scan';const tls=report.kind==='tls';
   byId('hosts').textContent=hosts.length;byId('activity-label').textContent=tls?'Verified TLS':inventory?'Open ports':'ARP packets';byId('activity').textContent=tls?(report.tls?.certificate_verified?1:0):((inventory?report.stats.open_ports:report.stats.arp_packets)||0);byId('findings-count').textContent=findings.length;
@@ -67,6 +86,18 @@ function render(report){
 async function request(path,options={}){const response=await fetch(path,options);const result=await response.json();if(!response.ok)throw new Error(result.error||'The request failed.');return result}
 function busy(value){byId('demo').disabled=value;byId('analyze').disabled=value}
 byId('analyze').addEventListener('click',async()=>{const file=byId('file').files[0];if(!file){status('Choose a capture or inventory file first.',true);return}if(file.size>16*1024*1024){status('The file exceeds 16 MiB. Use the CLI for larger files.',true);return}busy(true);status('Analyzing '+file.name+'…');try{const path=file.name.toLowerCase().endsWith('.xml')?'/api/import-nmap':'/api/analyze-pcap';const report=await request(path,{method:'POST',headers:{'X-Subterfuge-Token':token,'Content-Type':'application/octet-stream'},body:file});report.source=file.name;render(report);status('Analysis complete. Review the findings before drawing conclusions.')}catch(error){status(error.message,true)}finally{busy(false)}});
+byId('load-report').addEventListener('click',async()=>{
+  const file=byId('report-file').files[0];
+  if(!file){status('Select a saved Subterfuge JSON report first.',true);return}
+  if(!file.size||file.size>16*1024*1024){status('Saved report must be between 1 byte and 16 MiB.',true);return}
+  const button=byId('load-report');button.disabled=true;
+  try{
+    const saved=validateImportedReport(JSON.parse(await file.text()));
+    render(saved);
+    status('Saved report opened locally. No upload was performed.');
+  }catch(error){status(error instanceof SyntaxError?'Invalid JSON report.':error.message,true)}
+  finally{button.disabled=false}
+});
 byId('demo').addEventListener('click',async()=>{busy(true);try{render(await request('/api/demo'));status('Synthetic demo loaded. No traffic was sent or captured.')}catch(error){status(error.message,true)}finally{busy(false)}});
 byId('download').addEventListener('click',()=>{if(!currentReport)return;const blob=new Blob([JSON.stringify(currentReport,null,2)+'\n'],{type:'application/json'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='subterfuge-report.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
 byId('tls-inspect').addEventListener('click',async()=>{

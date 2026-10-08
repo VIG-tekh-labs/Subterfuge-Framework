@@ -46,6 +46,8 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(headers["Cache-Control"], "no-store")
         self.assertIn(b"Inspect a TLS endpoint", body)
         self.assertIn(b'id="tls-inspect"', body)
+        self.assertIn(b'id="load-report"', body)
+        self.assertIn(b'validateImportedReport', body)
         self.assertIn("frame-ancestors 'none'", headers["Content-Security-Policy"])
         self.assertEqual(self.server.server_address[0], "127.0.0.1")
 
