@@ -56,3 +56,7 @@ Read [ROADMAP.md](ROADMAP.md) first, then [CAPABILITIES.md](CAPABILITIES.md) for
 Linux/Python 3.12 passed local checks. Other OS/Python combinations are CI targets, not yet verified support claims. Contributions are welcome through issues and pull requests.
 
 Original source, authorship and [GPL license](COPYING) are retained. Historical source outside `src/` remains reference material and is not imported by the modern package. No replacement repository has been created.
+
+## Updating a modern checkout
+
+The historical Python 2/SVN updater has been retired. Its original implementation is retained in `legacy/update.py` for reference only and must not be executed. The root `update.py` is a safe Python 3 migration notice, not an automatic updater. To update a reviewed checkout, use Git to inspect and select changes, then reinstall the modern package inside its virtual environment using `python -m pip install --upgrade .`.
