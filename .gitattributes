@@ -1,0 +1,2 @@
+# Preserve the canonical GNU GPLv3 license bytes across Windows and Unix Git checkouts.
+LICENSE -text

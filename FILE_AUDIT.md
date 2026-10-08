@@ -327,3 +327,7 @@ table above remains a baseline view rather than a newly sampled census.
 | `tests/test_repository_hygiene.py` | Repository security regression | Tracked sensitive artifacts and source literals |
 | `tests/test_external_capture_writer.py` | External PCAPNG writer interoperability | Optional Wireshark editcap; skipped when absent |
 | `qa/loopback_nmap_smoke.py` | Optional hands-on local adapter QA | Explicit 127.0.0.1 ephemeral service only |
+
+## Historic path labels after archival relocation
+
+This file records the original repository path classification. Those historical files now reside beneath `legacy/historical-framework-2015-2016/`, with their relative names preserved; the complete per-file SHA-256 rename mapping is in LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv. Root COPYING is now a pointer; the full GPL text lives unchanged at root LICENSE.

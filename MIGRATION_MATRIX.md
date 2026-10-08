@@ -53,3 +53,7 @@ outside that path are reference material and must not be imported as plugins.
    authorization; keep published packages free of historical keys/databases.
 6. Reassess alpha readiness and cut a documented release only when its
    advertised features are independently verified.
+
+## Location of historical paths, 2026-10-09
+
+Historical paths in the migration table are *original path labels*, not current active files. Prefix each such path with `legacy/historical-framework-2015-2016/` to access its unchanged archival reference. For example, modules/views.py is now `legacy/historical-framework-2015-2016/modules/views.py`. This is a relocation, not a verified Python 3 port.

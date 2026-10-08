@@ -131,3 +131,10 @@ full historical feature parity or cleared relicensing of derivative material.
 ### October 8 older-file audit: published and verified
 
 Commit `b6864e3376c5eb59329e0120b8de0704d9cfd434` reviewed 104 files more than 24 hours old (Git last-commit measure): 37 status comments, eight unused AppleDouble sidecars removed, 59 original files preserved. The 45 remaining images/icons decode correctly. It was independently verified from a fresh Git archive (103 test cases, 102 successes plus one Git-metadata skip; Node QA and wheel/sdist hygiene passed) and on all six GitHub Actions runners ([run 37850134395](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37850134395)). This maintenance checkpoint does not establish restored historical attack functionality; the modern package remains an alpha.
+
+## Historical code/archive separation — 2026-10-09
+
+- The old Django/Twisted-era root and templates were structurally reorganized under `legacy/historical-framework-2015-2016/`. **190 original files** were moved with unchanged bytes, retaining source and license notices; all previous file names have a traceable mapping in `LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv`. The complete pre-move tree remains available on GitHub branch `archive-legacy-original-2026-10-09`.
+- The complete original GPLv3 text was moved unchanged into root `LICENSE`, with a new compatibility pointer `COPYING`. No relicensing occurred; this preserves byte-level legal text and updates packaging to include it.
+- The active Python 3 core is not affected. The reorganization changes the last Git path-commit timestamps because the paths are genuinely new, but does not improve compatibility of historical interception code. Real functionality remains defined by the separate modern capability tests and documented gaps.
+- Pre-publication tests: 105 Python unittest cases (104 success, one expected skip), offline Node report schema validation, wheel/sdist and license-byte hygiene passed. Publish and independently confirm this exact change before declaring branch-wide completion.

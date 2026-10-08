@@ -10,8 +10,20 @@ class DistributionManifestTests(unittest.TestCase):
         text = (ROOT / "MANIFEST.in").read_text(encoding="utf-8")
         self.assertIn("recursive-include qa *.py *.mjs *.cjs", text)
         self.assertIn("prune legacy", text)
-        self.assertIn("include COPYING", text)
+        self.assertIn("LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv", text)
+        self.assertIn("LEGACY_REORGANIZATION_2026-10-09.md", text)
+        self.assertIn("include COPYING LICENSE", text)
 
+
+    def test_full_gpl_is_preserved_in_root_license(self):
+        from hashlib import sha256
+        text=(ROOT / "LICENSE").read_bytes()
+        self.assertTrue(text.startswith(b"                    GNU GENERAL PUBLIC LICENSE"))
+        self.assertEqual(
+            sha256(text).hexdigest(),
+            "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+        )
+        self.assertIn("LICENSE", (ROOT / "COPYING").read_text(encoding="utf-8"))
 
     def test_historical_age_audit_is_packaged_with_handoff(self):
         manifest = (ROOT / "MANIFEST.in").read_text(encoding="utf-8")

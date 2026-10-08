@@ -16,10 +16,11 @@ BANNED_NAMES = {
 BANNED_SUFFIXES = (".pem", ".key", ".p12", ".pfx", ".db", ".sqlite",
                    ".sqlite3", ".log", ".pyc")
 REQUIRED_SDIST = {
-    "COPYING", "README.md", "HANDOFF.md", "SECURITY.md", "LICENSING.md",
+    "COPYING", "LICENSE", "README.md", "HANDOFF.md", "SECURITY.md", "LICENSING.md",
     "MODERNIZATION_STATUS.md", "LEGACY_AGE_REVIEW_2026-10-08.md",
     "FILE_AGE_INVENTORY_2026-10-08.csv",
     "STALE_24H_REVIEW_2026-10-08.md", "FILE_REVIEW_OLDER_24H_2026-10-08.csv",
+    "LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv", "LEGACY_REORGANIZATION_2026-10-09.md",
     "qa/loopback_nmap_smoke.py", "qa/browser_report_smoke.cjs",
     "qa/browser_report_validation.mjs", "qa/audit_distributions.py",
 }
@@ -43,6 +44,15 @@ def audit(path: Path) -> tuple[int, int]:
     with zipfile.ZipFile(wheels[0]) as archive:
         wheel_files = set(item.filename for item in archive.infolist()
                           if not item.is_dir())
+        license_members = [name for name in wheel_files
+                           if name.endswith(".dist-info/licenses/LICENSE")]
+        if len(license_members) != 1:
+            raise ValueError("Wheel must include the complete GPL license.")
+        from hashlib import sha256
+        if sha256(archive.read(license_members[0])).hexdigest() != (
+            "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+        ):
+            raise ValueError("Wheel license bytes are not the original GPL text.")
     with tarfile.open(archives[0], "r:gz") as archive:
         source_files = set()
         for item in archive:

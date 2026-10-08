@@ -51,3 +51,8 @@ Baseline SHA: `060ae24e46b1d70307d26aa9bc98a0666cdc7483`
 - Independent Git archive: 103 unittest cases discovered (102 passed; one skipped without Git metadata), Node report QA passed, wheel and source archives built, and distribution contents passed hygiene inspection (18 wheel members / 63 source members).
 - [GitHub Actions run 37850134395](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37850134395) verified all six Linux/Windows/macOS configurations successfully.
 - Source-code functional restoration is still pending for historical Python 2/Django/Twisted and interception modules. The 37 template/config comments are non-executing status markers only.
+
+## Structural follow-up on October 9, 2026
+
+- The earlier 104-row original-path review remains a valid historical snapshot, not a live directory listing. In a separate follow-up, the complete old source/UI directory structure was moved under `legacy/historical-framework-2015-2016/`, and the full GPLv3 text formerly in COPYING was relocated unchanged to LICENSE.
+- See `LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv` and `LEGACY_REORGANIZATION_2026-10-09.md` for all 191 immutable byte-content mappings and rationale. Archived original source ages and the Git history are not erased. The modern runtime remains alpha.

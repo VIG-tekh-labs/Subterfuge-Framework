@@ -6,6 +6,24 @@
 
 The default GitHub branch, master, still contains an earlier alpha snapshot. The active Python 3 modernization is published on modernization-2026-10-08-continuation. See [MODERNIZATION_STATUS.md](MODERNIZATION_STATUS.md) for verified features, outstanding tasks and the historical file-age audit. No merge to master has yet been authorized.
 
+## Historical source archive (October 2026)
+
+The maintained Python 3 runtime is in `src/subterfuge/`. The entire old
+Django 1.x, Twisted/SSLStrip, Python 2 and legacy UI framework, including
+its original assets and third-party attributions, was moved **without
+changing source bytes** into `legacy/historical-framework-2015-2016/`. This inactive code
+is excluded from the modern wheel and source distribution. The separate
+branch `archive-legacy-original-2026-10-09` retains the complete
+pre-reorganization checkout.
+
+The verbatim GNU GPLv3 text is in root `LICENSE`. Root
+`COPYING` is now a compatibility pointer, not a new license. The move does not change copyright or license obligations.
+
+See [the file relocation map](LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv) and
+[the archival review](LEGACY_REORGANIZATION_2026-10-09.md) for provenance.
+**Recent Git commit dates on archived files indicate reorganization,
+not a code upgrade or a security certification.**
+
 ## Historic file maintenance review
 
 An October 2026 audit reviewed all 104 tracked files whose last Git commit was more than 24 hours old. Thirty-seven first-party archived Django templates and old configuration/launcher samples received non-executing review comments. Eight unreferenced AppleDouble macOS metadata sidecars were removed; 59 licensed, third-party, real-image, raw-data or active legacy payload files were preserved to prevent damage. These cosmetic annotations do not port historic functionality to Python 3. Read [STALE_24H_REVIEW_2026-10-08.md](STALE_24H_REVIEW_2026-10-08.md) and [FILE_REVIEW_OLDER_24H_2026-10-08.csv](FILE_REVIEW_OLDER_24H_2026-10-08.csv) for per-file classifications and SHA-256 checksums.
@@ -110,7 +128,7 @@ Read [ROADMAP.md](ROADMAP.md) first, then [CAPABILITIES.md](CAPABILITIES.md) for
 
 Linux/Python 3.12 passed local checks. Other OS/Python combinations are CI targets, not yet verified support claims. Contributions are welcome through issues and pull requests.
 
-Original source, authorship and [GPL license](COPYING) are retained. Historical source outside `src/` remains reference material and is not imported by the modern package. No replacement repository has been created.
+Original source, authorship and [complete GPL license](LICENSE) are retained. Historical source outside `src/` remains reference material and is not imported by the modern package. No replacement repository has been created.
 
 ## Updating a modern checkout
 

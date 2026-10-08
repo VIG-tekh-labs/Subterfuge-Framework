@@ -60,3 +60,7 @@ DHCPv4 and NBNS observations on an explicitly selected interface. The Scapy
 adapter uses packet filters, enforces time/packet limits and outputs only
 bounded metadata. Tests use synthetic Scapy packet objects; driver and
 privilege behavior in real environments remains unverified.
+
+## Archived historical source paths
+
+Original source names in the capability matrix are historical identifiers. They are now found beneath `legacy/historical-framework-2015-2016/`. Only the separately tested Python 3 package in src/subterfuge/ is an installed runtime.

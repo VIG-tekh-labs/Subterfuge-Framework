@@ -11,3 +11,7 @@
 9. Notify the owner of changed paths, validation results and publication status after each checkpoint.
 10. Do not insert generated branding or signatures into project files.
 11. Keep the development status explicit: initial checks do not establish a functional, validated complete application. Review external contributions and record their checks before including them in a release.
+
+## Historic source archive workflow
+
+The legacy Django/Twisted and old UI sources have moved intact into `legacy/historical-framework-2015-2016/`. Their full pre-move layout can be inspected in branch `archive-legacy-original-2026-10-09`. Never treat a renamed old file as a completed port. Confirm original SHA-256 values using LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv and preserve GPL notices.

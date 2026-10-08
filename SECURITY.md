@@ -49,3 +49,7 @@ Reproducible standalone checks:
 - node qa/browser_report_smoke.cjs optionally drives sandboxed Chromium against
   an ephemeral loopback-only dashboard; Puppeteer must be installed separately
   for QA and is not a runtime dependency.
+
+## Archive-only historical source, October 2026
+
+The entire Python 2/Django/Twisted-era framework is now stored under `legacy/historical-framework-2015-2016/`. The modern wheel and source archives exclude this directory. Original bytes and attribution are unchanged; see LEGACY_ARCHIVE_FILE_MAP_2026-10-09.csv. Historical hardcoded network parameters and secrets may persist in the Git history or the separate archival branch; moving paths does not sanitize secrets. Do not run outdated interception or injection scripts on production systems.

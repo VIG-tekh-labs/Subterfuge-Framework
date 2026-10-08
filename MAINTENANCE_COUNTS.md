@@ -69,3 +69,7 @@ These are real implementation, installation, validation and documentation change
 Commit 634979fdb8cc71f309bb168706906be7a6817e61 modified 71 source files with comments, added notes in 26 directories, updated 2 root documents and added the count report. It contained 0 functional fixes and 0 dependency upgrades. 163 existing files were unchanged at that point.
 
 Directory activity does not mean every contained file has changed. Filesystem touch operations do not update GitHub commit dates.
+
+## Archive work is not functional porting
+
+The October 2026 move into `legacy/historical-framework-2015-2016/` is repository hygiene and has a **zero** functional-migration count. Do not equate recent Git modification dates with Python 3 compatibility of legacy ARP/DHCP/SSLStrip or Django plugins.
