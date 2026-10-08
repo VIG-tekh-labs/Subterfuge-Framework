@@ -1,5 +1,15 @@
 # Maintenance change counts
 
+## TLS dashboard alpha-2 checkpoint — 2026-10-08
+
+- Added authenticated, bounded JSON `/api/inspect-tls` endpoint to the
+  existing loopback server, reusing TLS certificate-verification logic.
+- Added a TLS inspection form and report rendering; no Django, Twisted
+  or external frontend dependency.
+- Added HTTP boundary tests and manual Chromium/Puppeteer validation.
+- Bumped the development version to `2.0.0a2` (alpha), **not** a stable
+  release or a claim of historical feature parity.
+
 ## Repository-wide audit and capture evidence checkpoint — 2026-10-08
 
 - Baseline classification: 293 tracked paths inventoried in `FILE_AUDIT.md`.

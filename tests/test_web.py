@@ -44,6 +44,8 @@ class DashboardTests(unittest.TestCase):
         self.assertIn(b"Subterfuge", body)
         self.assertNotIn(b"__TOKEN__", body)
         self.assertEqual(headers["Cache-Control"], "no-store")
+        self.assertIn(b"Inspect a TLS endpoint", body)
+        self.assertIn(b'id="tls-inspect"', body)
         self.assertIn("frame-ancestors 'none'", headers["Content-Security-Policy"])
         self.assertEqual(self.server.server_address[0], "127.0.0.1")
 
@@ -70,6 +72,42 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(json.loads(body)["stats"]["findings"], 1)
         self.assertEqual(json.loads(self.request("GET", "/api/report")[2]), json.loads(body))
+
+    def test_tls_endpoint_post_and_report(self):
+        from unittest.mock import patch
+        report = {"kind": "tls", "hosts": [], "findings": [], "warnings": [],
+                  "source": "example.test", "stats": {"findings": 0},
+                  "tls": {"host": "example.test", "port": 443,
+                          "certificate_verified": True,
+                          "negotiated_version": "TLSv1.3"}}
+        headers = {"X-Subterfuge-Token": self.token, "Content-Type": "application/json"}
+        with patch("subterfuge.tls.inspect_tls", return_value=report) as inspect:
+            status, _, body = self.request(
+                "POST", "/api/inspect-tls",
+                json.dumps({"host": "example.test", "port": 443, "timeout": 10}).encode(), headers,
+            )
+        self.assertEqual(status, 200)
+        inspect.assert_called_once_with("example.test", 443, 10)
+        self.assertEqual(json.loads(body)["kind"], "tls")
+        self.assertEqual(json.loads(self.request("GET", "/api/report")[2])["kind"], "tls")
+
+    def test_tls_post_rejects_bad_requests(self):
+        from unittest.mock import patch
+        headers = {"X-Subterfuge-Token": self.token, "Content-Type": "application/json"}
+        for data in (b"{bad", b"null", b"[]", b'{"host":123}', b'{"host":"example.test","timeout":"slow"}', b'{"host":"example.test","port":true}'):
+            with self.subTest(data=data):
+                self.assertEqual(self.request("POST", "/api/inspect-tls", data, headers)[0], 400)
+        self.assertEqual(self.request("POST", "/api/inspect-tls", b"{}", {"X-Subterfuge-Token": self.token})[0], 415)
+        self.assertEqual(self.request("POST", "/api/inspect-tls", b"x" * 4097, headers)[0], 413)
+        self.assertEqual(
+            self.request("POST", "/api/inspect-tls", b'{"host":"https://example.test"}', headers)[0],
+            400,
+        )
+        from subterfuge.web import _tls_request
+        from subterfuge.analysis import AnalysisError
+        with patch("subterfuge.tls.socket.create_connection") as connection, self.assertRaises(AnalysisError):
+            _tls_request(b'{"host":"https://example.test"}')
+        connection.assert_not_called()
 
     def test_pcapng_upload_and_ui_copy(self):
         from test_pcapng import capture

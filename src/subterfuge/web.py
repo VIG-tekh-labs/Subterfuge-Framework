@@ -14,6 +14,23 @@ from .analysis import AnalysisError, analyze_nmap, analyze_pcap, base_report
 from .environment import doctor
 
 MAX_UPLOAD = 16 * 1024 * 1024
+MAX_TLS_REQUEST = 4096
+
+
+def _tls_request(raw: bytes) -> dict:
+    """Decode a strictly bounded, explicit local TLS inspection request."""
+    try:
+        params = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise AnalysisError("TLS inspection requires valid UTF-8 JSON.") from exc
+    if not isinstance(params, dict) or "host" not in params or set(params) - {"host", "port", "timeout"}:
+        raise AnalysisError("Expected host, optional port and optional timeout.")
+    host, port, timeout = params["host"], params.get("port", 443), params.get("timeout", 10)
+    if not isinstance(host, str) or type(port) is not int or type(timeout) not in (int, float):
+        raise AnalysisError("TLS host, port or timeout has an invalid type.")
+    from .tls import inspect_tls
+    return inspect_tls(host, port, timeout)
+
 
 
 def make_server(port: int = 8080) -> ThreadingHTTPServer:
@@ -83,7 +100,7 @@ def make_server(port: int = 8080) -> ThreadingHTTPServer:
             if not supplied.isascii() or not hmac.compare_digest(supplied, token):
                 self.json(403, {"error": "Missing or invalid dashboard token."})
                 return
-            if self.path not in ("/api/analyze-pcap", "/api/import-nmap"):
+            if self.path not in ("/api/analyze-pcap", "/api/import-nmap", "/api/inspect-tls"):
                 self.json(404, {"error": "Not found."})
                 return
             if self.headers.get("Transfer-Encoding") is not None:
@@ -95,16 +112,23 @@ def make_server(port: int = 8080) -> ThreadingHTTPServer:
             except ValueError:
                 self.json(411, {"error": "A valid Content-Length is required."})
                 return
-            if not 0 < length <= MAX_UPLOAD:
-                self.json(413, {"error": "Upload must be between 1 byte and 16 MiB."})
+            maximum = MAX_TLS_REQUEST if self.path == "/api/inspect-tls" else MAX_UPLOAD
+            if not 0 < length <= maximum:
+                self.json(413, {"error": "Request size is outside the permitted limit."})
                 self.close_connection = True
+                return
+            if self.path == "/api/inspect-tls" and self.headers.get("Content-Type", "").split(";")[0].strip().lower() != "application/json":
+                self.json(415, {"error": "TLS inspection requires application/json."})
                 return
             try:
                 data = self.rfile.read(length)
                 if len(data) != length:
                     raise AnalysisError("Incomplete upload.")
-                analyze = analyze_pcap if self.path == "/api/analyze-pcap" else analyze_nmap
-                result = analyze(data, "dashboard upload")
+                if self.path == "/api/inspect-tls":
+                    result = _tls_request(data)
+                else:
+                    analyze = analyze_pcap if self.path == "/api/analyze-pcap" else analyze_nmap
+                    result = analyze(data, "dashboard upload")
             except (AnalysisError, OSError) as exc:
                 self.json(400, {"error": str(exc)})
                 return

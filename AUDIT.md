@@ -35,3 +35,12 @@ Do not execute old privileged installers, host firewall resets, packet intercept
 ## Next checkpoint
 
 Run all regression tests, build and inspect wheel/sdist, perform Chromium QA, review open CI runs, and publish code plus checkpoints to the continuation branch without merging `master`.
+
+## Local TLS dashboard follow-up (alpha 2)
+
+The modern dashboard now exposes the previously CLI-only `inspect_tls`
+function behind its same-origin session token. It accepts a bounded JSON
+request with host, port and timeout and runs one certificate-verified
+connection only after user action. Invalid content types, oversized input,
+malformed JSON and invalid parameters are tested. No historical SSLStrip
+or Twisted intercepting proxy is reactivated.

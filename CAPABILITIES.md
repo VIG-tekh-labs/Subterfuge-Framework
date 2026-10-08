@@ -36,7 +36,7 @@ This is an alpha modernization, not historical feature parity. Source paths belo
 
 - Nmap XML imports include IPv4/IPv6 hosts, open ports, service names, product/version evidence and OS guesses.
 - Transport review items identify service records lacking a recorded SSL tunnel. These are not confirmed vulnerabilities: STARTTLS, redirects and policy require separate verification.
-- `inspect-tls` verifies certificate trust and hostname, records the negotiated TLS version/cipher and checks imminent expiry. It does not perform interception, downgrade tests or exhaustive protocol enumeration.
+- `inspect-tls` (CLI and loopback dashboard) verifies certificate trust and hostname, records the negotiated TLS version/cipher and checks imminent expiry. It does not perform interception, downgrade tests or exhaustive protocol enumeration.
 
 ## Compatibility and validation
 

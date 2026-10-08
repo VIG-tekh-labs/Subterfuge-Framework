@@ -7,7 +7,7 @@ Publication parent: 634979fdb8cc71f309bb168706906be7a6817e61.
 
 ## Start here
 
-The modern assessment runtime is 2.0.0a1. It is an installable alpha, not complete historical feature parity. Use README.md for installation and CAPABILITIES.md for the migration matrix. Historical source remains in the repository and is not imported by the modern package. No replacement repository was created.
+The modern assessment runtime is 2.0.0a2 (alpha). It is an installable alpha, not complete historical feature parity. Use README.md for installation and CAPABILITIES.md for the migration matrix. Historical source remains in the repository and is not imported by the modern package. No replacement repository was created.
 
 ## Owner requirements
 
@@ -166,3 +166,23 @@ Read the current remote head before writes. Preserve unrelated work and use an e
 - **GitHub Actions run [37826972168](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37826972168) completed successfully.** Six jobs passed: Linux/Python 3.11, 3.12, 3.13 and 3.14; Windows/Python 3.12; macOS/Python 3.12. Live adapters and full historical plugin functionality were not part of these CI checks.
 - Security caveat: older public commits and the unchanged `master` still contain historical artifacts. Owners must rotate any real exposed secrets; coordinate explicitly before a disruptive history rewrite.
 - Next: perform interactive browser QA of import/export and report rendering, inspect historical modules and third-party assets, add isolated QA tests for report evidence, document and validate each further checkpoint, and keep alpha status until feature readiness is supported.
+
+
+## TLS dashboard integration and alpha-2 version — 2026-10-08
+
+- Converted the existing CLI-only TLS endpoint inspection into an explicit
+  same-origin, token-authenticated dashboard form and bounded JSON API.
+  The operation still makes only one certificate-verified TLS connection.
+- Added `test_tls_endpoint_post_and_report`,
+  `test_tls_post_rejects_bad_requests` and HTML assertions.
+- Linux/Python 3.14 local source regression: **78/78 tests passed**.
+- Chromium/Puppeteer clicked the new form with an invalid URL-form hostname;
+  it displayed the expected validation error with **no browser JS errors**.
+  No external TLS endpoint was contacted in this interactive test.
+- Version bumped to `2.0.0a2` in packaging and runtime metadata, still alpha.
+- Before release: publish this feature commit, build/test the published wheel
+  and source distribution, verify GitHub Actions on all six configured runners,
+  and update this file with the results.
+- Historical interception modules remain unported. Never infer that
+  upgrading Django/Twisted would make deprecated downgrade mechanisms safe
+  or reliable on contemporary browsers.

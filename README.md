@@ -1,6 +1,6 @@
 # Subterfuge Framework
 
-**Modernization in progress — version 2.0.0a1.** The modern assessment core is installable; the complete historical framework is not yet restored or validated.
+**Modernization in progress — version 2.0.0a2 (alpha).** The modern assessment core is installable; the complete historical framework is not yet restored or validated.
 
 ## Install the modern runtime
 
@@ -52,7 +52,12 @@ subterfuge interfaces
 
 The dashboard runs on `127.0.0.1` and imports PCAP/Nmap XML files locally. PCAP limits are 16 MiB for dashboard uploads and 64 MiB for CLI imports. PCAPNG enhanced-packet import is experimental on the modernization branch; synthetic format and passive protocol tests have passed, but real-world capture coverage is incomplete. Classic PCAP remains the better validated format. Nmap service/version and OS data are retained as reported evidence. Transport review items require investigation; they do not establish exploitation or missing STARTTLS.
 
-TLS inspection opens one normal certificate-verified connection to the specified endpoint, records its negotiated protocol/cipher and reports certificate expiry or verification failure. It does not enumerate every server configuration or test HSTS.
+TLS inspection is available both in the CLI and through the dashboard's
+explicit **Inspect TLS** form. The user selects a host and port; the backend
+requires a local authenticated JSON request and opens one normal
+certificate-verified connection, recording the negotiated protocol/cipher
+and reporting certificate expiry or verification failure. It does not
+enumerate every server configuration, test HSTS, intercept or downgrade TLS.
 
 Optional live adapters, only on a network you are authorized to assess:
 
