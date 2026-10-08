@@ -18,11 +18,11 @@
 <section class="metrics" aria-label="Report summary"><div class="metric"><span>Observed hosts</span><strong id="hosts">—</strong></div><div class="metric"><span id="activity-label">ARP packets</span><strong id="activity">—</strong></div><div class="metric"><span>Review items</span><strong id="findings-count">—</strong></div></section>
 <div class="workspace">
 <div class="stack">
-<section class="panel"><div class="section-head"><h2>Host inventory</h2><span id="source" class="source">No report loaded</span></div><div class="table-wrap"><table id="inventory" class="hidden"><thead><tr><th>IP address</th><th>MAC address</th><th>Observation</th></tr></thead><tbody id="host-rows"></tbody></table></div><div id="empty" class="empty">Your inventory will appear here.<br><span class="sub">Classic PCAP and Nmap XML are supported.</span></div></section>
+<section class="panel"><div class="section-head"><h2>Host inventory</h2><span id="source" class="source">No report loaded</span></div><div class="table-wrap"><table id="inventory" class="hidden"><thead><tr><th>IP address</th><th>MAC address</th><th>Observation</th></tr></thead><tbody id="host-rows"></tbody></table></div><div id="empty" class="empty">Your inventory will appear here.<br><span class="sub">Classic PCAP, experimental PCAPNG and Nmap XML are supported.</span></div></section>
 <section class="panel"><h2>Findings &amp; context</h2><p id="finding-empty" class="sub">No report loaded yet.</p><div id="finding-list"></div><div id="warnings"></div></section>
 </div>
 <aside class="stack">
-<section class="panel"><h2>Import evidence</h2><p class="sub">Analyze an existing capture or inventory. No live scan is started here.</p><div class="drop"><label for="file">Choose a PCAP or Nmap XML file</label><input id="file" type="file" accept=".pcap,.cap,.xml"><button id="analyze" class="primary">Analyze file</button><p class="note">Up to 16 MiB in the dashboard. Use the CLI for files up to 64 MiB.</p></div><p class="note">PCAPNG captures must be converted to classic PCAP first.</p></section>
+<section class="panel"><h2>Import evidence</h2><p class="sub">Analyze an existing capture or inventory. No live scan is started here.</p><div class="drop"><label for="file">Choose a PCAP, PCAPNG or Nmap XML file</label><input id="file" type="file" accept=".pcap,.pcapng,.cap,.xml"><button id="analyze" class="primary">Analyze file</button><p class="note">Up to 16 MiB in the dashboard. Use the CLI for files up to 64 MiB.</p></div><p class="note">PCAPNG enhanced-packet import is experimental. Keep the original capture for verification.</p></section>
 <section class="panel"><h2>Environment</h2><div class="health" id="health"><span>Checking local runtime…</span></div><p class="note">Scapy and Nmap are optional. Offline analysis works without either.</p></section>
 <section class="panel"><h2>Working locally</h2><p class="sub">Uploads and results stay in this process until it stops. Reports are written to disk only when you download them.</p><p class="note">Address conflicts can indicate spoofing, failover or address reuse. They require investigation.</p></section>
 </aside>
@@ -57,4 +57,3 @@ request('/api/report').then(report=>{if(report.kind!=='empty'&&!currentReport)re
 </script>
 </body>
 </html>
-
