@@ -61,6 +61,10 @@ async function main() {
     await page.waitForFunction(() => document.querySelector('#status').textContent.includes('Saved report opened locally.'));
     const hosts = await page.$eval('#hosts', node => node.textContent);
     if (hosts !== '1') throw new Error('Expected one imported host, got ' + hosts);
+    const tableLabel = await page.$eval('#inventory', node => node.getAttribute('aria-label'));
+    if (tableLabel !== 'Observed host inventory') throw new Error('Host inventory lacks an accessible name');
+    const warningRole = await page.$eval('#warnings [role="listitem"]', node => node.getAttribute('role'));
+    if (warningRole !== 'listitem') throw new Error('Warnings lack accessible list semantics');
     const warnings = await page.$eval('#warnings', node => node.textContent);
     if (!warnings.includes('timestamps are unknown')) throw new Error('Missing timestamp warning');
 
