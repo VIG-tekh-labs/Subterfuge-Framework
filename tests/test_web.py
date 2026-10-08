@@ -123,6 +123,21 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(json.loads(body)["kind"], "pcapng")
 
+    def test_pcapng_simple_packet_api_preserves_unknown_timestamps(self):
+        from test_pcapng_packet_blocks import section_and_interface, simple_packet
+        from subterfuge.demo import sample_capture
+        payload = section_and_interface() + simple_packet(sample_capture()[40:82])
+        status, _, body = self.request(
+            "POST", "/api/analyze-pcap", payload,
+            {"X-Subterfuge-Token": self.token},
+        )
+        self.assertEqual(status, 200)
+        report = json.loads(body)
+        self.assertEqual(report["stats"]["arp_packets"], 1)
+        self.assertIsNone(report["hosts"][0]["first_seen"])
+        self.assertIsNone(report["hosts"][0]["last_seen"])
+        self.assertTrue(any("lack timestamps" in item for item in report["warnings"]))
+
     def test_dhcp_pcap_report_and_passive_panel(self):
         from test_capture_evidence import pcap
         from test_udp_evidence import frame
