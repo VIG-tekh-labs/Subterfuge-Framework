@@ -19,9 +19,9 @@
 <section class="metrics" aria-label="Report summary"><div class="metric"><span>Observed hosts</span><strong id="hosts">—</strong></div><div class="metric"><span id="activity-label">ARP packets</span><strong id="activity">—</strong></div><div class="metric"><span>Review items</span><strong id="findings-count">—</strong></div></section>
 <div class="workspace">
 <div class="stack">
-<section class="panel"><div class="section-head"><h2>Host inventory</h2><span id="source" class="source">No report loaded</span></div><div class="table-wrap"><table id="inventory" class="hidden"><thead><tr><th>IP address</th><th>MAC address</th><th>Observation</th></tr></thead><tbody id="host-rows"></tbody></table></div><div id="empty" class="empty">Your inventory will appear here.<br><span class="sub">Classic PCAP, experimental PCAPNG and Nmap XML are supported.</span></div></section>
-<section class="panel" aria-labelledby="passive-heading"><h2 id="passive-heading">Passive DHCP &amp; NetBIOS evidence</h2><p id="passive-summary" class="sub">No passive protocol observations loaded.</p><div id="passive-list"></div></section>
-<section class="panel"><h2>Findings &amp; context</h2><p id="finding-empty" class="sub">No report loaded yet.</p><div id="finding-list"></div><div id="warnings"></div></section>
+<section class="panel"><div class="section-head"><h2>Host inventory</h2><span id="source" class="source">No report loaded</span></div><div class="table-wrap"><table id="inventory" class="hidden" aria-label="Observed host inventory"><thead><tr><th>IP address</th><th>MAC address</th><th>Observation</th></tr></thead><tbody id="host-rows"></tbody></table></div><div id="empty" class="empty">Your inventory will appear here.<br><span class="sub">Classic PCAP, experimental PCAPNG and Nmap XML are supported.</span></div></section>
+<section class="panel" aria-labelledby="passive-heading"><h2 id="passive-heading">Passive DHCP &amp; NetBIOS evidence</h2><p id="passive-summary" class="sub">No passive protocol observations loaded.</p><div id="passive-list" role="list" aria-label="Passive protocol observations"></div></section>
+<section class="panel"><h2>Findings &amp; context</h2><p id="finding-empty" class="sub">No report loaded yet.</p><div id="finding-list" role="list" aria-label="Audit findings"></div><div id="warnings" role="list" aria-label="Import warnings"></div></section>
 </div>
 <aside class="stack">
 <section class="panel"><h2>Import evidence</h2><p class="sub">Analyze an existing capture or inventory. No live scan is started here.</p><div class="drop"><label for="file">Choose a PCAP, PCAPNG or Nmap XML file</label><input id="file" type="file" accept=".pcap,.pcapng,.cap,.xml"><button id="analyze" class="primary">Analyze file</button><p class="note">Up to 16 MiB in the dashboard. Use the CLI for files up to 64 MiB.</p></div><p class="note">PCAPNG packet import is experimental. Simple packet blocks lack timestamps; retain the original capture for verification.</p></section>
@@ -111,12 +111,13 @@ function render(report){
       'Server: '+(item.server_identifier||'unspecified')+(item.wpad_option_present?' · WPAD option present':''):
       'Type: '+item.query_type+' · Name suffix: '+item.suffix;
     const record=node('div',protocol+' · '+item.observations+' observed','finding');
+    record.setAttribute('role','listitem');
     record.append(node('p',context));
     byId('passive-list').append(record);
   }
   byId('finding-list').replaceChildren();byId('finding-empty').textContent=findings.length?'Review the evidence and context below.':'No review items identified in this input. This does not prove the network is secure.';
-  for(const finding of findings){const item=node('div',`${finding.address||''} · ${finding.message}`,'finding');item.append(node('p',finding.interpretation||''));byId('finding-list').append(item)}
-  byId('warnings').replaceChildren();for(const warning of report.warnings||[])byId('warnings').append(node('p',warning,'warning'));
+  for(const finding of findings){const item=node('div',`${finding.address||''} · ${finding.message}`,'finding');item.setAttribute('role','listitem');item.append(node('p',finding.interpretation||''));byId('finding-list').append(item)}
+  byId('warnings').replaceChildren();for(const warning of report.warnings||[]){const item=node('p',warning,'warning');item.setAttribute('role','listitem');byId('warnings').append(item);}
   byId('download').disabled=false;
 }
 async function request(path,options={}){const response=await fetch(path,options);const result=await response.json();if(!response.ok)throw new Error(result.error||'The request failed.');return result}
