@@ -1,5 +1,14 @@
 # Maintenance roadmap
 
+## CURRENT VERIFIED HANDOFF — 2026-10-08
+
+- **Start with [HANDOFF.md](HANDOFF.md)** for the current branch, exact tested commit, security/license caveats and next actions.
+- Last tested feature commit: `1b584b4a08d3f7d0345e16a7db464adb916717cc`; alpha version `2.0.0a2`.
+- GitHub Actions [run 37830132711](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37830132711): all six Linux/Windows/macOS matrix jobs succeeded.
+- Latest clean archive: 89 tests ran, 1 expected skip (Git metadata unavailable); wheel built. In checkout all 89 tests passed.
+- Historical feature parity is not claimed. **Do not merge into master without the owner's approval.**
+
+
 Last checkpoint: 2026-10-08, Europe/Brussels.
 Repository: https://github.com/VIG-tekh-labs/Subterfuge-Framework
 Reference branch: master.

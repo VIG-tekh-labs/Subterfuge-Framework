@@ -107,3 +107,6 @@ scans only that listener and closes it. It does not scan the LAN or Internet.
 If Wireshark `editcap` is installed, the regression suite also independently
 converts a synthetic classic PCAP to PCAPNG and compares the observed ARP
 evidence. If `editcap` is missing, that optional test is explicitly skipped.
+## Continuation handoff
+
+Read [HANDOFF.md](HANDOFF.md) and [ROADMAP.md](ROADMAP.md) before continuing modernization. The current branch is an alpha; historical feature parity remains incomplete.
