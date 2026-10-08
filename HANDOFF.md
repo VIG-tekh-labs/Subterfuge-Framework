@@ -3,7 +3,7 @@
 **Date:** 2026-10-08 (Europe/Brussels)  
 **Repository:** https://github.com/VIG-tekh-labs/Subterfuge-Framework  
 **Working branch:** `modernization-2026-10-08-continuation`  
-**Last fully validated feature commit:** `1581fefff359bcf6eca7b7727005848293944b9a`  
+**Last fully validated feature commit:** `cf49be2d85d3764649677cc5dbe738aa68832374`  
 **Development version:** `2.0.0a2` (alpha; NOT full historical restoration)
 
 ## Verified results at this checkpoint
@@ -57,3 +57,12 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - Previously recorded six-platform CI success applies to an **earlier commit**; a new CI verification for `1581fef` is still required. Broader real capture interoperability and real hardware passive capture remain unverified.
 - Keep old working folders intact: `~/projects/Subterfuge-Framework-phase2` and others may contain unpublished changes. Fresh development folder `~/projects/Subterfuge-Framework-hardening-20261008` has local modifications already published through the GitHub connector, but is not yet reset to remote HEAD.
 - **Next exact steps:** check GitHub Actions status for latest remote HEAD; add diverse externally generated PCAPNG fixtures including simple packet and corrupt options; perform accessibility/browser checks and review UI report validation; update ROADMAP.md following each verified step. Do not merge into master, change license metadata or rewrite public history without owner authorization.
+
+## Latest validation after PCAPNG metadata-bound hardening
+
+- Verified published code commit: `cf49be2d85d3764649677cc5dbe738aa68832374`; roadmap checkpoint: `f4c705ee22823a13fedc5eda65c4bdc17e52eda6`.
+- PCAPNG now explicitly limits **all parsed blocks**, including unrecognized metadata blocks, with a bounded count. This prevents large inputs full of tiny metadata blocks from evading the existing packet cap. Tests include a configured low limit to verify rejection.
+- Git archive fresh-checkout Linux/Python 3.14.7 results: **98 tests passed, one conditional Git-check test skipped**, compileall succeeded. The previous wheel build and path hygiene checks passed at feature commit `1581fef`; the new bound change has not yet had independent wheel reinspection.
+- GitHub Actions run [37838822992](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37838822992) **passed six jobs** for `1581fef` across supported matrix runners. CI for the new `cf49be2` commit was in progress at the last query and must be rechecked.
+- Do not overwrite the older dirty local checkouts; the isolated development checkout for these code changes is `~/projects/Subterfuge-Framework-hardening-20261008`. GitHub connector published the content, so local HEAD can lag behind the published branch.
+- Next exact actions: verify CI head for `cf49be2`, review saved-report browser import validation and accessibility, add malformed/real PCAPNG interoperability fixtures, then record an updated roadmap checkpoint before any interruption. Keep GPL obligations, alpha caveats and no-master-merge rules unchanged.
