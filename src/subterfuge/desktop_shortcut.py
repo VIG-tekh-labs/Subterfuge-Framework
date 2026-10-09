@@ -52,13 +52,15 @@ def install_shortcut() -> Path:
     executable = Path(sys.executable)
     if not executable.is_absolute() or not executable.is_file():
         raise AnalysisError("Could not locate a reliable Python executable.")
+    # PyInstaller binary is itself the launcher; it cannot parse "python -m".
+    launch_arguments = "" if getattr(sys, "frozen", False) else " -m subterfuge gui"
     entry = (
         "[Desktop Entry]\n"
         "Type=Application\n"
         "Name=Subterfuge Framework\n"
         "GenericName=Network analysis workstation\n"
         "Comment=Native Qt interface for local network assessments\n"
-        f"Exec={_safe_quote(str(executable))} -m subterfuge gui\n"
+        f"Exec={_safe_quote(str(executable))}{launch_arguments}\n"
         "TryExec=" + str(executable) + "\n"
         "Icon=subterfuge-framework\n"
         "Terminal=false\n"

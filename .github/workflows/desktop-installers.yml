@@ -1,0 +1,178 @@
+name: Build downloadable Windows EXE and Linux DEB
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - ".github/workflows/desktop-installers.yml"
+      - "packaging/**"
+      - "src/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "MANIFEST.in"
+      - "LICENSE"
+      - "DOWNLOADS.md"
+      - "THIRD_PARTY_NOTICES.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux-deb:
+    name: Linux amd64 .deb with automatic APT dependencies
+    runs-on: ubuntu-22.04
+    timeout-minutes: 55
+    env:
+      QT_QPA_PLATFORM: offscreen
+      QT_QPA_PLATFORMTHEME: ""
+      QT_STYLE_OVERRIDE: Fusion
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Linux Qt system prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libopengl0 libxkbcommon0 libxkbcommon-x11-0 libxcb-cursor0 libdbus-1-3 libglib2.0-0 dpkg-dev
+      - name: Bundle Python and desktop dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ".[desktop,capture]" "pyinstaller>=6.14,<7"
+      - name: Test core and native desktop
+        run: python -m unittest discover -s tests -q
+      - name: Build self-contained Linux application
+        run: python packaging/build_freeze.py --output dist-frozen
+      - name: Verify executable and desktop rendering
+        run: |
+          ./dist-frozen/Subterfuge/Subterfuge --self-test
+          ./dist-frozen/Subterfuge/Subterfuge --version
+          ./dist-frozen/Subterfuge/Subterfuge demo > /tmp/subterfuge-demo.json
+          python -c "import json; p=json.load(open('/tmp/subterfuge-demo.json')); assert p['stats']['findings'] == 1"
+      - name: Build Debian/Ubuntu/Kali installer
+        run: |
+          python packaging/build_deb.py --bundle dist-frozen/Subterfuge --output release-assets
+          dpkg-deb --info release-assets/*.deb
+      - name: Verify automatic APT dependency metadata
+        run: |
+          set -euo pipefail
+          dpkg-deb -f release-assets/*.deb Package | grep -Fx subterfuge-framework
+          dpkg-deb -f release-assets/*.deb Version | grep -Fx '2.0.0~a5-1'
+          dpkg-deb -f release-assets/*.deb Depends | grep -q nmap
+          dpkg-deb -f release-assets/*.deb Depends | grep -q tshark
+          dpkg-deb -f release-assets/*.deb Depends | grep -q mitmproxy
+      - uses: actions/upload-artifact@v4
+        with:
+          name: subterfuge-linux-deb
+          path: release-assets/*.deb
+          if-no-files-found: error
+          retention-days: 30
+
+  windows-exe:
+    name: Windows 10/11 x64 Setup.exe
+    runs-on: windows-latest
+    timeout-minutes: 65
+    env:
+      QT_QPA_PLATFORM: offscreen
+      QT_QPA_PLATFORMTHEME: ""
+      QT_STYLE_OVERRIDE: Fusion
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Bundle Python, Qt, Scapy and build tools
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ".[desktop,capture]" "pyinstaller>=6.14,<7" "pillow>=11,<13"
+      - name: Test core, desktop and packaging contracts
+        shell: pwsh
+        run: python -m unittest discover -s tests -q
+      - name: Generate branded icon and freeze Windows executable
+        shell: pwsh
+        run: |
+          python packaging/make_icon.py
+          python packaging/build_freeze.py --output dist-frozen
+      - name: Verify native Windows GUI process
+        shell: pwsh
+        run: |
+          $program = Join-Path $PWD "dist-frozen\Subterfuge\Subterfuge.exe"
+          if (!(Test-Path $program)) { throw "Missing Subterfuge.exe" }
+          $p = Start-Process -FilePath $program -ArgumentList "--self-test" -PassThru -Wait
+          if ($p.ExitCode -ne 0) { throw "Native GUI verification failed: $($p.ExitCode)" }
+      - name: Install Inno Setup compiler
+        shell: pwsh
+        run: choco install innosetup --no-progress --yes
+      - name: Create Windows guided Setup installer
+        shell: pwsh
+        run: |
+          $compiler = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          if (!(Test-Path $compiler)) { throw "Inno Setup compiler unavailable" }
+          New-Item -ItemType Directory -Path release-assets -Force | Out-Null
+          & $compiler "packaging\Subterfuge.iss"
+          if ($LASTEXITCODE -ne 0) { throw "Inno Setup failed: $LASTEXITCODE" }
+          $installer = "release-assets\Subterfuge-Setup-2.0.0a5-Windows-x64.exe"
+          if (!(Test-Path $installer)) { throw "Missing final Windows installer" }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: subterfuge-windows-exe
+          path: release-assets/*.exe
+          if-no-files-found: error
+          retention-days: 30
+
+  github-release:
+    name: GitHub release downloads
+    needs: [linux-deb, windows-exe]
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: subterfuge-*
+          path: release-assets
+          merge-multiple: true
+      - name: Verify both installers and calculate SHA-256
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s release-assets/Subterfuge-Setup-2.0.0a5-Windows-x64.exe
+          test -s release-assets/Subterfuge-2.0.0a5-Linux-amd64.deb
+          (cd release-assets && sha256sum *.exe *.deb > SHA256SUMS.txt)
+          cat release-assets/SHA256SUMS.txt
+      - name: Publish installer downloads in GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v2.0.0a5
+          target_commitish: ${{ github.sha }}
+          name: "Subterfuge Framework 2.0.0a5 — Windows EXE & Linux DEB"
+          prerelease: true
+          draft: false
+          make_latest: false
+          generate_release_notes: false
+          fail_on_unmatched_files: true
+          body: |
+            Subterfuge Framework 2.0.0a5 alpha — native GUI and optional Web server.
+
+            WINDOWS 10/11 x64: download the Setup .exe; Python, Qt, Scapy
+            and all core dependencies are bundled. A checked-by-default
+            optional task installs Nmap, Wireshark/TShark and mitmproxy
+            through WinGet when online. Admin consent, packages, Npcap
+            drivers or a restart may be needed on some Windows computers.
+            The EXE is unsigned, so SmartScreen may show a warning.
+
+            DEBIAN/UBUNTU/KALI amd64: download the .deb and install using
+            sudo apt install ./Subterfuge-2.0.0a5-Linux-amd64.deb
+            Python, Qt and Scapy are bundled; APT installs declared
+            external dependencies from configured trusted repositories.
+
+            Installers do not automatically grant capture privileges,
+            install a CA certificate or redirect network traffic.
+            Compare SHA256SUMS.txt. Read DOWNLOADS.md for full instructions.
+          files: |
+            release-assets/*.exe
+            release-assets/*.deb
+            release-assets/SHA256SUMS.txt

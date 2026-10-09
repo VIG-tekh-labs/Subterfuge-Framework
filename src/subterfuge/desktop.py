@@ -894,10 +894,12 @@ class DesktopWindow(QMainWindow):
         self._web = process
         self.web_button.setEnabled(False)
         self.web_state.setText("Démarrage du tableau de bord Web local…")
-        process.start(
-            sys.executable,
-            ["-m", "subterfuge", "serve", "--port", str(self.web_port.value())],
+        command = (
+            ["serve", "--port", str(self.web_port.value())]
+            if getattr(sys, "frozen", False)
+            else ["-m", "subterfuge", "serve", "--port", str(self.web_port.value())]
         )
+        process.start(sys.executable, command)
 
     def _web_started(self, process: QProcess) -> None:
         if self._web is not process:

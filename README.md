@@ -1,5 +1,26 @@
 # Subterfuge Framework
 
+## Installer Windows EXE et Linux DEB — version alpha 2.0.0a5
+
+Les installateurs sont compilés automatiquement sur GitHub Actions pour
+Windows 10/11 x64 et Debian/Ubuntu/Kali Linux amd64. Les fichiers vérifiés
+sont publiés dans [GitHub Releases](https://github.com/VIG-tekh-labs/Subterfuge-Framework/releases).
+
+- Windows : Subterfuge-Setup-2.0.0a5-Windows-x64.exe
+- Linux : Subterfuge-2.0.0a5-Linux-amd64.deb
+
+Les exécutables embarquent Python, Qt/PySide6, Scapy et les dépendances
+logicielles de base. Sur Linux, installer le DEB avec APT : les dépendances
+externes Nmap, TShark, mitmproxy et les bibliothèques système sont déclarées
+dans le paquet. Sous Windows, l'assistant propose, par défaut, l'installation
+des outils externes via WinGet. Une connexion réseau, des accords de licence
+ou certaines autorisations système peuvent être requis.
+Aucun installeur macOS pour cette release.
+
+Lire [DOWNLOADS.md](DOWNLOADS.md) et [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+La GUI native et le mode Web distant sécurisé restent disponibles séparément.
+
+
 ## Native Desktop GUI + secure Web server access — 2.0.0a4 alpha
 
 - Added a **real PySide6/Qt Widgets desktop application**, without Chromium,
@@ -60,7 +81,7 @@ See [the setup and privacy guide](TLS_BROWSER_LAB_2026-10-09.md) for executable 
 **Verified on master (October 9, 2026):** [cleanup commit 9a986a1](https://github.com/VIG-tekh-labs/Subterfuge-Framework/commit/9a986a148eb34cf74596df8b6d2adbfa34714ad8) removed 193 historic files from the active tree. A fresh clone has 63 tracked files and no legacy directory. [All six cross-platform CI jobs passed](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37858737482).
 
 
-**Modernization in progress — version 2.0.0a4 (alpha).** The modern assessment core is installable; the complete historical framework is not yet restored or validated.
+**Modernization in progress — version 2.0.0a5 (alpha).** The modern assessment core is installable; the complete historical framework is not yet restored or validated.
 
 ## Project status — current default master
 

@@ -1,5 +1,22 @@
 # Subterfuge Framework — verified continuation handoff
 
+## October 9, 2026 — Self-contained Windows EXE and Linux DEB
+
+- Windows setup built natively on a Windows GitHub runner with PyInstaller
+  and Inno Setup. The application bundles Python, Qt/PySide6 and Scapy.
+  A user-selectable task, checked by default, installs Nmap, Wireshark/TShark
+  and mitmproxy through WinGet when Windows allows it.
+- Linux .deb built natively on an Ubuntu 22.04 runner with a bundled Python
+  and Qt GUI. Debian package dependencies install Nmap, TShark, mitmproxy
+  and required system Qt libraries from trusted APT repositories.
+- Both artifacts are independently smoke-tested. Only after their two build
+  jobs succeed does the GitHub release job publish EXE, DEB and SHA256SUMS.
+- Source and installer documentation: DOWNLOADS.md and
+  THIRD_PARTY_NOTICES.md. macOS native packaging is postponed.
+- OS admin prompts, restricted repositories, missing WinGet or Npcap drivers
+  remain environment-specific prerequisites. No private app is required.
+
+
 ## Native Desktop GUI + secure Web server access — 2.0.0a4 alpha
 
 - Added a **real PySide6/Qt Widgets desktop application**, without Chromium,
