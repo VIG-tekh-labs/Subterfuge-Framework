@@ -145,3 +145,8 @@ No administrator/elevated privileges or silent installation is needed.
   rerun on the published commit; no installation on third-party clients was
   performed. In particular, actual persisted MV3 UI state has not been
   observed across a manual Chromium restart on this workstation.
+
+## Publication and continuous integration
+
+The TLS/proxy/browser/agent version 2.0.0a3 was published in feature commit `6d5329320e9669a54217ac996731447479a59440` with a cross-platform test fix in `02aaa76d3529b599e445b24d6377a3bea076c2c8`. Six GitHub Actions matrix jobs succeeded in [run 37862358235](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37862358235). A clean checkout of the published master code discovered 134 Python tests (132 successful, two expected skips) and passed Node Browser Lab and saved-report validations. The live ZIA tool registry still needs to import the optional agent bridge and pass its approved mission policy before ZIA can use it.
+

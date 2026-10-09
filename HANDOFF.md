@@ -1,5 +1,21 @@
 # Subterfuge Framework — verified continuation handoff
 
+## VERIFIED RELEASE — October 9, 2026: Subterfuge 2.0.0a3
+
+- Source features commit: `6d5329320e9669a54217ac996731447479a59440`; cross-platform portability fix: `02aaa76d3529b599e445b24d6377a3bea076c2c8`. Both are on default `master` and the modernization continuation branch, without a forced update.
+- The real 127.0.0.1 TLS/HTTPS integration test produced an actual PCAPNG and five SSLKEYLOGFILE entries; TShark 4.6.6 recovered two HTTP messages including the synthetic request path.
+- The real loopback mitmdump 12.2.3 proxy test returned HTTP 200 from an explicitly configured local temporary HTTP server. The proxy uses regular opt-in mode, does not redirect other clients, refuses LAN/untrusted interfaces and disables optional external update checks.
+- The standalone package built and installed in a fresh virtualenv as `2.0.0a3`. The wheel has **26** entries; the source archive has **81**. They contain the Chrome/Chromium MV3 Browser Lab, TLS module, Bettercap offline-event adapter and ZIA tool contract, with the old framework excluded.
+- Published code checkout: **134 Python test cases**, 132 passed and two expected historical-source skips; Node Browser Lab preference/indicator/scope tests passed, as did saved-report schema validation (five valid accepted, ten invalid rejected).
+- Six-platform GitHub Actions check [run 37862358235](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37862358235) passed on Linux (Python 3.11, 3.12, 3.13 and 3.14), Windows 3.12 and macOS 3.12. The earlier first attempt exposed only path alias differences for decrypted export file tests on Windows/macOS; `os.path.samefile` fixed that regression.
+- The Chromium companion retains its visible user preference across browser restarts, but only injects a read-only inspector into the recognized local 127.0.0.1 Subterfuge dashboard. No persistence on third-party websites, cookies, hidden hooks, administrative elevation or remote commands. MV3 persistence has been simulated in QA, not manually tested after a browser restart.
+- The optional ZIA API `subterfuge.agent_integration.run_authorized` is a **ready-to-integrate adapter**, not proof of live registration in ZIA. A caller must provide ZIA-approved `allowed_actions`, `allowed_files` and/or `allowed_targets`; sensitive TLS and active network operations need separate affirmative gates. Standalone users need no ZIA services or rules.
+- Bettercap integration currently **imports user-exported, discovery-only JSON events**; it does not execute Bettercap or impersonate third-party browsers. Old interception features remain unported and are preserved in the historical archive branch only.
+- **Next work:** connect the optional adapter to ZIA's actual tool registry under explicit owner policy after a separate compatibility test; manually smoke-test Chromium extension after a real browser restart; expand permitted live capture / PCAPNG compatibility, and continue license and privacy QA.
+
+The authoritative continued worktree for published verification is `~/projects/Subterfuge-Framework-master-verified-20261009`; the feature implementation was prepared in `~/projects/Subterfuge-Framework-tls-authorized-20261009`. Do not reset or clean other worktrees without checking their changes. The ZIA adapter has NOT been installed into the live ZIA tool engine.
+
+
 ## 2026-10-09 — ZIA-ready standalone TLS / Browser Lab work
 
 ### New optional TLS / Browser Lab capabilities — 2026-10-09 (2.0.0a3)

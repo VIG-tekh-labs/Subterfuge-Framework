@@ -1,5 +1,8 @@
 # Subterfuge Framework
 
+**Current tested version 2.0.0a3:** TLS key-log decryption and an opt-in local HTTP(S) proxy were tested against synthetic localhost connections. Browser Lab is a visible, local-only Chromium companion, and Bettercap data import is passive and offline. See [the module guide](TLS_BROWSER_LAB_2026-10-09.md) and the [six-platform CI result](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37862358235). The optional ZIA authorization bridge is provided but is not yet installed into the live ZIA agent.
+
+
 ## TLS & Browser Lab 2.0.0a3 (optional)
 
 ### New optional TLS / Browser Lab capabilities — 2026-10-09 (2.0.0a3)
