@@ -5,18 +5,18 @@
 - Source features commit: `6d5329320e9669a54217ac996731447479a59440`; cross-platform portability fix: `02aaa76d3529b599e445b24d6377a3bea076c2c8`. Both are on default `master` and the modernization continuation branch, without a forced update.
 - The real 127.0.0.1 TLS/HTTPS integration test produced an actual PCAPNG and five SSLKEYLOGFILE entries; TShark 4.6.6 recovered two HTTP messages including the synthetic request path.
 - The real loopback mitmdump 12.2.3 proxy test returned HTTP 200 from an explicitly configured local temporary HTTP server. The proxy uses regular opt-in mode, does not redirect other clients, refuses LAN/untrusted interfaces and disables optional external update checks.
-- The standalone package built and installed in a fresh virtualenv as `2.0.0a3`. The wheel has **26** entries; the source archive has **81**. They contain the Chrome/Chromium MV3 Browser Lab, TLS module, Bettercap offline-event adapter and ZIA tool contract, with the old framework excluded.
+- The standalone package built and installed in a fresh virtualenv as `2.0.0a3`. The wheel has **26** entries; the source archive has **81**. They contain the Chrome/Chromium MV3 Browser Lab, TLS module, Bettercap offline-event adapter and generic agent tool contract, with the old framework excluded.
 - Published code checkout: **134 Python test cases**, 132 passed and two expected historical-source skips; Node Browser Lab preference/indicator/scope tests passed, as did saved-report schema validation (five valid accepted, ten invalid rejected).
 - Six-platform GitHub Actions check [run 37862358235](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37862358235) passed on Linux (Python 3.11, 3.12, 3.13 and 3.14), Windows 3.12 and macOS 3.12. The earlier first attempt exposed only path alias differences for decrypted export file tests on Windows/macOS; `os.path.samefile` fixed that regression.
 - The Chromium companion retains its visible user preference across browser restarts, but only injects a read-only inspector into the recognized local 127.0.0.1 Subterfuge dashboard. No persistence on third-party websites, cookies, hidden hooks, administrative elevation or remote commands. MV3 persistence has been simulated in QA, not manually tested after a browser restart.
-- The optional ZIA API `subterfuge.agent_integration.run_authorized` is a **ready-to-integrate adapter**, not proof of live registration in ZIA. A caller must provide ZIA-approved `allowed_actions`, `allowed_files` and/or `allowed_targets`; sensitive TLS and active network operations need separate affirmative gates. Standalone users need no ZIA services or rules.
+- The optional agent API `subterfuge.agent_integration.run_authorized` is a **ready-to-integrate adapter**, not proof of live registration in a local agent. A caller must provide mission-scoped `allowed_actions`, `allowed_files` and/or `allowed_targets`; sensitive TLS and active network operations need separate affirmative gates. Standalone users need no external agent services or rules.
 - Bettercap integration currently **imports user-exported, discovery-only JSON events**; it does not execute Bettercap or impersonate third-party browsers. Old interception features remain unported and are preserved in the historical archive branch only.
-- **Next work:** connect the optional adapter to ZIA's actual tool registry under explicit owner policy after a separate compatibility test; manually smoke-test Chromium extension after a real browser restart; expand permitted live capture / PCAPNG compatibility, and continue license and privacy QA.
+- **Next work:** connect the optional adapter to the calling agent's actual tool registry under explicit owner policy after a separate compatibility test; manually smoke-test Chromium extension after a real browser restart; expand permitted live capture / PCAPNG compatibility, and continue license and privacy QA.
 
-The authoritative continued worktree for published verification is `~/projects/Subterfuge-Framework-master-verified-20261009`; the feature implementation was prepared in `~/projects/Subterfuge-Framework-tls-authorized-20261009`. Do not reset or clean other worktrees without checking their changes. The ZIA adapter has NOT been installed into the live ZIA tool engine.
+The authoritative continued worktree for published verification is `~/projects/Subterfuge-Framework-master-verified-20261009`; the feature implementation was prepared in `~/projects/Subterfuge-Framework-tls-authorized-20261009`. Do not reset or clean other worktrees without checking their changes. The external agent adapter has NOT been installed into the live agent tool engine.
 
 
-## 2026-10-09 — ZIA-ready standalone TLS / Browser Lab work
+## 2026-10-09 — Standalone TLS / Browser Lab and optional agent API
 
 ### New optional TLS / Browser Lab capabilities — 2026-10-09 (2.0.0a3)
 
@@ -25,7 +25,7 @@ The authoritative continued worktree for published verification is `~/projects/S
 - Added a mitmproxy-based proxy-lab command for visible local test clients. Only explicit regular proxy mode on 127.0.0.1/loopback is allowed; LAN binding, stealth interception, unauthorized client redirection and automatic CA trust changes are excluded.
 - Added a Chromium Manifest V3 Browser Lab companion shipped with the Python wheel and sdist. It has a simple enable/disable toggle, persisted local setting and read-only inspect action. It operates ONLY on 127.0.0.1 with a recognized local Subterfuge dashboard; it does not read cookies or credentials, inject into arbitrary sites, or run background remote commands.
 - Added a read-only Bettercap JSON event importer accepting only network discovery tags and discarding packet contents, handshake keys and attack-related events.
-- Added agent-capabilities and an independent optional ZIA-friendly Python policy bridge: standalone operation requires no ZIA installation; ZIA must supply exact allowed_actions, allowed_files and allowed_targets with additional affirmative gates for sensitive TLS/network operations. Those ZIA rules can further restrict but never bypass OS controls.
+- Added agent-capabilities and an independent optional agent-compatible Python policy bridge: standalone operation requires no external agent; a calling agent must supply exact allowed_actions, allowed_files and allowed_targets with additional affirmative gates for sensitive TLS/network operations. Those caller-defined rules can further restrict but never bypass OS controls.
 - These modules are optional components. Python 3.11+ modern offline analysis remains zero mandatory external runtime dependencies; TShark and mitmdump are optional installed system tools.
 - For installation, examples, scope, privacy and security rules, consult TLS_BROWSER_LAB_2026-10-09.md. Current release remains alpha (2.0.0a3), not a recreation of historical SSLStrip, BeEF, Bettercap spoofing or user-session hooks.
 
@@ -229,12 +229,12 @@ Use a **fresh checkout/worktree** for each new checkpoint rather than overwritin
 - 134 Python tests discovered (132 passed, two expected history-related
   skips), Node Browser Lab and existing report JSON validators passed.
 - Standalone wheel 2.0.0a3 installed into an isolated venv and located its
-  packaged browser extension and ZIA tool manifest; archive QA confirmed
+  packaged browser extension and generic agent tool manifest; archive QA confirmed
   26 wheel and 81 source archive members before the last adjustments.
 - Built-in proxy remains loopback-only to avoid becoming a shared, open
   interception proxy; Bettercap integration is offline event import only.
-- ZIA rules can be enforced through the explicit allowed_actions,
-  allowed_files, allowed_targets mission bridge. No automatic ZIA agent
+- caller-defined rules can be enforced through the explicit allowed_actions,
+  allowed_files, allowed_targets mission bridge. No automatic calling agent
   patch, credential extraction or silent persistence is claimed.
 - Publish to GitHub only after final regressions, then check Linux/
   Windows/macOS GitHub Actions and preserve the existing archival branch.

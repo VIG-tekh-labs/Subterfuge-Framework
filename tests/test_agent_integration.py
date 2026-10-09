@@ -1,4 +1,4 @@
-"""ZIA actions are policy-gated; standalone Subterfuge is independent."""
+"""Agent actions are policy-gated; standalone Subterfuge is independent."""
 import unittest
 from unittest.mock import patch
 
@@ -10,11 +10,12 @@ class AgentPolicyTests(unittest.TestCase):
     def test_capabilities_exclude_persistent_third_party_hooks(self):
         data = describe_capabilities()
         self.assertTrue(data["standalone_supported"])
+        self.assertEqual(data["integration"], "optional_local_agent")
         self.assertFalse(data["browser_companion"]["third_party_hook"])
         self.assertNotIn("proxy-lab", data["action_schema"])
         self.assertIn("tls_decrypt", data["action_schema"])
 
-    def test_denies_operations_missing_from_zia_policy(self):
+    def test_denies_operations_missing_from_agent_policy(self):
         with self.assertRaises(AnalysisError):
             run_authorized("doctor", {}, {})
         with self.assertRaises(AnalysisError):
@@ -42,7 +43,7 @@ class AgentPolicyTests(unittest.TestCase):
         self.assertEqual(result, {"verified": True})
         tested.assert_called_once()
 
-    def test_file_scope_is_required_in_zia_mission(self):
+    def test_file_scope_is_required_in_agent_mission(self):
         from pathlib import Path
         import tempfile
         with tempfile.TemporaryDirectory() as folder:

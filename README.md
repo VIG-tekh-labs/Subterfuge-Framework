@@ -1,6 +1,6 @@
 # Subterfuge Framework
 
-**Current tested version 2.0.0a3:** TLS key-log decryption and an opt-in local HTTP(S) proxy were tested against synthetic localhost connections. Browser Lab is a visible, local-only Chromium companion, and Bettercap data import is passive and offline. See [the module guide](TLS_BROWSER_LAB_2026-10-09.md) and the [six-platform CI result](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37862358235). The optional ZIA authorization bridge is provided but is not yet installed into the live ZIA agent.
+**Current tested version 2.0.0a3:** TLS key-log decryption and an opt-in local HTTP(S) proxy were tested against synthetic localhost connections. Browser Lab is a visible, local-only Chromium companion, and Bettercap data import is passive and offline. See [the module guide](TLS_BROWSER_LAB_2026-10-09.md) and the [six-platform CI result](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37862358235). The optional vendor-neutral automation API is available but is not automatically registered in other applications.
 
 
 ## TLS & Browser Lab 2.0.0a3 (optional)
@@ -12,7 +12,7 @@
 - Added a mitmproxy-based proxy-lab command for visible local test clients. Only explicit regular proxy mode on 127.0.0.1/loopback is allowed; LAN binding, stealth interception, unauthorized client redirection and automatic CA trust changes are excluded.
 - Added a Chromium Manifest V3 Browser Lab companion shipped with the Python wheel and sdist. It has a simple enable/disable toggle, persisted local setting and read-only inspect action. It operates ONLY on 127.0.0.1 with a recognized local Subterfuge dashboard; it does not read cookies or credentials, inject into arbitrary sites, or run background remote commands.
 - Added a read-only Bettercap JSON event importer accepting only network discovery tags and discarding packet contents, handshake keys and attack-related events.
-- Added agent-capabilities and an independent optional ZIA-friendly Python policy bridge: standalone operation requires no ZIA installation; ZIA must supply exact allowed_actions, allowed_files and allowed_targets with additional affirmative gates for sensitive TLS/network operations. Those ZIA rules can further restrict but never bypass OS controls.
+- Added agent-capabilities and an independent optional agent-compatible Python policy bridge: standalone operation requires no external agent; a calling agent must supply exact allowed_actions, allowed_files and allowed_targets with additional affirmative gates for sensitive TLS/network operations. Those caller-defined rules can further restrict but never bypass OS controls.
 - These modules are optional components. Python 3.11+ modern offline analysis remains zero mandatory external runtime dependencies; TShark and mitmdump are optional installed system tools.
 - For installation, examples, scope, privacy and security rules, consult TLS_BROWSER_LAB_2026-10-09.md. Current release remains alpha (2.0.0a3), not a recreation of historical SSLStrip, BeEF, Bettercap spoofing or user-session hooks.
 

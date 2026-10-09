@@ -66,7 +66,7 @@ def parser() -> argparse.ArgumentParser:
     command = commands.add_parser("import-bettercap", help="Summarize offline JSON discovery events exported from Bettercap")
     command.add_argument("file", type=Path, help="A Bettercap /api/events JSON export from your authorized laboratory")
     command.add_argument("--output", type=Path)
-    commands.add_parser("agent-capabilities", help="Report supported actions for standalone use and optional ZIA integration")
+    commands.add_parser("agent-capabilities", help="Report supported actions for standalone use and optional local-agent integration")
     command = commands.add_parser("serve", help="Open the local dashboard")
     command.add_argument("--port", type=int, default=8080)
     command.add_argument("--open", action="store_true", help="Open the dashboard in the default browser")

@@ -1,8 +1,8 @@
-"""Optional ZIA / local agent bridge with explicit capabilities and scoped actions.
+"""Optional local agent bridge with explicit capabilities and scoped actions.
 
-Standalone Subterfuge works without ZIA. If ZIA invokes the Python API, ZIA
-must pass its own approved per-task policy. No ZIA rule is rewritten here;
-this bridge additionally requires explicit permissions for risky operations.
+Standalone Subterfuge works without any agent. If a local orchestrator
+invokes the Python API, it must provide a scoped task policy. No external
+policy is modified here. The bridge independently requires explicit permissions for risky operations.
 """
 from __future__ import annotations
 
@@ -46,7 +46,7 @@ EXCLUDED = {
 
 def describe_capabilities() -> dict:
     return {
-        "integration": "optional_zia_local_agent",
+        "integration": "optional_local_agent",
         "version": __version__,
         "standalone_supported": True,
         "action_schema": ACTIONS,
@@ -59,22 +59,22 @@ def describe_capabilities() -> dict:
             "credential_collection": False,
         },
         "policy": (
-            "ZIA must approve each task and provide its allowed_actions and scoped "
+            "The calling agent must approve each task and provide its allowed_actions and scoped "
             "allowed_targets and allowed_files. Subterfuge enforces its own technical limits and "
-            "never makes ZIA root or bypasses operating-system authorization."
+            "never grants root to a calling agent or bypasses operating-system authorization."
         ),
     }
 
 
 def run_authorized(action: str, args: dict, policy: dict) -> dict:
-    """Run a validated, ZIA-authorized single action, with no shell execution."""
+    """Run a validated, policy-authorized single action, with no shell execution."""
     if not isinstance(args, dict) or not isinstance(policy, dict):
         raise AnalysisError("Agent task arguments and mission policy must be mappings.")
     if action not in ACTIONS:
         raise AnalysisError("Unsupported or interactive-only agent action.")
     allowed = policy.get("allowed_actions", [])
     if not isinstance(allowed, list) or action not in allowed:
-        raise AnalysisError("ZIA mission policy did not authorize this action.")
+        raise AnalysisError("The calling agent's mission policy did not authorize this action.")
     needed = ACTIONS[action]["requires"]
     for key in needed:
         value = args.get(key)
@@ -85,7 +85,7 @@ def run_authorized(action: str, args: dict, policy: dict) -> dict:
     if "file" in needed or "keylog" in needed:
         approved_files = policy.get("allowed_files", [])
         if not isinstance(approved_files, list):
-            raise AnalysisError("ZIA mission file scope must be a list of paths.")
+            raise AnalysisError("The caller's mission file scope must be a list of paths.")
         for key in ("file", "keylog"):
             if key not in needed:
                 continue
@@ -121,7 +121,7 @@ def run_authorized(action: str, args: dict, policy: dict) -> dict:
         return import_bettercap_events(args["file"])
     if action == "tls_decrypt":
         from .tls_lab import decrypt_https
-        # The ZIA bridge only returns minimal metadata; decrypted packet exports
+        # The optional agent bridge only returns minimal metadata; decrypted packet exports
         # and URI exposure require the visible standalone command instead.
         return decrypt_https(args["file"], args["keylog"])
     if action == "inspect_tls":

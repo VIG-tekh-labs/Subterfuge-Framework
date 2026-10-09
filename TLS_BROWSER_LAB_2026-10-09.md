@@ -2,7 +2,7 @@
 
 ## Available modules
 
-The modern Python 3 runtime is standalone and does not depend on ZIA.
+The modern Python 3 runtime is standalone and does not depend on a local agent.
 
 1. **tls-decrypt** — TShark/Wireshark offline decryption when the user supplies a
    PCAP or PCAPNG capture and the corresponding SSLKEYLOGFILE secrets, acquired
@@ -24,13 +24,12 @@ The modern Python 3 runtime is standalone and does not depend on ZIA.
    with an authorized Bettercap REST API /api/events JSON export. This accepts
    discovery/network host events only, ignoring offensive, key and payload
    events. Bettercap itself is not executed or required for this import.
-5. **agent-capabilities** — machine-readable tool contract so ZIA AI or another
-   local agent can discover actions. A Python function,
+5. **agent-capabilities** — machine-readable tool contract so a local automation agent can discover actions. A Python function,
    subterfuge.agent_integration.run_authorized(action, args, mission_policy),
    requires a per-task explicit list of allowed actions. Sensitive TLS
    actions additionally require allow_sensitive_tls and exact allowed_files;
    active network operations require allow_active_network and an exact
-   allowed_targets match. A ZIA policy can further restrict operations, but
+   allowed_targets match. A caller policy can further restrict operations, but
    cannot bypass the OS or Subterfuge safety checks.
 
 ## Standalone commands
@@ -91,16 +90,16 @@ while viewing a Subterfuge dashboard served at http://127.0.0.1:8080/.
 The preference survives browser restart because of chrome.storage.local,
 but the script does not run in closed tabs and never follows unrelated sites.
 
-## ZIA policy precedence
+## Agent policy precedence
 
-Standalone installation never needs ZIA files, credentials or services.
-When ZIA calls Subterfuge, ZIA should supply the scoped mission policy and
+Standalone installation does not require any external agent files, credentials or services.
+When a local agent calls Subterfuge, it should supply the scoped mission policy and
 the explicit action to run through its existing task executor. The
-run_authorized interface enforces the provided ZIA allowed_actions,
+run_authorized interface enforces the provided allowed_actions,
 allowed_files, allowed_targets and optional affirmative flags; network and
 sensitive operations also obey the independent technical limits.
 
-Example for an approved offline ZIA task in Python:
+Example for an approved offline automation task in Python:
 
     from subterfuge.agent_integration import run_authorized
     policy = {"allowed_actions": ["doctor"]}
@@ -148,5 +147,5 @@ No administrator/elevated privileges or silent installation is needed.
 
 ## Publication and continuous integration
 
-The TLS/proxy/browser/agent version 2.0.0a3 was published in feature commit `6d5329320e9669a54217ac996731447479a59440` with a cross-platform test fix in `02aaa76d3529b599e445b24d6377a3bea076c2c8`. Six GitHub Actions matrix jobs succeeded in [run 37862358235](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37862358235). A clean checkout of the published master code discovered 134 Python tests (132 successful, two expected skips) and passed Node Browser Lab and saved-report validations. The live ZIA tool registry still needs to import the optional agent bridge and pass its approved mission policy before ZIA can use it.
+The TLS/proxy/browser/agent version 2.0.0a3 was published in feature commit `6d5329320e9669a54217ac996731447479a59440` with a cross-platform test fix in `02aaa76d3529b599e445b24d6377a3bea076c2c8`. Six GitHub Actions matrix jobs succeeded in [run 37862358235](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37862358235). A clean checkout of the published master code discovered 134 Python tests (132 successful, two expected skips) and passed Node Browser Lab and saved-report validations. The live agent tool registry still needs to import the optional agent bridge and pass its approved mission policy before The calling agent can use it.
 
