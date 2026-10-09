@@ -5,6 +5,30 @@ on:
 permissions:
   contents: read
 jobs:
+  desktop-qt-linux:
+    name: Native Qt desktop (Ubuntu Python 3.12)
+    runs-on: ubuntu-latest
+    env:
+      QT_QPA_PLATFORM: offscreen
+      QT_QPA_PLATFORMTHEME: ""
+      QT_STYLE_OVERRIDE: Fusion
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install optional native Qt desktop package
+        run: python -m pip install ".[desktop]"
+      - name: Native GUI, server-origin and report tests
+        run: python -m unittest discover -s tests -v
+      - name: Verify native application launchers
+        run: |
+          subterfuge --version
+          python -c "from subterfuge.desktop import DesktopWindow; from subterfuge.web import validate_public_origin; assert validate_public_origin('https://192.0.2.10:8443') == 'https://192.0.2.10:8443'; print('Qt + Web backends available')"
+      - name: Dependency-free browser validation
+        run: |
+          node qa/browser_report_validation.mjs
+          node qa/browser_lab_validation.mjs
   test:
     strategy:
       fail-fast: false

@@ -67,9 +67,14 @@ def parser() -> argparse.ArgumentParser:
     command.add_argument("file", type=Path, help="A Bettercap /api/events JSON export from your authorized laboratory")
     command.add_argument("--output", type=Path)
     commands.add_parser("agent-capabilities", help="Report supported actions for standalone use and optional local-agent integration")
+    commands.add_parser("gui", help="Launch the native Qt desktop application (no browser)")
+    commands.add_parser("desktop-shortcut", help="Install a per-user Linux applications-menu shortcut")
     command = commands.add_parser("serve", help="Open the local dashboard")
-    command.add_argument("--port", type=int, default=8080)
-    command.add_argument("--open", action="store_true", help="Open the dashboard in the default browser")
+    command.add_argument("--port", type=int, default=8080, help="Local dashboard port (default: 8080)")
+    command.add_argument("--open", action="store_true", help="Open the local dashboard in the default browser")
+    command.add_argument(
+        "--public-origin", help="Optional authenticated HTTPS reverse proxy origin, e.g. https://192.0.2.10:8443. The HTTP backend remains loopback-only.",
+    )
     return root
 
 
@@ -78,7 +83,10 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.command in (None, "serve"):
             from .web import serve
-            serve(getattr(args, "port", 8080), getattr(args, "open", False))
+            serve(
+                getattr(args, "port", 8080), getattr(args, "open", False),
+                getattr(args, "public_origin", None),
+            )
             return 0
         if args.command == "doctor":
             report = doctor()
@@ -133,6 +141,19 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "agent-capabilities":
             from .agent_integration import describe_capabilities
             report = describe_capabilities()
+        elif args.command == "gui":
+            try:
+                from .desktop import main as desktop_main
+            except ImportError as exc:
+                raise AnalysisError(
+                    "Qt desktop GUI requires PySide6. Install: "
+                    "python -m pip install 'subterfuge-framework[desktop]' "
+                    "(or use your OS Qt/PySide6 package)."
+                ) from exc
+            return desktop_main()
+        elif args.command == "desktop-shortcut":
+            from .desktop_shortcut import install_shortcut
+            report = {"shortcut": str(install_shortcut()), "kind": "desktop_shortcut"}
         else:
             raise AnalysisError("Unknown command.")
         if getattr(args, "output", None):

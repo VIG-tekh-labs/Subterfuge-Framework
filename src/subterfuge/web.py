@@ -9,6 +9,7 @@ import json
 import secrets
 import threading
 import webbrowser
+from urllib.parse import urlsplit
 
 from .analysis import AnalysisError, analyze_nmap, analyze_pcap, base_report
 from .environment import doctor
@@ -33,7 +34,32 @@ def _tls_request(raw: bytes) -> dict:
 
 
 
-def make_server(port: int = 8080) -> ThreadingHTTPServer:
+def validate_public_origin(value: str | None) -> str | None:
+    """Accept only one explicitly declared HTTPS reverse-proxy origin.
+
+    The underlying HTTP server continues to bind loopback; TLS, access
+    control and user authentication belong to the operator's reverse proxy.
+    """
+    if value is None:
+        return None
+    if not isinstance(value, str) or not value.startswith("https://"):
+        raise AnalysisError("Public server origin requires https://host:port.")
+    try:
+        parsed = urlsplit(value)
+        hostname, port = parsed.hostname, parsed.port
+    except ValueError as exc:
+        raise AnalysisError("Invalid public HTTPS origin.") from exc
+    if (parsed.scheme != "https" or not hostname or port is None
+            or not 1 <= port <= 65535 or parsed.username is not None
+            or parsed.password is not None or parsed.path not in ("", "/")
+            or parsed.query or parsed.fragment or any(c.isspace() for c in value)):
+        raise AnalysisError("Specify an HTTPS origin with an explicit port and no path or credentials.")
+    host = f"[{hostname}]" if ":" in hostname else hostname
+    return f"https://{host}:{port}"
+
+
+def make_server(port: int = 8080, public_origin: str | None = None) -> ThreadingHTTPServer:
+    trusted_origin = validate_public_origin(public_origin)
     if not 0 <= port <= 65535:
         raise AnalysisError("Dashboard port must be between 0 and 65535.")
     token = secrets.token_urlsafe(32)
@@ -71,7 +97,7 @@ def make_server(port: int = 8080) -> ThreadingHTTPServer:
                 self.json(403, {"error": "Unexpected dashboard host."})
                 return False
             origin = self.headers.get("Origin")
-            if origin is not None and origin != self.server.expected_origin:
+            if origin is not None and origin not in self.server.allowed_origins:
                 self.json(403, {"error": "Cross-origin dashboard requests are not accepted."})
                 return False
             return True
@@ -140,14 +166,26 @@ def make_server(port: int = 8080) -> ThreadingHTTPServer:
     server.daemon_threads = True
     server.expected_host = f"127.0.0.1:{server.server_port}"
     server.expected_origin = f"http://{server.expected_host}"
+    server.allowed_origins = frozenset(
+        {server.expected_origin, trusted_origin} if trusted_origin
+        else {server.expected_origin}
+    )
+    server.public_origin = trusted_origin
     return server
 
 
-def serve(port: int = 8080, open_browser: bool = False) -> None:
-    server = make_server(port)
+def serve(port: int = 8080, open_browser: bool = False,
+          public_origin: str | None = None) -> None:
+    server = make_server(port, public_origin=public_origin)
     url = server.expected_origin + "/"
     print(f"Subterfuge dashboard: {url}", flush=True)
     print("Press Ctrl+C to stop. Reports stay in memory until downloaded.", flush=True)
+    if server.public_origin:
+        print(
+            "External HTTPS origin configured: " + server.public_origin
+            + " (reverse proxy must enforce HTTPS authentication and rewrite upstream Host).",
+            flush=True,
+        )
     if open_browser:
         webbrowser.open(url)
     try:

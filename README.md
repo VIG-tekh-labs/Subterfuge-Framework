@@ -1,6 +1,44 @@
 # Subterfuge Framework
 
-**Current tested version 2.0.0a3:** TLS key-log decryption and an opt-in local HTTP(S) proxy were tested against synthetic localhost connections. Browser Lab is a visible, local-only Chromium companion, and Bettercap data import is passive and offline. See [the module guide](TLS_BROWSER_LAB_2026-10-09.md) and the [six-platform CI result](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37862358235). The optional vendor-neutral automation API is available but is not automatically registered in other applications.
+## Native Desktop GUI + secure Web server access — 2.0.0a4 alpha
+
+- Added a **real PySide6/Qt Widgets desktop application**, without Chromium,
+  HTTP server or WebView. Five sections: Overview, Files & Reports, Network,
+  TLS / HTTPS and Settings. A visual overview shows the same categories of
+  inventory, findings and passive evidence as the existing Web dashboard.
+- The native desktop uses the same Python assessment engine as the CLI / Web
+  interface. Analyses run on worker threads. Raw JSON import is bounded and
+  validated; report strings render as plain text. Passive network capture,
+  active host/service discovery, TLS inspection and loopback proxy operation
+  require explicit GUI actions and confirmations.
+- Desktop installation is optional: python -m pip install ".[desktop]";
+  launch with subterfuge gui or subterfuge-desktop. A local per-user Linux
+  applications-menu shortcut (no root) can be installed explicitly with
+  subterfuge desktop-shortcut; both shortcut and SVG logo are packaged.
+  No additional dependencies are imposed on core CLI/Web users.
+- **The Web interface remains available.** Locally, run subterfuge serve
+  --port 8080 and visit http://127.0.0.1:8080/ (port configurable).
+  The GUI Settings page can separately start/stop this local Web server on
+  demand, without automatically opening a browser.
+- **Servers without GUI are supported.** The recommended secure remote
+  method is SSH port forwarding to the server's loopback dashboard:
+  ssh -N -L 127.0.0.1:8080:127.0.0.1:8080 -p 22 user@SERVER_IP,
+  followed by http://127.0.0.1:8080/ locally. For a direct
+  https://SERVER_IP:8443/ URL, an externally configured **authenticated
+  HTTPS reverse proxy** must forward traffic to the local HTTP backend.
+  The new --public-origin https://SERVER_IP:8443 option allows exactly
+  that validated HTTPS Origin, while the app **still binds exclusively to
+  127.0.0.1**. The reverse proxy must perform TLS and authentication and
+  rewrite upstream Host to the local backend, preserving Origin.
+- No automatic public binding, open proxy, silent certificate installation,
+  network scans or telemetry. Native desktop and Web are separate launch
+  modes; they do not currently synchronize in-memory reports. Future mobile
+  work may reuse the Web interface with an authenticated transport.
+- Documentation: [DESKTOP_GUI.md](DESKTOP_GUI.md) and
+  [SERVER_ACCESS.md](SERVER_ACCESS.md).
+
+
+**Previously validated TLS / network release 2.0.0a3:** TLS key-log decryption and an opt-in local HTTP(S) proxy were tested against synthetic localhost connections. Browser Lab is a visible, local-only Chromium companion, and Bettercap data import is passive and offline. See [the module guide](TLS_BROWSER_LAB_2026-10-09.md) and the [six-platform CI result](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37862358235). The optional vendor-neutral automation API is available but is not automatically registered in other applications.
 
 
 ## TLS & Browser Lab 2.0.0a3 (optional)
@@ -22,7 +60,7 @@ See [the setup and privacy guide](TLS_BROWSER_LAB_2026-10-09.md) for executable 
 **Verified on master (October 9, 2026):** [cleanup commit 9a986a1](https://github.com/VIG-tekh-labs/Subterfuge-Framework/commit/9a986a148eb34cf74596df8b6d2adbfa34714ad8) removed 193 historic files from the active tree. A fresh clone has 63 tracked files and no legacy directory. [All six cross-platform CI jobs passed](https://github.com/VIG-tekh-labs/Subterfuge-Framework/actions/runs/37858737482).
 
 
-**Modernization in progress — version 2.0.0a3 (alpha).** The modern assessment core is installable; the complete historical framework is not yet restored or validated.
+**Modernization in progress — version 2.0.0a4 (alpha).** The modern assessment core is installable; the complete historical framework is not yet restored or validated.
 
 ## Project status — current default master
 

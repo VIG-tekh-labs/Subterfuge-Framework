@@ -16,7 +16,7 @@ BANNED_NAMES = {
 BANNED_SUFFIXES = (".pem", ".key", ".p12", ".pfx", ".db", ".sqlite",
                    ".sqlite3", ".log", ".pyc")
 REQUIRED_SDIST = {
-    "PUBLICATION_POLICY.md", "COPYING", "LICENSE", "README.md", "HANDOFF.md", "SECURITY.md", "LICENSING.md",
+    "PUBLICATION_POLICY.md", "DESKTOP_GUI.md", "SERVER_ACCESS.md", "COPYING", "LICENSE", "README.md", "HANDOFF.md", "SECURITY.md", "LICENSING.md",
     "MODERNIZATION_STATUS.md", "LEGACY_AGE_REVIEW_2026-10-08.md",
     "FILE_AGE_INVENTORY_2026-10-08.csv",
     "STALE_24H_REVIEW_2026-10-08.md", "FILE_REVIEW_OLDER_24H_2026-10-08.csv",
@@ -35,6 +35,8 @@ REQUIRED_WHEEL = {
     "subterfuge/browser_lab/popup.html",
     "subterfuge/browser_lab/popup.js",
     "subterfuge/browser_lab/popup.css",
+    "subterfuge/desktop.py", "subterfuge/desktop_reports.py",
+    "subterfuge/desktop_shortcut.py", "subterfuge/desktop_entry.py", "subterfuge/assets/subterfuge.svg",
 }
 
 
