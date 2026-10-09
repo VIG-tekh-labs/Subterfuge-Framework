@@ -17,6 +17,10 @@ jobs:
       - uses: actions/setup-python@v7.0.0
         with:
           python-version: "3.12"
+      - name: Install Linux libraries required by headless Qt Widgets
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libopengl0 libxkbcommon0 libxkbcommon-x11-0 libxcb-cursor0
       - name: Install optional native Qt desktop package
         run: python -m pip install ".[desktop]"
       - name: Native GUI, server-origin and report tests
