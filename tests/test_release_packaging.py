@@ -13,13 +13,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class ReleasePackagingTests(unittest.TestCase):
     def test_cli_launcher_defaults_to_gui_and_supports_server_mode(self):
-        code = (ROOT / "packaging/desktop_launcher.py").read_text()
+        code = (ROOT / "packaging/desktop_launcher.py").read_text(encoding="utf-8")
         self.assertIn('sys.argv[1:] or ["gui"]', code)
         self.assertIn("cli_main(arguments)", code)
         self.assertNotIn("subprocess.run", code)
 
     def test_linux_deb_declares_network_package_dependencies(self):
-        code = (ROOT / "packaging/build_deb.py").read_text()
+        code = (ROOT / "packaging/build_deb.py").read_text(encoding="utf-8")
         tree = ast.parse(code)
         declarations = [
             n for n in tree.body if isinstance(n, ast.Assign)
@@ -35,7 +35,7 @@ class ReleasePackagingTests(unittest.TestCase):
         self.assertNotIn("sudo", code)
 
     def test_windows_inno_setup_installer_contains_dependencies_task(self):
-        install = (ROOT / "packaging/Subterfuge.iss").read_text()
+        install = (ROOT / "packaging/Subterfuge.iss").read_text(encoding="utf-8")
         self.assertIn("[Setup]", install)
         self.assertIn("[Tasks]", install)
         self.assertIn("[Run]", install)
@@ -46,7 +46,7 @@ class ReleasePackagingTests(unittest.TestCase):
         self.assertIn("LicenseFile", install)
 
     def test_windows_optional_dependency_script_uses_exact_winget_ids(self):
-        setup = (ROOT / "packaging/install-optional-network-tools.ps1").read_text()
+        setup = (ROOT / "packaging/install-optional-network-tools.ps1").read_text(encoding="utf-8")
         for package in (
             "Insecure.Nmap", "WiresharkFoundation.Wireshark", "mitmproxy.mitmproxy"
         ):
@@ -58,14 +58,14 @@ class ReleasePackagingTests(unittest.TestCase):
         self.assertNotIn("DownloadString", setup)
 
     def test_frozen_shortcut_and_web_server_are_supported(self):
-        shortcut = (ROOT / "src/subterfuge/desktop_shortcut.py").read_text()
-        desktop = (ROOT / "src/subterfuge/desktop.py").read_text()
+        shortcut = (ROOT / "src/subterfuge/desktop_shortcut.py").read_text(encoding="utf-8")
+        desktop = (ROOT / "src/subterfuge/desktop.py").read_text(encoding="utf-8")
         self.assertIn('getattr(sys, "frozen", False)', shortcut)
         self.assertIn('getattr(sys, "frozen", False)', desktop)
         self.assertIn('["serve", "--port",', desktop)
 
     def test_bundle_contains_python_qt_and_scapy(self):
-        code = (ROOT / "packaging/build_freeze.py").read_text()
+        code = (ROOT / "packaging/build_freeze.py").read_text(encoding="utf-8")
         self.assertIn("--onedir", code)
         self.assertIn("--collect-data", code)
         self.assertIn("PySide6", code)
@@ -79,7 +79,7 @@ class ReleasePackagingTests(unittest.TestCase):
             self.skipTest("No private, external publication denylist configured.")
         for file in (ROOT / "packaging").rglob("*"):
             if file.is_file() and file.suffix.lower() in (".py", ".iss", ".ps1"):
-                self.assertNotIn(private_token.lower(), file.read_text().lower(), str(file))
+                self.assertNotIn(private_token.lower(), file.read_text(encoding="utf-8").lower(), str(file))
 
 
 if __name__ == "__main__":
