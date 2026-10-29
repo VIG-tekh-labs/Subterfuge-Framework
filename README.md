@@ -1,5 +1,7 @@
 # Subterfuge Framework
 
+**Guide pratique (FR) : [Installer, démarrer, vérifier et désinstaller](INSTALL_UNINSTALL_FR.md)** — source Python/venv, paquet Linux DEB et Windows.
+
 ## Installer Windows EXE et Linux DEB — version alpha 2.0.0a5
 
 Les installateurs sont compilés automatiquement sur GitHub Actions pour
