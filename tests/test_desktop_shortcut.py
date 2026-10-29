@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch
 
 from subterfuge.analysis import AnalysisError
-from subterfuge.desktop_shortcut import _safe_quote, install_shortcut
+from subterfuge.desktop_shortcut import _safe_quote, install_shortcut, remove_shortcut
 
 
 class NativeShortcutTests(unittest.TestCase):
@@ -34,6 +34,34 @@ class NativeShortcutTests(unittest.TestCase):
             with self.assertRaisesRegex(AnalysisError,"existing"):
                 install_shortcut()
             self.assertIn("User customization",shortcut.read_text())
+
+    @unittest.skipUnless(os.name == "posix", "Linux XDG test")
+    def test_removal_only_deletes_own_launcher_and_icon(self):
+        if not os.sys.platform.startswith("linux"):
+            self.skipTest("Linux only")
+        with tempfile.TemporaryDirectory() as temp, patch.dict(os.environ, {"XDG_DATA_HOME": temp}):
+            shortcut = install_shortcut()
+            icon = Path(temp) / "icons/hicolor/scalable/apps/subterfuge-framework.svg"
+            self.assertEqual(remove_shortcut(), {"shortcut_removed": True, "icon_removed": True})
+            self.assertFalse(shortcut.exists())
+            self.assertFalse(icon.exists())
+            self.assertEqual(remove_shortcut(), {"shortcut_removed": False, "icon_removed": False})
+
+    @unittest.skipUnless(os.name == "posix", "Linux XDG test")
+    def test_removal_preserves_customized_launcher_and_icon(self):
+        if not os.sys.platform.startswith("linux"):
+            self.skipTest("Linux only")
+        with tempfile.TemporaryDirectory() as temp, patch.dict(os.environ, {"XDG_DATA_HOME": temp}):
+            shortcut = install_shortcut()
+            icon = Path(temp) / "icons/hicolor/scalable/apps/subterfuge-framework.svg"
+            icon.write_text("custom icon")
+            self.assertEqual(remove_shortcut(), {"shortcut_removed": True, "icon_removed": False})
+            self.assertEqual(icon.read_text(), "custom icon")
+            install_shortcut()
+            shortcut.write_text("[Desktop Entry]\\nName=Customized\\n")
+            with self.assertRaisesRegex(AnalysisError, "differs"):
+                remove_shortcut()
+            self.assertTrue(shortcut.exists())
 
     def test_relative_data_home_rejected(self):
         with patch.dict(os.environ,{"XDG_DATA_HOME":"./relative"},clear=False):
