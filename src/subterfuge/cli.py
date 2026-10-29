@@ -69,6 +69,7 @@ def parser() -> argparse.ArgumentParser:
     commands.add_parser("agent-capabilities", help="Report supported actions for standalone use and optional local-agent integration")
     commands.add_parser("gui", help="Launch the native Qt desktop application (no browser)")
     commands.add_parser("desktop-shortcut", help="Install a per-user Linux applications-menu shortcut")
+    commands.add_parser("remove-desktop-shortcut", help="Safely remove this installation\u0027s Linux applications-menu shortcut")
     command = commands.add_parser("serve", help="Open the local dashboard")
     command.add_argument("--port", type=int, default=8080, help="Local dashboard port (default: 8080)")
     command.add_argument("--open", action="store_true", help="Open the local dashboard in the default browser")
@@ -154,6 +155,9 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "desktop-shortcut":
             from .desktop_shortcut import install_shortcut
             report = {"shortcut": str(install_shortcut()), "kind": "desktop_shortcut"}
+        elif args.command == "remove-desktop-shortcut":
+            from .desktop_shortcut import remove_shortcut
+            report = {"kind": "desktop_shortcut_removal", **remove_shortcut()}
         else:
             raise AnalysisError("Unknown command.")
         if getattr(args, "output", None):
